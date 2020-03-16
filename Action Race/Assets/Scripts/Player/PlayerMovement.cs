@@ -1,24 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Photon.Pun;
 
-public class Player_movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
 
     public bool isGrounded;
-    Rigidbody2D rb;
 
     float translation;
     public float facingdir;
+    [SerializeField] GameObject mainCamera;
 
     private bool kick = false;
 
-    // Start is called before the first frame update
+    Rigidbody2D rb;
+    PhotonView pv;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        pv = GetComponent<PhotonView>();
+
+        if(!pv.IsMine)
+        {
+            mainCamera.SetActive(false);
+        }
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -42,9 +49,10 @@ public class Player_movement : MonoBehaviour
             isGrounded = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (!pv.IsMine) return;
+
         if(Input.GetAxis("Horizontal") > 0)
             facingdir = 1;
         if (Input.GetAxis("Horizontal") < 0)

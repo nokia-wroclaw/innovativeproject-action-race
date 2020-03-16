@@ -11,11 +11,6 @@ public class UIManager : MonoBehaviour
 
     // function for starting the actual game
 
-    public void Play()
-    {
-        SceneManager.LoadScene("SampleScene");
-    }
-
     //// function for sliding startGameContentPanel
     //public void showGameModes()
     //{
@@ -106,4 +101,8 @@ public class UIManager : MonoBehaviour
         switchPanels(creditsPanel, mainPanel);
     }
 
+    public void switchFrom_QuickPlayPanel_to_CreateRoomPanel()
+    {
+        switchPanels(quickPlayPanel, createRoomPanel);
+    }
 }

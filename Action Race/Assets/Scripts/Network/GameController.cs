@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     void Start()
     {
