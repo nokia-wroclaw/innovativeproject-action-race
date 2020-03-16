@@ -5,19 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 57720f04c51f2c84f8194fae06b4031e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: b5f7a022c607a524bb661ef851e900c0
   - enabled: 1
-    path: Assets/Scenes/tk_Game.unity
-    guid: d74cb5a6dca633f41bbe2b3424c1e5b3
-  - enabled: 1
-    path: Assets/Scenes/tk_Main_Menu.unity
-    guid: 9538a665af372ab43afad9c087886b9e
+    path: Assets/Scenes/Custom Assets Test.unity
+    guid: 8731a193b7c7b95459705d580b34f237
   m_configObjects: {}

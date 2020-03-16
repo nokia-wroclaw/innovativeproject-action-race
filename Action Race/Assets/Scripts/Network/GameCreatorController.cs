@@ -10,12 +10,11 @@ public class GameCreatorController : MonoBehaviourPunCallbacks
     public void CreateGame()
     {
         string serverName = gameCreatorPanel.GetServerName();
+        string password = gameCreatorPanel.GetPassword();
+        int maxPlayers = gameCreatorPanel.GetMaxPlayers();
+        bool isVisibleInLobby = gameCreatorPanel.IsVisibleInLobby();
 
-        RoomOptions roomOps = new RoomOptions();
-        roomOps.IsVisible = true;
-        roomOps.IsOpen = true;
-        roomOps.MaxPlayers = 10;
-
+        RoomOptions roomOps = new RoomOptions() { IsVisible = isVisibleInLobby, IsOpen = true, MaxPlayers = (byte)maxPlayers };
         PhotonNetwork.CreateRoom(serverName, roomOps);
     }
 
