@@ -17,10 +17,16 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     PhotonView pv;
 
+    //animacja
+    private Animator animator;
+    //----------
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         pv = GetComponent<PhotonView>();
+
+        animator = GetComponent<Animator>();
 
         if(!pv.IsMine)
         {
@@ -53,10 +59,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!pv.IsMine) return;
 
-        if(Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") > 0)
             facingdir = 1;
         if (Input.GetAxis("Horizontal") < 0)
             facingdir = -1;
+
+        // animacja biegania
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            animator.SetBool("isRunning", true);
+            animator.transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("isRunning", true);
+            animator.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else
+            animator.SetBool("isRunning", false);
+
 
         translation = Input.GetAxis("Horizontal") * speed;
 
