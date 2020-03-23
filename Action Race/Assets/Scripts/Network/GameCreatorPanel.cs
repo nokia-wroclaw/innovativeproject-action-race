@@ -3,24 +3,31 @@ using UnityEngine.UI;
 
 public class GameCreatorPanel : MonoBehaviour
 {
-    [SerializeField] Text serverName;
-    [SerializeField] Text password;
-    [SerializeField] Text maxPlayers;
+    [SerializeField] InputField roomName;
+    [SerializeField] InputField password;
+    [SerializeField] InputField maxPlayers;
     [SerializeField] Toggle isVisibleInLobby;
 
-    public string GetServerName()
+    void Start()
     {
-        return serverName.text;
+        MaxPlayers = 6;
+    }
+
+    public string RoomName
+    {
+        get { return roomName.text; }
+        set { roomName.text = value; }
+    }
+
+    public int MaxPlayers
+    {
+        get { return int.Parse(maxPlayers.text); }
+        set { maxPlayers.text = value.ToString(); }
     }
 
     public string GetPassword()
     {
         return password.text;
-    }
-
-    public int GetMaxPlayers()
-    {
-        return int.Parse(maxPlayers.text);
     }
 
     public bool IsVisibleInLobby()

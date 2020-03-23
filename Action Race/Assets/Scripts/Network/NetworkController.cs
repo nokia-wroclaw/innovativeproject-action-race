@@ -28,6 +28,8 @@ public class NetworkController : MonoBehaviourPunCallbacks
         Debug.Log("OnConnectedToMaster");
         foreach(Button button in networkButtons)
             button.interactable = true;
+
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
