@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 public class GameCreatorPanel : MonoBehaviour
 {
-    [SerializeField] Text serverName;
+    [SerializeField] Text roomName;
     [SerializeField] Text password;
     [SerializeField] Text maxPlayers;
     [SerializeField] Toggle isVisibleInLobby;
 
-    public string GetServerName()
+    public string GetRoomName()
     {
-        return serverName.text;
+        return roomName.text;
     }
 
     public string GetPassword()

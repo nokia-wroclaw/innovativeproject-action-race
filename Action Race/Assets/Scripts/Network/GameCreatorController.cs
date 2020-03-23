@@ -9,13 +9,13 @@ public class GameCreatorController : MonoBehaviourPunCallbacks
 
     public void CreateGame()
     {
-        string serverName = gameCreatorPanel.GetServerName();
+        string roomName = gameCreatorPanel.GetRoomName();
         string password = gameCreatorPanel.GetPassword();
         int maxPlayers = gameCreatorPanel.GetMaxPlayers();
         bool isVisibleInLobby = gameCreatorPanel.IsVisibleInLobby();
 
         RoomOptions roomOps = new RoomOptions() { IsVisible = isVisibleInLobby, IsOpen = true, MaxPlayers = (byte)maxPlayers };
-        PhotonNetwork.CreateRoom(serverName, roomOps);
+        PhotonNetwork.CreateRoom(roomName, roomOps);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
