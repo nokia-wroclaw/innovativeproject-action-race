@@ -9,6 +9,8 @@ public class RoomPanel : MonoBehaviour
     [SerializeField] Text roomOwner;
     [SerializeField] Text roomPlayers;
     [SerializeField] Text roomPassword;
+    [SerializeField] Color passwordNotRequiredColor;
+    [SerializeField] Color passwordRequiredColor;
 
     public void SetRoomName(string roomName)
     {
@@ -28,7 +30,15 @@ public class RoomPanel : MonoBehaviour
     public void SetRoomPassword(string roomPassword)
     {
         roomPassword = roomPassword.Trim();
-        if (roomPassword == null || roomPassword == "") this.roomPassword.text = "NOT REQUIRED";
-        else this.roomPassword.text = "REQUIRED";
+        if (roomPassword == null || roomPassword == "")
+        {
+            this.roomPassword.color = passwordNotRequiredColor;
+            this.roomPassword.text = "NOT REQUIRED";
+        }
+        else
+        {
+            this.roomPassword.color = passwordRequiredColor;
+            this.roomPassword.text = "REQUIRED";
+        }
     }
 }

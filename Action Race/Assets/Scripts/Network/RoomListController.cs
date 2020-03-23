@@ -20,11 +20,12 @@ public class RoomListController : MonoBehaviourPunCallbacks
         foreach(RoomInfo roomInfo in roomList)
         {
             string roomName = roomInfo.Name;
-            string roomOwner = "";
+            string roomOwner = roomInfo.CustomProperties["Owner"].ToString();
+            int roomPlayers = roomInfo.PlayerCount;
             int roomMaxPlayers = roomInfo.MaxPlayers;
-            string roomPassword = "";
+            string roomPassword = roomInfo.CustomProperties["Password"].ToString();
 
-            joinRoomPanel.AddRoom(roomName, roomOwner, roomMaxPlayers, roomPassword);
+            joinRoomPanel.AddRoom(roomName, roomOwner, roomPlayers, roomMaxPlayers, roomPassword);
         }
     }
 }

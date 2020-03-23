@@ -77,6 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCreatorPanel: {fileID: 0}
   roomSceneIndex: 1
+  nicknameController: {fileID: 0}
 --- !u!114 &6592668770222047058
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,13 +15,13 @@ public class JoinRoomPanel : MonoBehaviour
         }
     }
 
-    public void AddRoom(string roomName, string roomOwner, int roomMaxPlayers, string roomPassword)
+    public void AddRoom(string roomName, string roomOwner, int roomPlayers, int roomMaxPlayers, string roomPassword)
     {
         GameObject room = Instantiate(roomPrefab);
         RoomPanel roomPanel = room.GetComponent<RoomPanel>();
         roomPanel.SetRoomName(roomName);
         roomPanel.SetRoomOwner(roomOwner);
-        roomPanel.SetRoomPlayers(roomMaxPlayers, roomMaxPlayers);
+        roomPanel.SetRoomPlayers(roomPlayers, roomMaxPlayers);
         roomPanel.SetRoomPassword(roomPassword);
         room.transform.SetParent(roomList, false);
     }

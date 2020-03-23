@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4057824246188848675}
   - component: {fileID: -6095146751104053187}
   m_Layer: 5
-  m_Name: EntryRoomContainerPanel
+  m_Name: RoomPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,8 @@ MonoBehaviour:
   roomOwner: {fileID: 4057824247287585641}
   roomPlayers: {fileID: 4057824247231676624}
   roomPassword: {fileID: 4057824246803885124}
+  passwordNotRequiredColor: {r: 0, g: 0.77254903, b: 0, a: 1}
+  passwordRequiredColor: {r: 0.9528302, g: 0.04045032, b: 0.04045032, a: 1}
 --- !u!1 &4057824246713994186
 GameObject:
   m_ObjectHideFlags: 0
