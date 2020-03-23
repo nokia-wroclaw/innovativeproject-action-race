@@ -91,3 +91,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joinRoomPanel: {fileID: 0}
+  roomListFilterPanel: {fileID: 0}

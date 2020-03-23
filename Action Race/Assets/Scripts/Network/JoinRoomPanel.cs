@@ -19,7 +19,7 @@ public class JoinRoomPanel : MonoBehaviour
     {
         GameObject room = Instantiate(roomPrefab);
         RoomPanel roomPanel = room.GetComponent<RoomPanel>();
-        roomPanel.SetRoomName(roomName);
+        roomPanel.RoomName = roomName;
         roomPanel.SetRoomOwner(roomOwner);
         roomPanel.SetRoomPlayers(roomPlayers, roomMaxPlayers);
         roomPanel.SetRoomPassword(roomPassword);

@@ -12,9 +12,10 @@ public class RoomPanel : MonoBehaviour
     [SerializeField] Color passwordNotRequiredColor;
     [SerializeField] Color passwordRequiredColor;
 
-    public void SetRoomName(string roomName)
+    public string RoomName
     {
-        this.roomName.text = roomName;
+        get { return roomName.text; }
+        set { roomName.text = value; }
     }
 
     public void SetRoomOwner(string roomOwner)
