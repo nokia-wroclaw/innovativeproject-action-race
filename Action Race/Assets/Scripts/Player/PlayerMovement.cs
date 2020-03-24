@@ -78,6 +78,18 @@ public class PlayerMovement : MonoBehaviour
         else
             animator.SetBool("isRunning", false);
 
+        // animacja interakcji
+        if(Input.GetKey(KeyCode.E))
+            animator.SetBool("isInteracting", true);
+         else
+            animator.SetBool("isInteracting", false);
+
+        // animacja skakania
+        if(Input.GetKeyDown(KeyCode.Space))
+            animator.SetBool("isJumping", true);
+        else
+            animator.SetBool("isJumping", false);
+
 
         translation = Input.GetAxis("Horizontal") * speed;
 
