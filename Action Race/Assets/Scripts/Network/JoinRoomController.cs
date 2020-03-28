@@ -3,11 +3,16 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 
-public class RoomListController : MonoBehaviourPunCallbacks
+public class JoinRoomController : MonoBehaviourPunCallbacks
 {
     [SerializeField] RoomListPanel roomListPanel;
 
     List<RoomInfo> roomList = new List<RoomInfo>();
+
+    public override void OnEnable()
+    {
+        UpdateRoomList();
+    }
 
     public void Refresh()
     {

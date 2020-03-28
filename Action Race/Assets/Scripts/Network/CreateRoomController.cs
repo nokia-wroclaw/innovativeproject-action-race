@@ -2,35 +2,41 @@
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameCreatorController : MonoBehaviourPunCallbacks
+public class CreateRoomController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameCreatorPanel gameCreatorPanel;
+    [SerializeField] CreateRoomPanel createRoomPanel;
     [SerializeField] int roomSceneIndex;
+
     [SerializeField] NicknameController nicknameController;
+    [SerializeField] ConnectionStatusController connectionStatusController;
 
     public void CreateGame()
     {
-        string roomName = gameCreatorPanel.RoomName;
-        string password = gameCreatorPanel.GetPassword();
-        int maxPlayers = gameCreatorPanel.MaxPlayers;
-        bool isVisibleInLobby = gameCreatorPanel.IsVisibleInLobby();
+        string roomName = createRoomPanel.RoomName;
+        string roomPassword = createRoomPanel.RoomPassword;
+        int roomMaxPlayers = createRoomPanel.RoomMaxPlayers;
+        bool roomIsVisible = createRoomPanel.IsVisible;
 
-        RoomOptions roomOps = new RoomOptions() { IsVisible = isVisibleInLobby, IsOpen = true, MaxPlayers = (byte)maxPlayers };
+        RoomOptions roomOps = new RoomOptions() { IsVisible = roomIsVisible, IsOpen = true, MaxPlayers = (byte)roomMaxPlayers };
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameController.GetNickname());
-        roomOps.CustomRoomProperties.Add(RoomProperty.Password, password);
+        roomOps.CustomRoomProperties.Add(RoomProperty.Password, roomPassword);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
+
+        connectionStatusController.SetCreateRoomMessage();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("OnCreateRoomFailed");
+        connectionStatusController.SetCreateRoomFailedMessage();
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log("OnCreatedRoom");
+        connectionStatusController.SetJoinRoomMessage();
     }
 
     public override void OnJoinedRoom()

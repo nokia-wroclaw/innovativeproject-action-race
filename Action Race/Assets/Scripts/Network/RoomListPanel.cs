@@ -32,9 +32,10 @@ public class RoomListPanel : MonoBehaviour
         GameObject room = Instantiate(roomPrefab);
         RoomPanel roomPanel = room.GetComponent<RoomPanel>();
         roomPanel.RoomName = roomName;
-        roomPanel.SetRoomOwner(roomOwner);
-        roomPanel.SetRoomPlayers(roomPlayers, roomMaxPlayers);
-        roomPanel.SetRoomPassword(roomPassword);
+        roomPanel.RoomOwner = roomOwner;
+        roomPanel.RoomPlayers = roomPlayers;
+        roomPanel.RoomMaxPlayers = roomMaxPlayers;
+        roomPanel.RoomPassword = string.IsNullOrEmpty(roomPassword.Trim());
         room.transform.SetParent(roomList, false);
     }
 

@@ -5,41 +5,74 @@ using UnityEngine.UI;
 
 public class RoomPanel : MonoBehaviour
 {
-    [SerializeField] Text roomName;
-    [SerializeField] Text roomOwner;
-    [SerializeField] Text roomPlayers;
-    [SerializeField] Text roomPassword;
-    [SerializeField] Color passwordNotRequiredColor;
-    [SerializeField] Color passwordRequiredColor;
+    [SerializeField] GameObject roomPasswordGO;
+    [SerializeField] Text roomNameText;
+    [SerializeField] Text roomOwnerText;
+    [SerializeField] Text roomModeText;
+    [SerializeField] Text roomPlayersText;
+
+    public bool RoomPassword
+    {
+        get { return RoomPassword; }
+        set
+        {
+            RoomPassword = value;
+            roomPasswordGO.SetActive(value);
+        }
+    }
 
     public string RoomName
     {
-        get { return roomName.text; }
-        set { roomName.text = value; }
-    }
-
-    public void SetRoomOwner(string roomOwner)
-    {
-        this.roomOwner.text = roomOwner;
-    }
-
-    public void SetRoomPlayers(int players, int maxPlayers)
-    {
-        this.roomPlayers.text = players + "/" + maxPlayers;
-    }
-
-    public void SetRoomPassword(string roomPassword)
-    {
-        roomPassword = roomPassword.Trim();
-        if (roomPassword == null || roomPassword == "")
+        get { return RoomName; }
+        set
         {
-            this.roomPassword.color = passwordNotRequiredColor;
-            this.roomPassword.text = "NOT REQUIRED";
+            RoomName = value;
+            roomNameText.text = value;
         }
-        else
+    }
+
+    public string RoomOwner
+    {
+        get { return RoomOwner; }
+        set
         {
-            this.roomPassword.color = passwordRequiredColor;
-            this.roomPassword.text = "REQUIRED";
+            RoomOwner = value;
+            roomOwnerText.text = value;
         }
+    }
+
+    public string RoomMode
+    {
+        get { return RoomMode; }
+        set
+        {
+            RoomMode = value;
+            roomModeText.text = value;
+        }
+    }
+
+    public int RoomPlayers
+    {
+        get { return RoomPlayers; }
+        set
+        {
+            RoomPlayers = value;
+            UpdateSlotsInfo();
+        }
+    }
+
+    public int RoomMaxPlayers
+    {
+        get { return RoomMaxPlayers; }
+        set
+        {
+            RoomMaxPlayers = value;
+            UpdateSlotsInfo();
+        }
+    }
+
+    void UpdateSlotsInfo()
+    {
+        roomPlayersText.text = RoomPlayers + "/" + RoomMaxPlayers;
     }
 }
