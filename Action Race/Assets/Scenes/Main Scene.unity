@@ -9570,7 +9570,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 372.35, y: -59.179993}
-  m_SizeDelta: {x: 414.1593, y: 118.36}
+  m_SizeDelta: {x: 414.61795, y: 118.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444201502
 MonoBehaviour:
@@ -13607,7 +13607,7 @@ MonoBehaviour:
   showFull: {fileID: 1862530635}
   showPrivate: {fileID: 1861445417}
   roomList: {fileID: 1259192477}
-  roomPrefab: {fileID: 9126932054700633095, guid: 287ea08abc5f4164e93ea126871a9e1c,
+  roomPrefab: {fileID: 5665304906693899325, guid: 287ea08abc5f4164e93ea126871a9e1c,
     type: 3}
 --- !u!1 &2096950669
 GameObject:
@@ -13720,8 +13720,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: -0.5}
-  m_SizeDelta: {x: -35, y: -13}
+  m_AnchoredPosition: {x: -7.5, y: 0}
+  m_SizeDelta: {x: -35, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2121686462
 MonoBehaviour:
@@ -13787,7 +13787,7 @@ PrefabInstance:
       objectReference: {fileID: 556418953}
     - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
-      propertyPath: gameCreatorPanel
+      propertyPath: createRoomPanel
       value: 
       objectReference: {fileID: 1700007695}
     - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
@@ -13797,17 +13797,7 @@ PrefabInstance:
       objectReference: {fileID: 1003251873}
     - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
-      propertyPath: createGamePanel
-      value: 
-      objectReference: {fileID: 1700007695}
-    - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
-        type: 3}
-      propertyPath: createRoomPanel
-      value: 
-      objectReference: {fileID: 1700007695}
-    - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
-        type: 3}
-      propertyPath: csc
+      propertyPath: connectionStatusController
       value: 
       objectReference: {fileID: 1191657891}
     - target: {fileID: 7292683209712304284, guid: 539f37d50e3252641a8e247a596f6f8c,
@@ -13949,11 +13939,6 @@ PrefabInstance:
       propertyPath: nickname
       value: 
       objectReference: {fileID: 1919511573}
-    - target: {fileID: 8910753440452845690, guid: d87a72f75eee5584b9440a584a139d47,
-        type: 3}
-      propertyPath: gameCreatorPanel
-      value: 
-      objectReference: {fileID: 1700007695}
     - target: {fileID: 8910753440452845690, guid: d87a72f75eee5584b9440a584a139d47,
         type: 3}
       propertyPath: createGamePanel

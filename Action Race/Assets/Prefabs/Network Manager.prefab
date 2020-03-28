@@ -75,9 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcc3af70c47a65141a2aa3b334d5a49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCreatorPanel: {fileID: 0}
+  createRoomPanel: {fileID: 0}
   roomSceneIndex: 1
   nicknameController: {fileID: 0}
+  connectionStatusController: {fileID: 0}
 --- !u!114 &6592668770222047058
 MonoBehaviour:
   m_ObjectHideFlags: 0
