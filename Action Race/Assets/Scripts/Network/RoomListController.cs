@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 public class RoomListController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] JoinRoomPanel joinRoomPanel;
-    [SerializeField] RoomListFilterPanel roomListFilterPanel;
+    [SerializeField] RoomListPanel roomListPanel;
 
     List<RoomInfo> roomList = new List<RoomInfo>();
 
@@ -23,23 +22,23 @@ public class RoomListController : MonoBehaviourPunCallbacks
 
     void UpdateRoomList()
     {
-        joinRoomPanel.ClearRoomList();
+        roomListPanel.ClearRoomList();
 
         foreach (RoomInfo roomInfo in roomList)
         {
             string roomName = roomInfo.Name;
             string roomOwner = roomInfo.CustomProperties["Owner"].ToString();
-            string textFilter = roomListFilterPanel.TextFilter.Trim();
+            string textFilter = roomListPanel.TextFilter.Trim();
             if (!roomName.ToLower().Contains(textFilter.ToLower()) && !roomOwner.ToLower().Contains(textFilter.ToLower())) continue;
 
             int roomPlayers = roomInfo.PlayerCount;
             int roomMaxPlayers = roomInfo.MaxPlayers;
-            if (!roomListFilterPanel.ShowFull && roomPlayers == roomMaxPlayers) continue;
+            if (!roomListPanel.ShowFull && roomPlayers == roomMaxPlayers) continue;
 
             string roomPassword = roomInfo.CustomProperties["Password"].ToString();
-            if (!roomListFilterPanel.ShowPrivate && roomPassword.Trim() != "") continue;
+            if (!roomListPanel.ShowPrivate && roomPassword.Trim() != "") continue;
 
-            joinRoomPanel.AddRoom(roomName, roomOwner, roomPlayers, roomMaxPlayers, roomPassword);
+            roomListPanel.AddRoom(roomName, roomOwner, roomPlayers, roomMaxPlayers, roomPassword);
         }
     }
 

@@ -2932,7 +2932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 170.51503, y: -35}
+  m_AnchoredPosition: {x: 170.51501, y: -35}
   m_SizeDelta: {x: 338.8, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673936703
@@ -3917,7 +3917,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1660428988}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9609196
+  m_Size: 0.96091956
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8382,7 +8382,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: No. of Players
+  m_Text: Mode
 --- !u!222 &1528653952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8930,7 +8930,7 @@ RectTransform:
   m_Father: {fileID: 1978012314}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.03908038}
+  m_AnchorMin: {x: 0, y: 0.03908044}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -10732,6 +10732,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac6e1c1ae172154a9f1e36ebd35c2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textFilter: {fileID: 1661912721}
+  showFull: {fileID: 1862530635}
+  showPrivate: {fileID: 1861445417}
   roomList: {fileID: 1259192477}
   roomPrefab: {fileID: 4057824246188848684, guid: 98fb91e3b0c2cca4996810d6d995eba8,
     type: 3}
@@ -10821,14 +10824,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6592668770222047058, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
-      propertyPath: joinRoomPanel
+      propertyPath: roomListPanel
       value: 
       objectReference: {fileID: 2089944180}
-    - target: {fileID: 6592668770222047058, guid: 539f37d50e3252641a8e247a596f6f8c,
-        type: 3}
-      propertyPath: roomListFilterPanel
-      value: 
-      objectReference: {fileID: 1068670470}
     - target: {fileID: 7292683209712304280, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
       propertyPath: m_Name

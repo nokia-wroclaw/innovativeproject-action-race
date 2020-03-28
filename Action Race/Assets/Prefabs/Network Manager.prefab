@@ -90,5 +90,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1c72bd5a45e1148917c62b3ebe454c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinRoomPanel: {fileID: 0}
-  roomListFilterPanel: {fileID: 0}
+  roomListPanel: {fileID: 0}
