@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+
     bool isInteract = false;
+
 
     void Update()
     {
@@ -16,11 +18,10 @@ public class PlayerInteraction : MonoBehaviour
         {
             isInteract = false;
         }
-
     }
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.name == "Basic" && isInteract)
+        if (collision.name == "BasicAntenna" && isInteract)
         {
             Debug.Log(collision.name);
             collision.gameObject.SetActive(false);
