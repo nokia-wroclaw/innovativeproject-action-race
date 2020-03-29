@@ -22,6 +22,6 @@ public class AntennaController : MonoBehaviour
     {
         animator.SetBool("isInteract", isInteract);
         animator.SetBool("isAntennaTriggered", isAntennaTriggered);
-        //animator.SetInteger("whichTeam", whichTeam);
+        animator.SetInteger("whichTeam", whichTeam);
     }
 }
