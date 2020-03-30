@@ -7181,7 +7181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionStatusPanel: {fileID: 1191657893}
   createRoomMessage: Creating the room ...
-  createRoomFailedMessage: Joining to the room ...
+  createRoomFailedMessage: ...
   joinRoomMessage: Joining to the room ...
 --- !u!4 &1191657892
 Transform:
@@ -7209,6 +7209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf88a4ff5a07044bae7d0a80c182a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectionStatusPanel: {fileID: 1384232968}
   messageText: {fileID: 1431097900}
 --- !u!1 &1196091044
 GameObject:
@@ -9327,7 +9328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1384232969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12704,6 +12705,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 310039935}
+        m_MethodName: Refresh
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1894312759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13859,17 +13871,17 @@ PrefabInstance:
         type: 3}
       propertyPath: networkButtons.Array.data[0]
       value: 
-      objectReference: {fileID: 1196091046}
+      objectReference: {fileID: 1321382281}
     - target: {fileID: 7292683209712304285, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
       propertyPath: networkButtons.Array.data[1]
       value: 
-      objectReference: {fileID: 1102934965}
+      objectReference: {fileID: 1894312758}
     - target: {fileID: 7292683209712304285, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
       propertyPath: networkButtons.Array.data[2]
       value: 
-      objectReference: {fileID: 845746853}
+      objectReference: {fileID: 1320788568}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 539f37d50e3252641a8e247a596f6f8c, type: 3}
 --- !u!1001 &8910753439466932443

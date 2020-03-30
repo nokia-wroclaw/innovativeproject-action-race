@@ -24,6 +24,7 @@ public class CreateRoomController : MonoBehaviourPunCallbacks
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
 
+        connectionStatusController.ShowConnectionStatus();
         connectionStatusController.SetCreateRoomMessage();
     }
 
@@ -31,12 +32,14 @@ public class CreateRoomController : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnCreateRoomFailed");
         connectionStatusController.SetCreateRoomFailedMessage();
+        StartCoroutine(connectionStatusController.HideConnectionStatus());
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log("OnCreatedRoom");
         connectionStatusController.SetJoinRoomMessage();
+        StartCoroutine(connectionStatusController.HideConnectionStatus());
     }
 
     public override void OnJoinedRoom()

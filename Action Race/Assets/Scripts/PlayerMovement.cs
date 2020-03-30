@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using System.Collections.Generic;
 
-public class PlayerMovement_new : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 8f;
+    [SerializeField] float kickCooldown = 1f;
 
-    [Header("")]
+    [Header("References")]
     [SerializeField] GameObject playerCamera;
     [SerializeField] BoxCollider2D feet;
+    [SerializeField] CircleCollider2D foot;
 
     PhotonView pv;
     Rigidbody2D rb;
     Animator animator;
+
+    float kickDelay = 0f;
 
     void Start()
     {
@@ -21,10 +27,15 @@ public class PlayerMovement_new : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        if (!pv.IsMine)
+        if (pv.IsMine)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
+        }
+        else
         {
             playerCamera.SetActive(false);
         }
+
     }
 
     void Update()
@@ -33,7 +44,7 @@ public class PlayerMovement_new : MonoBehaviour
 
         Run();
         Jump();
-        Interact();
+        Kick();
 
         FlipSprite();
     }
@@ -50,29 +61,36 @@ public class PlayerMovement_new : MonoBehaviour
 
     void Jump()
     {
-        if (!feet.IsTouchingLayers()) return;
-
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && feet.IsTouchingLayers())
         {
             Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
             rb.velocity = jumpVelocity;
-            animator.SetBool("isJumping", true);
-        }
-        else
-        {
-            animator.SetBool("isJumping", false);
+            animator.SetTrigger("Jump");
         }
     }
 
-    void Interact()
+    void Kick()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (kickDelay > 0f)
         {
-            animator.SetBool("isInteracting", true);
+            kickDelay -= Time.deltaTime;
         }
-        else
+        else 
         {
-            animator.SetBool("isInteracting", false);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                kickDelay = kickCooldown;
+                animator.SetTrigger("Kick");
+
+                int layerMask = LayerMask.GetMask("Player");
+                List<Collider2D> colliders = new List<Collider2D>();
+                foot.OverlapCollider(new ContactFilter2D() { layerMask = layerMask }, colliders);
+                foreach (Collider2D collider in colliders)
+                {
+                    pv.RPC("TakeKick", RpcTarget.All, collider.GetComponentInParent<PhotonView>().ViewID);
+                    Debug.Log("kick");
+                }
+            }
         }
     }
 
@@ -83,5 +101,11 @@ public class PlayerMovement_new : MonoBehaviour
         {
             transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1f, 1f);
         }
+    }
+
+    [PunRPC]
+    void TakeKick(int viewId)
+    {
+        PhotonNetwork.GetPhotonView(viewId).GetComponent<Rigidbody2D>().velocity += new Vector2(0, 30);
     }
 }

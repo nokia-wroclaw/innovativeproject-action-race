@@ -9,41 +9,33 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
 
     List<RoomInfo> roomList = new List<RoomInfo>();
 
-    public override void OnEnable()
-    {
-        UpdateRoomList();
-    }
-
-    public void Refresh()
-    {
-        UpdateRoomList();
-    }
-
     public void JoinRoom(RoomPanel roomPanel)
     {
         Debug.Log("JoinRoom() " + roomPanel.RoomName);
         PhotonNetwork.JoinRoom(roomPanel.RoomName);
     }
 
-    void UpdateRoomList()
+    public void Refresh()
     {
         roomListPanel.ClearRoomList();
 
         foreach (RoomInfo roomInfo in roomList)
         {
+            string roomPassword = roomInfo.CustomProperties["Password"].ToString();
+            if (!roomListPanel.ShowPrivate && !string.IsNullOrEmpty(roomPassword.Trim())) continue;
+
             string roomName = roomInfo.Name;
             string roomOwner = roomInfo.CustomProperties["Owner"].ToString();
             string textFilter = roomListPanel.TextFilter.Trim();
             if (!roomName.ToLower().Contains(textFilter.ToLower()) && !roomOwner.ToLower().Contains(textFilter.ToLower())) continue;
 
+            string roomMode = "";
+
             int roomPlayers = roomInfo.PlayerCount;
             int roomMaxPlayers = roomInfo.MaxPlayers;
             if (!roomListPanel.ShowFull && roomPlayers == roomMaxPlayers) continue;
 
-            string roomPassword = roomInfo.CustomProperties["Password"].ToString();
-            if (!roomListPanel.ShowPrivate && roomPassword.Trim() != "") continue;
-
-            roomListPanel.AddRoom(roomName, roomOwner, roomPlayers, roomMaxPlayers, roomPassword);
+            roomListPanel.AddRoom(roomPassword, roomName, roomOwner, roomMode, roomPlayers, roomMaxPlayers);
         }
     }
 

@@ -10,69 +10,69 @@ public class RoomPanel : MonoBehaviour
     [SerializeField] Text roomOwnerText;
     [SerializeField] Text roomModeText;
     [SerializeField] Text roomPlayersText;
+    [SerializeField] Text roomMaxPlayersText;
+
+    bool _roomPassword;
+    string _roomName, _roomOwner, _roomMode;
+    int _roomPlayer, _roomMaxPlayers;
 
     public bool RoomPassword
     {
-        get { return RoomPassword; }
+        get { return _roomPassword; }
         set
         {
-            RoomPassword = value;
+            _roomPassword = value;
             roomPasswordGO.SetActive(value);
         }
     }
 
     public string RoomName
     {
-        get { return RoomName; }
+        get { return _roomName; }
         set
         {
-            RoomName = value;
+            _roomName = value;
             roomNameText.text = value;
         }
     }
 
     public string RoomOwner
     {
-        get { return RoomOwner; }
+        get { return _roomOwner; }
         set
         {
-            RoomOwner = value;
+            _roomOwner = value;
             roomOwnerText.text = value;
         }
     }
 
     public string RoomMode
     {
-        get { return RoomMode; }
+        get { return _roomMode; }
         set
         {
-            RoomMode = value;
+            _roomMode = value;
             roomModeText.text = value;
         }
     }
 
     public int RoomPlayers
     {
-        get { return RoomPlayers; }
+        get { return _roomPlayer; }
         set
         {
-            RoomPlayers = value;
-            UpdateSlotsInfo();
+            _roomPlayer = value;
+            roomPlayersText.text = value.ToString();
         }
     }
 
     public int RoomMaxPlayers
     {
-        get { return RoomMaxPlayers; }
+        get { return _roomMaxPlayers; }
         set
         {
-            RoomMaxPlayers = value;
-            UpdateSlotsInfo();
+            _roomMaxPlayers = value;
+            roomMaxPlayersText.text = value.ToString();
         }
-    }
-
-    void UpdateSlotsInfo()
-    {
-        roomPlayersText.text = RoomPlayers + "/" + RoomMaxPlayers;
     }
 }
