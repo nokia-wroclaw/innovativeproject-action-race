@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - Enemy
+  - Antenna
   layers:
   - Default
   - TransparentFX

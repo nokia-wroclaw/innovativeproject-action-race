@@ -6,9 +6,9 @@ public class AntennaController : MonoBehaviour
 {
     public Animator animator;
 
-    bool isInteract = true;
-    bool isAntennaTriggered = true;
-    int whichTeam = 1;
+    bool isInteract = false;
+    bool isAntennaTriggered = false;
+    int whichTeam = 2;
     //1 - red, 2 - blue
 
     // Start is called before the first frame update
@@ -20,8 +20,8 @@ public class AntennaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("isInteract", isInteract);
-        animator.SetBool("isAntennaTriggered", isAntennaTriggered);
+       // animator.SetBool("isInteract", isInteract);
+       // animator.SetBool("isAntennaTriggered", isAntennaTriggered);
         animator.SetInteger("whichTeam", whichTeam);
     }
 }
