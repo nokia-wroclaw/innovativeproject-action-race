@@ -12,6 +12,14 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
     public void JoinRoom(RoomPanel roomPanel)
     {
         Debug.Log("JoinRoom() " + roomPanel.RoomName);
+        /*if (roomPanel.RoomPassword)
+        {
+
+        }
+        else
+        {
+            
+        }*/
         PhotonNetwork.JoinRoom(roomPanel.RoomName);
     }
 

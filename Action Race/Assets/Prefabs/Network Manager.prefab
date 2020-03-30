@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0257be5464a7474f9cc6bacd9914b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
+  connectionStatusController: {fileID: 0}
 --- !u!114 &7292683209712304283
 MonoBehaviour:
   m_ObjectHideFlags: 0

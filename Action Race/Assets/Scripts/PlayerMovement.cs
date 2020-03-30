@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
@@ -87,7 +86,8 @@ public class PlayerMovement : MonoBehaviour
                 foot.OverlapCollider(new ContactFilter2D() { layerMask = layerMask }, colliders);
                 foreach (Collider2D collider in colliders)
                 {
-                    pv.RPC("TakeKick", RpcTarget.All, collider.GetComponentInParent<PhotonView>().ViewID);
+                    PhotonView pvOther = collider.GetComponentInParent<PhotonView>();
+                    if(pvOther) pv.RPC("TakeKick", RpcTarget.All, pvOther.ViewID);
                     Debug.Log("kick");
                 }
             }
