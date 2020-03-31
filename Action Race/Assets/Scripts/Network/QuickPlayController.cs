@@ -5,17 +5,22 @@ using Photon.Pun;
 
 public class QuickPlayController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] UIManager uiManager;
+    [SerializeField] ConnectionStatusController connectionStatusController;
 
     public void QuickPlay()
     {
         Debug.Log("QuickPlay");
         PhotonNetwork.JoinRandomRoom();
+
+        connectionStatusController.ShowConnectionStatus();
+        connectionStatusController.SetJoinRandomMessage();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("No room to join, create your own");
-        uiManager.switchFrom_QuickPlayPanel_to_CreateRoomPanel();
+
+        connectionStatusController.SetJoinRandomFailedMessage();
+        StartCoroutine(connectionStatusController.HideConnectionStatus());
     }
 }

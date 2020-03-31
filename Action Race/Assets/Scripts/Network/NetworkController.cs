@@ -15,7 +15,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(PhotonNetwork.NetworkingClient.LoadBalancingPeer.PeerState == ExitGames.Client.Photon.PeerStateValue.Disconnected)
+        if(!PhotonNetwork.IsConnected)
             PhotonNetwork.ConnectUsingSettings();
 
         if(!PhotonNetwork.IsConnectedAndReady)

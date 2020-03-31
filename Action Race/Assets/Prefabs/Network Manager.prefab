@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0257be5464a7474f9cc6bacd9914b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
+  connectionStatusController: {fileID: 0}
 --- !u!114 &7292683209712304283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,9 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcc3af70c47a65141a2aa3b334d5a49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCreatorPanel: {fileID: 0}
+  createRoomPanel: {fileID: 0}
   roomSceneIndex: 1
   nicknameController: {fileID: 0}
+  connectionStatusController: {fileID: 0}
 --- !u!114 &6592668770222047058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,5 +91,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1c72bd5a45e1148917c62b3ebe454c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinRoomPanel: {fileID: 0}
-  roomListFilterPanel: {fileID: 0}
+  roomListPanel: {fileID: 0}

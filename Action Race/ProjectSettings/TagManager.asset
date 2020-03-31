@@ -17,7 +17,7 @@ TagManager:
   - 
   - 
   - Player
-  - 
+  - Player Only Trigger
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3402976855
+    locked: 0
+  - name: Me
+    uniqueID: 3771642161
     locked: 0

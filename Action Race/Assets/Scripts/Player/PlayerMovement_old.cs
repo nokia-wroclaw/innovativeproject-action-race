@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement_old : MonoBehaviour
 {
     public float speed;
     public float jumpForce;

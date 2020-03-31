@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class NicknameController : MonoBehaviour
 {
     [SerializeField] InputField nickname;
-    [SerializeField] GameCreatorPanel gameCreatorPanel;
+    [SerializeField] CreateRoomPanel createGamePanel;
 
     void Start()
     {
@@ -12,7 +12,7 @@ public class NicknameController : MonoBehaviour
         string nick = "Player" + number;
         nickname.text = nick;
 
-        gameCreatorPanel.RoomName = nick + "'s room";
+        createGamePanel.RoomName = nick + "'s room";
     }
 
     public string GetNickname()

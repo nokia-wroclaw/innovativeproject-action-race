@@ -5,41 +5,74 @@ using UnityEngine.UI;
 
 public class RoomPanel : MonoBehaviour
 {
-    [SerializeField] Text roomName;
-    [SerializeField] Text roomOwner;
-    [SerializeField] Text roomPlayers;
-    [SerializeField] Text roomPassword;
-    [SerializeField] Color passwordNotRequiredColor;
-    [SerializeField] Color passwordRequiredColor;
+    [SerializeField] GameObject roomPasswordGO;
+    [SerializeField] Text roomNameText;
+    [SerializeField] Text roomOwnerText;
+    [SerializeField] Text roomModeText;
+    [SerializeField] Text roomPlayersText;
+    [SerializeField] Text roomMaxPlayersText;
+
+    bool _roomPassword;
+    string _roomName, _roomOwner, _roomMode;
+    int _roomPlayer, _roomMaxPlayers;
+
+    public bool RoomPassword
+    {
+        get { return _roomPassword; }
+        set
+        {
+            _roomPassword = value;
+            roomPasswordGO.SetActive(value);
+        }
+    }
 
     public string RoomName
     {
-        get { return roomName.text; }
-        set { roomName.text = value; }
-    }
-
-    public void SetRoomOwner(string roomOwner)
-    {
-        this.roomOwner.text = roomOwner;
-    }
-
-    public void SetRoomPlayers(int players, int maxPlayers)
-    {
-        this.roomPlayers.text = players + "/" + maxPlayers;
-    }
-
-    public void SetRoomPassword(string roomPassword)
-    {
-        roomPassword = roomPassword.Trim();
-        if (roomPassword == null || roomPassword == "")
+        get { return _roomName; }
+        set
         {
-            this.roomPassword.color = passwordNotRequiredColor;
-            this.roomPassword.text = "NOT REQUIRED";
+            _roomName = value;
+            roomNameText.text = value;
         }
-        else
+    }
+
+    public string RoomOwner
+    {
+        get { return _roomOwner; }
+        set
         {
-            this.roomPassword.color = passwordRequiredColor;
-            this.roomPassword.text = "REQUIRED";
+            _roomOwner = value;
+            roomOwnerText.text = value;
+        }
+    }
+
+    public string RoomMode
+    {
+        get { return _roomMode; }
+        set
+        {
+            _roomMode = value;
+            roomModeText.text = value;
+        }
+    }
+
+    public int RoomPlayers
+    {
+        get { return _roomPlayer; }
+        set
+        {
+            _roomPlayer = value;
+            roomPlayersText.text = value.ToString();
+        }
+    }
+
+    public int RoomMaxPlayers
+    {
+        get { return _roomMaxPlayers; }
+        set
+        {
+            _roomMaxPlayers = value;
+            roomMaxPlayersText.text = value.ToString();
         }
     }
 }
