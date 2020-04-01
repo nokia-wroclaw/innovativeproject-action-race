@@ -165,7 +165,7 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: isAntennaTriggered
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
 --- !u!60 &5406566938806228455
 PolygonCollider2D:
