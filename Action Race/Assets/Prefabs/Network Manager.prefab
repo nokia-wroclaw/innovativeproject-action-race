@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7292683209712304284}
   - component: {fileID: 7292683209712304285}
-  - component: {fileID: 7292683209712304282}
-  - component: {fileID: 7292683209712304283}
-  - component: {fileID: 6592668770222047058}
+  - component: {fileID: 1099129989}
+  - component: {fileID: 1099129991}
+  - component: {fileID: 1099129993}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -50,7 +50,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &7292683209712304282
+--- !u!114 &1099129989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,27 +59,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7292683209712304280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0257be5464a7474f9cc6bacd9914b81, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fc72c625cac23648bbcd501b690a48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectionStatusController: {fileID: 0}
---- !u!114 &7292683209712304283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7292683209712304280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc3af70c47a65141a2aa3b334d5a49c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  createRoomPanel: {fileID: 0}
+  createRoomInfo: {fileID: 0}
   roomSceneIndex: 1
-  nicknameController: {fileID: 0}
-  connectionStatusController: {fileID: 0}
---- !u!114 &6592668770222047058
+  nicknameManager: {fileID: 0}
+--- !u!114 &1099129991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +74,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7292683209712304280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c1c72bd5a45e1148917c62b3ebe454c, type: 3}
+  m_Script: {fileID: 11500000, guid: 176f50f2d6f899c4bad05dc7f2f8d48c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomListPanel: {fileID: 0}
+  uiManager: {fileID: 0}
+--- !u!114 &1099129993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7292683209712304280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fd34a6d2c35296439260af39e9916d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomListInfo: {fileID: 0}
