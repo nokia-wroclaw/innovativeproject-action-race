@@ -19,13 +19,13 @@ public class PlayerInteraction : MonoBehaviourPun
         antennaController = GameObject.FindObjectOfType<AntennaController>();
         //Debug.Log(antennaController.name);
 
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             isInteract = true;
             antennaController.animator.SetBool("isInteract", isInteract);
         }
 
-        if (Input.GetButtonUp("Interact"))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             isInteract = false;
             antennaController.animator.SetBool("isInteract", isInteract);
