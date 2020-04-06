@@ -132,8 +132,14 @@ GameObject:
   - component: {fileID: -8659828470300474635}
   - component: {fileID: 5250901528713324337}
   - component: {fileID: 251456686226556692}
+<<<<<<< Updated upstream
   - component: {fileID: 6669373434515197342}
   m_Layer: 0
+=======
+  - component: {fileID: 6284028159088808530}
+  - component: {fileID: 1234476913941687935}
+  m_Layer: 8
+>>>>>>> Stashed changes
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -357,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
@@ -378,6 +385,25 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+=======
+  runSpeed: 7
+  jumpSpeed: 22
+  playerCamera: {fileID: 6568489185380166790}
+  feet: {fileID: 7142071977193633451}
+--- !u!114 &1234476913941687935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568489183840287007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21025618b1c097041b50079645d10ba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+>>>>>>> Stashed changes
 --- !u!1 &6568489185380166790
 GameObject:
   m_ObjectHideFlags: 0
