@@ -36,7 +36,14 @@ public class PlayerInteraction : MonoBehaviourPun
     {
         if (collision.CompareTag("Antenna"))
         {
+<<<<<<< Updated upstream
             isAntennaTriggered = true;
+=======
+            Antena_script antena = collision.GetComponent<Antena_script>();
+            antena.UpdateTeam(GetComponent<PlayerTeam_script>().team);
+            //Debug.Log(collision.name);
+            //collision.gameObject.SetActive(false);
+>>>>>>> Stashed changes
         }
     }
 
