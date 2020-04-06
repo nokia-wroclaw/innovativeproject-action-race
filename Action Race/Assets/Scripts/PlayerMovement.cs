@@ -58,6 +58,16 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isRunning", playerHasHorizontalSpeed);
     }
 
+    public void StopRunning()
+    {
+        float axis = Input.GetAxis("Horizontal");
+        Vector2 playerVelocity = new Vector2(axis * 0, rb.velocity.y);
+        rb.velocity = playerVelocity;
+
+        bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0f;
+        animator.SetBool("isRunning", playerHasHorizontalSpeed);
+    }
+
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && feet.IsTouchingLayers())
