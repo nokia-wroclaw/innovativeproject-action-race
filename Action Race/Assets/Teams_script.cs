@@ -51,14 +51,11 @@ public class Teams_script : MonoBehaviour
 
     public int giveTeam(PlayerTeam_script p)
     {
-        int len = players.Count;
-        float divlen = (float)len / 2;
-
         int index = players.IndexOf(p);
 
-        if (index < divlen)
+        if (index % 2 == 0)
             return 0;
-        else if (index >= divlen)
+        else if (index % 2 == 1)
             return 1;
         else
             return 0;
