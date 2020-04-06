@@ -19,6 +19,9 @@ public class PlayerInteraction_new : MonoBehaviour
         {
             animator.SetTrigger("Interact");
 
+            Antena_script antena = col.GetComponent<Antena_script>();
+            antena.UpdateTeam(GetComponent<PlayerTeam_script>().team);
+
             AntennaController ac = col.GetComponent<AntennaController>();
             ac.ProgramAntenna();
         }
