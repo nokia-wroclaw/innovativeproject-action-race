@@ -22,7 +22,7 @@ public class HUD_manager : MonoBehaviour
         }
 
         //update the label value
-        timerLabel.text = "" + Timer + " s";
+        timerLabel.text = "" + (int)Timer + " s";
     }
 
     public void UpdatePoints(int redTeamScore, int blueTeamScore)
