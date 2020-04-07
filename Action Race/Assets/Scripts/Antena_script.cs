@@ -12,6 +12,7 @@ public class Antena_script : MonoBehaviour
     {
         script = FindObjectOfType<Teams_script>();
         team = 999;
+        script.AddAntena(this);
     }
 
     // Update is called once per frame

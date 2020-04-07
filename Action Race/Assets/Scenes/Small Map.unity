@@ -22309,7 +22309,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '12 : 23'
+  m_Text: '0 : 0'
 --- !u!222 &916446195
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24152,6 +24152,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7964043506466132409, guid: b13b74e4cef99504e963d0ed908d4444,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1995719488}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b13b74e4cef99504e963d0ed908d4444, type: 3}
 --- !u!1 &1757390409
@@ -34731,6 +34736,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infopanel: {fileID: 1757390409}
+  timerLabel: {fileID: 360178647}
+  pointsLabel: {fileID: 916446194}
+  Timer: 120
 --- !u!4 &1995719489
 Transform:
   m_ObjectHideFlags: 0
