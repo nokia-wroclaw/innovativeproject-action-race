@@ -9,7 +9,7 @@ public class Teams_script : MonoBehaviour
     public List<PlayerTeam_script> players;
     public List<PlayerTeam_script> redTeam;
     public List<PlayerTeam_script> blueTeam;
-    public List<Antena_script> antenas;
+    public List<AntennaController> antenas;
     public HUD_manager manager;
 
     public int blueTeamScore;
@@ -28,7 +28,7 @@ public class Teams_script : MonoBehaviour
 
     }
 
-    public void AddAntena(Antena_script antena)
+    public void AddAntena(AntennaController antena)
     {
         antenas.Add(antena);
     }
@@ -39,9 +39,9 @@ public class Teams_script : MonoBehaviour
 
         for (int i = 0; i < antLen; i++)
         {
-            if (antenas[i].team == 0)
+            if (antenas[i].whichTeam == 0)
                 redTeamScore += 1;
-            else if (antenas[i].team == 1)
+            else if (antenas[i].whichTeam == 1)
                 blueTeamScore += 1;
         }
 

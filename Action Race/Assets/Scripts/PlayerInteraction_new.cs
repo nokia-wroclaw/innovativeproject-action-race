@@ -7,56 +7,65 @@ public class PlayerInteraction_new : MonoBehaviour
     Animator animator;
     PlayerMovement pm;
     AntennaController antenna;
-    bool interact = false;
+    public bool interact = false;
+    public bool isAntenaNear = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
-        antenna = FindObjectOfType<AntennaController>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             interact = true;
-            antenna.StartTime();
         }
-
-        if (Input.GetKeyUp(KeyCode.E))
-        {
+        else
+        {   
             interact = false;
             pm.enabled = true;
-            antenna.StopTime();
-            antenna.PlayAnimation();
+        }
+
+        if (isAntenaNear && interact)
+        {
+            if (antenna.whichTeam != GetComponent<PlayerTeam_script>().team)
+            {
+                pm.enabled = false;
+                pm.StopRunning();
+                animator.SetTrigger("Interact");
+
+                antenna.UpdateTeam(GetComponent<PlayerTeam_script>().team);
+                antenna.startTimer = true;
+            }
+        }
+        else if (isAntenaNear && !interact)
+        {
+            pm.enabled = true;
+            //animator.SetTrigger("Interact");
+            if(!antenna.programed)
+            {
+                antenna.UpdateTeam(999);
+            }
+            antenna.startTimer = false;
+
         }
 
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (!col.CompareTag("Antenna")) return;
-
-        if (interact)
+        if (col.CompareTag("Antenna"))
         {
-
-            pm.enabled = false;
-            pm.StopRunning();
-            animator.SetTrigger("Interact");
-
-            //Antena_script antena = col.GetComponent<Antena_script>();
-            //antena.UpdateTeam(GetComponent<PlayerTeam_script>().team);
-
-            AntennaController ac = col.GetComponent<AntennaController>();
-            ac.ProgramAntenna();
+            isAntenaNear = true;
+            antenna = col.GetComponent<AntennaController>();
         }
     }
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        animator.ResetTrigger("Program");
-        antenna.ResetIsAntennaTriggered();
-
+        isAntenaNear = false;
+        antenna = null;
     }
 }

@@ -291,6 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f215bc9cab4249c46a118d70f8897c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interact: 0
+  isAntenaNear: 0
 --- !u!114 &-8659828470300474635
 MonoBehaviour:
   m_ObjectHideFlags: 0

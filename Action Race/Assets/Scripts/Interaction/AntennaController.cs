@@ -6,71 +6,68 @@ public class AntennaController : MonoBehaviour
 {
     public Animator animator;
 
-    float timer = 0.0f;
-    bool startTimer = false;
-    Antena_script asc;
-    //not nessesary, will work with asc.team 0-red, 1-blue
-    int whichTeam = 1;
-    //1 - red, 2 - blue
+    public float timer = 3.5f;
+    public bool startTimer = false;
+    public int whichTeam = 999;
     bool isAntennaTriggered = false;
+    public Teams_script script;
+    public bool programed = false;
+
+
     void Start()
     {
-        asc = this.GetComponent<Antena_script>();
+        script = FindObjectOfType<Teams_script>();
+        script.AddAntena(this);
         animator.SetInteger("whichTeam", whichTeam);
-        //whichTeam = asc.team;
     }
 
     public void Update()
     {
         if (startTimer)
         {
-            timer += Time.deltaTime;
+            timer -= Time.deltaTime;
+            animator.SetTrigger("Program");
+            if (whichTeam == 0)
+            {
+                animator.Play("Red_anim");
+            }
+            else if (whichTeam == 1)
+            {
+                animator.Play("Blue_anim");
+            }
+
         }
-    }
-
-    public void ProgramAntenna()
-    {
-        animator.SetTrigger("Program");
-        isAntennaTriggered = true;
-    }
-
-    public void StartTime()
-    {
-        timer = 0.0f;
-        startTimer = true;
-    }
-
-    public void StopTime()
-    {
-        startTimer = false;
-    }
-
-    public void PlayAnimation()
-    {
-        if (timer < 3.5f && isAntennaTriggered)
+        else if (!startTimer)
         {
-            animator.Play("Idle");
+            timer = 3.5f;
             animator.ResetTrigger("Program");
+            animator.Play("Idle");
         }
-        else if (timer > 3.5f && isAntennaTriggered)
+            
+        if(timer <= 0)
         {
-            if (whichTeam == 1)
+            if (whichTeam == 0)
             {
                 animator.Play("Red_done");
             }
-            else if (whichTeam == 2)
+            else if (whichTeam == 1)
             {
                 animator.Play("Blue_done");
             }
+            script.UpdatePoints();
             animator.ResetTrigger("Program");
+            programed = true;
+            startTimer = false;
+            timer = 3.5f;
         }
-        Debug.Log(timer);
-        timer = 0.0f;
     }
 
-    public void ResetIsAntennaTriggered()
+    public void UpdateTeam(int team)
     {
-        isAntennaTriggered = false;
+        if (this.whichTeam != team)
+        {
+            this.whichTeam = team;
+        }
     }
 
 }
