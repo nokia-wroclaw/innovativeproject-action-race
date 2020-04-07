@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 5406566938806228449}
   - component: {fileID: 5406566938806228454}
   - component: {fileID: 5406566938806228455}
-  - component: {fileID: -6760787443948588734}
   m_Layer: 5
   m_Name: BasicAntenna
   m_TagString: Antenna
@@ -119,6 +118,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5406566938806228451}
+  timer: 3
+  startTimer: 0
+  whichTeam: 999
+  script: {fileID: 5780244971386552892, guid: 6424c088473290247ae9e3dcc82f6685, type: 3}
+  programed: 0
 --- !u!114 &5406566938806228449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,15 +160,9 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 2
-    Name: isInteract
   - Type: 3
     SynchronizeType: 2
     Name: whichTeam
-  - Type: 4
-    SynchronizeType: 2
-    Name: isAntennaTriggered
   - Type: 9
     SynchronizeType: 0
     Name: Program
@@ -311,17 +309,3 @@ PolygonCollider2D:
       - {x: 0.07, y: 0.19999999}
       - {x: 0.03, y: 0.11}
       - {x: 0.04, y: 0.11}
---- !u!114 &-6760787443948588734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5406566938806228453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e104dec4199969b4d96749fd80036a5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  script: {fileID: 0}

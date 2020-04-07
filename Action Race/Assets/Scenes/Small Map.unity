@@ -34738,7 +34738,7 @@ MonoBehaviour:
   Infopanel: {fileID: 1757390409}
   timerLabel: {fileID: 360178647}
   pointsLabel: {fileID: 916446194}
-  Timer: 120
+  Timer: 300
 --- !u!4 &1995719489
 Transform:
   m_ObjectHideFlags: 0
