@@ -2,10 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HUD_manager : MonoBehaviour
 {
     public GameObject Infopanel;
+    public Text timerLabel;
+    public Text pointsLabel;
+    public float Timer = 60;
+
+    void Update()
+    {
+        Timer -= Time.deltaTime;
+        //show timer on UI
+        if (Timer <= 0)
+        {
+            //endgame
+            Timer = 60;
+        }
+
+        //update the label value
+        timerLabel.text = "" + Timer + " s";
+    }
+
+    public void UpdatePoints(int redTeamScore, int blueTeamScore)
+    {
+        pointsLabel.text = "" + redTeamScore + " : " + blueTeamScore;
+    }
 
     public void exitToMainMenu()
     {
