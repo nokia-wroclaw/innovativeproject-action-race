@@ -1,2 +1,17 @@
-language: csharp
-script: scripts/test.sh
+language: objective-c
+os: osx
+
+env:
+- UNITY_PROJECT_PATH="Action Race"
+
+before_install:
+- chmod a+x ./travis-scripts/*.sh
+
+install:
+- ./travis-scripts/install.sh
+
+script:
+- ./travis-scripts/build.sh
+
+after_script:
+- ./travis-scripts/deploy.sh
