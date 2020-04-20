@@ -17,7 +17,7 @@ public class CreateRoomManager : MonoBehaviourPunCallbacks
 
         RoomOptions roomOps = new RoomOptions() { IsVisible = roomIsVisible, IsOpen = true, MaxPlayers = (byte)roomMaxPlayers };
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
-        roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameManager.GetNickname());
+        roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameManager.NickName);
         roomOps.CustomRoomProperties.Add(RoomProperty.Password, roomPassword);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);

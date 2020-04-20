@@ -32,5 +32,9 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - TakeKick
+  - Animate
+  - Test
+  - StopProgram
+  - StartProgram
   DisableAutoOpenWizard: 1
   ShowSettings: 0

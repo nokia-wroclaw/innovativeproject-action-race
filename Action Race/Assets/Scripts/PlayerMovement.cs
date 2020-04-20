@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = playerVelocity;
 
         bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0f;
-        animator.SetBool("isRunning", playerHasHorizontalSpeed);
+        animator.SetBool("Run", playerHasHorizontalSpeed);
     }
 
     public void StopRunning()
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = playerVelocity;
 
         bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0f;
-        animator.SetBool("isRunning", playerHasHorizontalSpeed);
+        animator.SetBool("Run", playerHasHorizontalSpeed);
     }
 
     void Jump()

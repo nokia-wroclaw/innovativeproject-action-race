@@ -17,8 +17,10 @@ public class GameController : MonoBehaviour
 
     void CreateAntennas()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         Debug.Log("Create first antenna");
         Vector3 position1 = new Vector3(1, 1.45f, 0);
-        PhotonNetwork.Instantiate("BasicAntenna", position1, Quaternion.identity);
+        PhotonNetwork.InstantiateSceneObject("BasicAntenna", position1, Quaternion.identity);
     }
 }
