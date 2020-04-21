@@ -1,73 +1,86 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
 public class AntennaController : MonoBehaviour
 {
-    public Animator animator;
+    [SerializeField] float programmingTimeDuration = 5f;
 
-    public float timer = 3.5f;
-    public bool startTimer = false;
-    public int whichTeam = 999;
-    bool isAntennaTriggered = false;
-    public Teams_script script;
-    public bool programed = false;
+    Team actualTeam, newTeam;
+    bool isProgrammed, isFinished;
+    float programmingTime;
 
+    Animator animator;
+    PhotonView pv;
+
+    GamePlayManager gamePlayManager;
+    GameObject player;
 
     void Start()
     {
-        script = FindObjectOfType<Teams_script>();
-        script.AddAntena(this);
-        animator.SetInteger("whichTeam", whichTeam);
+        animator = GetComponent<Animator>();
+        pv = GetComponent<PhotonView>();
+
+        gamePlayManager = FindObjectOfType<GamePlayManager>();
+
+        animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
     }
 
     public void Update()
     {
-        if (startTimer)
-        {
-            timer -= Time.deltaTime;
-            animator.SetTrigger("Program");
-            if (whichTeam == 0)
-            {
-                animator.Play("Red_anim");
-            }
-            else if (whichTeam == 1)
-            {
-                animator.Play("Blue_anim");
-            }
+        Animate();
 
-        }
-        else if (!startTimer)
+        if (isProgrammed)
         {
-            timer = 3.5f;
-            animator.ResetTrigger("Program");
-            animator.Play("Idle");
-        }
-            
-        if(timer <= 0)
-        {
-            if (whichTeam == 0)
+            programmingTime += Time.deltaTime;
+
+            if(programmingTime >= programmingTimeDuration)
             {
-                animator.Play("Red_done");
+                FinishProgram();
+
+                PlayerInteraction pi = player.GetComponent<PlayerInteraction>();
+                if (pi.IsProgramming()) pi.StopProgram();
             }
-            else if (whichTeam == 1)
-            {
-                animator.Play("Blue_done");
-            }
-            script.UpdatePoints();
-            animator.ResetTrigger("Program");
-            programed = true;
-            startTimer = false;
-            timer = 3.5f;
         }
     }
 
-    public void UpdateTeam(int team)
+    void Animate()
     {
-        if (this.whichTeam != team)
-        {
-            this.whichTeam = team;
-        }
+        animator.SetInteger("ActualTeam", (int)actualTeam);
+        animator.SetInteger("NewTeam", (int)newTeam);
+        animator.SetBool("Program", isProgrammed);
     }
 
+    public bool CanProgram(Team team)
+    {
+        if (team == actualTeam || isProgrammed) return false;
+        return true;
+    }
+
+    [PunRPC]
+    public void StartProgram(Team team, int viewID)
+    {
+        newTeam = team;
+        programmingTime = 0f;
+        player = PhotonNetwork.GetPhotonView(viewID).gameObject;
+
+        isProgrammed = true;
+    }
+
+    [PunRPC]
+    public void StopProgram()
+    {
+        isProgrammed = false;
+    }
+
+    void FinishProgram()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gamePlayManager.SetScore(newTeam, 1);
+            gamePlayManager.SetScore(actualTeam, -1);
+        }
+
+        actualTeam = newTeam;
+        isFinished = true;
+    }
 }

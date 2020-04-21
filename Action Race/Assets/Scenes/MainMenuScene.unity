@@ -3965,7 +3965,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nickname: {fileID: 1919511573}
-  createRoomInfo: {fileID: 1700007695}
 --- !u!1 &821174055
 GameObject:
   m_ObjectHideFlags: 0
@@ -5191,7 +5190,6 @@ GameObject:
   - component: {fileID: 1068670469}
   - component: {fileID: 1068670468}
   - component: {fileID: 1068670467}
-  - component: {fileID: 1068670470}
   m_Layer: 5
   m_Name: SearchPanel
   m_TagString: Untagged
@@ -5283,18 +5281,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068670465}
   m_CullTransparentMesh: 0
---- !u!114 &1068670470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068670465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4986eaafd8b564285fa526f90f6d6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1097071097
 GameObject:
   m_ObjectHideFlags: 0
@@ -9523,7 +9509,8 @@ MonoBehaviour:
   roomNameIF: {fileID: 779168374}
   roomPasswordIF: {fileID: 31705722}
   roomMaxPlayersIF: {fileID: 1461927928}
-  isVisibleToggle: {fileID: 1812733900}
+  isVisibleT: {fileID: 1812733900}
+  nickNameManager: {fileID: 812147287}
 --- !u!1 &1715204275
 GameObject:
   m_ObjectHideFlags: 0
@@ -10161,7 +10148,18 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 812147287}
+        m_MethodName: ChangeNickName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -10737,9 +10735,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7242cd58271714dbae3095f2b6e5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textFilter: {fileID: 1661912721}
-  showFull: {fileID: 1862530635}
-  showPrivate: {fileID: 1861445417}
+  textFilterIF: {fileID: 1661912721}
+  showFullT: {fileID: 1862530635}
+  showPrivateT: {fileID: 1861445417}
   roomList: {fileID: 1259192477}
   roomPrefab: {fileID: 747318423733965024, guid: a3c97dcbe941cea4b99967db4d6fea1e,
     type: 3}
