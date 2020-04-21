@@ -1,15 +1,26 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
 public class PlayerTeam : MonoBehaviour
 {
     SpriteRenderer sr;
+    PhotonView pv;
 
-    Team team = Team.Red;
+    Team team;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        RefreshColor();
+        pv = GetComponent<PhotonView>();
+
+        if (pv.IsMine)
+        {
+            Team team = (Team)Random.Range(1, 3);
+            ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+            hash.Add(PlayerProperty.Team, team);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+        SetTeam((Team)pv.Owner.CustomProperties[PlayerProperty.Team]);
     }
 
     public void SetTeam(Team team)
@@ -23,7 +34,7 @@ public class PlayerTeam : MonoBehaviour
         return team;
     }
 
-    public void RefreshColor()
+    void RefreshColor()
     {
         if (team == Team.Red)
             sr.color = new Color(1, 0, 0, 1);

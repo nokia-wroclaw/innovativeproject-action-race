@@ -4,12 +4,11 @@ using Photon.Pun;
 public class PlayerInteraction : MonoBehaviour
 {
     bool isProgramming;
+    AntennaController ac;
 
     Animator animator;
     PhotonView pv;
     PlayerTeam pt;
-
-    AntennaController ac;
 
     void Start()
     {

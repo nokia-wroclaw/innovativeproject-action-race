@@ -13,6 +13,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -1555181799480126324}
   - {fileID: 7560002141458585436}
+  - {fileID: 6241454884847007756}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -36,11 +37,39 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Program
+  - m_ConditionMode: 6
+    m_ConditionEvent: ActualTeam
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4112498730537764612}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-7274109556298065848
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Program
+    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: NewTeam
+    m_EventTreshold: 2
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8425935492195698074}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
@@ -85,7 +114,8 @@ AnimatorState:
   m_Name: Blue
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: -7274109556298065848}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -138,6 +168,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Program
     m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: ActualTeam
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4112498730537764612}
   m_Solo: 0
@@ -189,24 +222,30 @@ AnimatorController:
   m_Name: BasicAntenna
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: WhichTeam
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 2
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: ProgramSpeedMultiplier
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: ActualTeam
+    m_Type: 3
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: NewTeam
+    m_Type: 3
+    m_DefaultFloat: 0
+    m_DefaultInt: 2
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: Program
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -340,7 +379,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: WhichTeam
+    m_ConditionEvent: NewTeam
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8425935492195698074}
@@ -366,7 +405,8 @@ AnimatorState:
   m_Name: Red
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 6858015603102257482}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -410,6 +450,34 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &4566614838525605292
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Program
+    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: ActualTeam
+    m_EventTreshold: 2
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 3819724507725950285}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &5200656663575316254
 AnimatorState:
   serializedVersion: 5
@@ -436,6 +504,34 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &6241454884847007756
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Program
+    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: ActualTeam
+    m_EventTreshold: 1
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4856894442859499481}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &6700365758177572517
 AnimatorState:
   serializedVersion: 5
@@ -449,6 +545,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -7439515678325105151}
   - {fileID: 7970053927181327518}
+  - {fileID: 4566614838525605292}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -486,6 +583,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &6858015603102257482
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Program
+    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: NewTeam
+    m_EventTreshold: 1
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 6700365758177572517}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &7348482923050825679
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -498,7 +623,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: WhichTeam
+    m_ConditionEvent: NewTeam
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6700365758177572517}

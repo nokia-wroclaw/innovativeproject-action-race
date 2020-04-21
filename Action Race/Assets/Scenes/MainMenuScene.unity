@@ -5190,7 +5190,6 @@ GameObject:
   - component: {fileID: 1068670469}
   - component: {fileID: 1068670468}
   - component: {fileID: 1068670467}
-  - component: {fileID: 1068670470}
   m_Layer: 5
   m_Name: SearchPanel
   m_TagString: Untagged
@@ -5282,18 +5281,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1068670465}
   m_CullTransparentMesh: 0
---- !u!114 &1068670470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068670465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4986eaafd8b564285fa526f90f6d6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1097071097
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,6 +45,8 @@ public class AntennaController : MonoBehaviour
 
     void Animate()
     {
+        animator.SetInteger("ActualTeam", (int)actualTeam);
+        animator.SetInteger("NewTeam", (int)newTeam);
         animator.SetBool("Program", isProgrammed);
     }
 
