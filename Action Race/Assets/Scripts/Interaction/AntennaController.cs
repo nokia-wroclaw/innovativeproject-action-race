@@ -11,12 +11,16 @@ public class AntennaController : MonoBehaviour
 
     Animator animator;
     PhotonView pv;
+
+    GamePlayManager gamePlayManager;
     GameObject player;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
+
+        gamePlayManager = FindObjectOfType<GamePlayManager>();
 
         animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
     }
@@ -31,8 +35,7 @@ public class AntennaController : MonoBehaviour
 
             if(programmingTime >= programmingTimeDuration)
             {
-                actualTeam = newTeam;
-                isFinished = true;
+                FinishProgram();
 
                 PlayerInteraction pi = player.GetComponent<PlayerInteraction>();
                 if (pi.IsProgramming()) pi.StopProgram();
@@ -42,7 +45,6 @@ public class AntennaController : MonoBehaviour
 
     void Animate()
     {
-        animator.SetBool("FinishProgram", isFinished);
         animator.SetBool("Program", isProgrammed);
     }
 
@@ -66,5 +68,17 @@ public class AntennaController : MonoBehaviour
     public void StopProgram()
     {
         isProgrammed = false;
+    }
+
+    void FinishProgram()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gamePlayManager.SetScore(newTeam, 1);
+            gamePlayManager.SetScore(actualTeam, -1);
+        }
+
+        actualTeam = newTeam;
+        isFinished = true;
     }
 }

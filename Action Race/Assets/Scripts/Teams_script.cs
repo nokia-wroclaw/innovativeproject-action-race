@@ -4,29 +4,16 @@ using UnityEngine;
 
 public class Teams_script : MonoBehaviour
 {
-    ////need script for antena
+    public List<PlayerTeam_script> players;
+    public List<PlayerTeam_script> redTeam;
+    public List<PlayerTeam_script> blueTeam;
+    public List<AntennaController> antenas;
+    public HUD_manager manager;
 
-    //public List<PlayerTeam_script> players;
-    //public List<PlayerTeam_script> redTeam;
-    //public List<PlayerTeam_script> blueTeam;
-    //public List<AntennaController> antenas;
-    //public HUD_manager manager;
+    public int blueTeamScore;
+    public int redTeamScore;
 
-    //public int blueTeamScore;
-    //public int redTeamScore;
-
-    //int redblue = 0;
-
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
+    int redblue = 0;
 
     //public void AddAntena(AntennaController antena)
     //{

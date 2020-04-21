@@ -27,7 +27,7 @@ public class PlayerInteraction : MonoBehaviour
         if (isProgramming && Input.GetKeyUp(KeyCode.E))
         {
             StopProgram();
-            ac.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.All);
+            ac.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllBuffered);
         }
     }
 
@@ -41,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
             if (ac && ac.CanProgram(pt.GetTeam()))
             {
                 StartProgram();
-                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.All, pt.GetTeam(), pv.ViewID);
+                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllBuffered, pt.GetTeam(), pv.ViewID);
             }
         }
     }

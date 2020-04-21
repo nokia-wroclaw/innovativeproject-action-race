@@ -15,10 +15,16 @@ public class CreateRoomManager : MonoBehaviourPunCallbacks
         int roomMaxPlayers = createRoomInfo.RoomMaxPlayers;
         bool roomIsVisible = createRoomInfo.IsVisible;
 
+        PhotonNetwork.FetchServerTimestamp();
+
         RoomOptions roomOps = new RoomOptions() { IsVisible = roomIsVisible, IsOpen = true, MaxPlayers = (byte)roomMaxPlayers };
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameManager.NickName);
         roomOps.CustomRoomProperties.Add(RoomProperty.Password, roomPassword);
+        roomOps.CustomRoomProperties.Add(RoomProperty.RedScore, 0);
+        roomOps.CustomRoomProperties.Add(RoomProperty.BlueScore, 0);
+        roomOps.CustomRoomProperties.Add(RoomProperty.StartTime, Time.time);
+        roomOps.CustomRoomProperties.Add(RoomProperty.GameTime, 360.0f);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
     }

@@ -21,7 +21,7 @@ public class JoinRoomManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo roomInfo in roomList)
         {
-            string roomPassword = roomInfo.CustomProperties["Password"].ToString();
+            string roomPassword = roomInfo.CustomProperties["Password"] as string;
             if (!roomListInfo.ShowPrivate && !string.IsNullOrEmpty(roomPassword.Trim())) continue;
 
             string roomName = roomInfo.Name;

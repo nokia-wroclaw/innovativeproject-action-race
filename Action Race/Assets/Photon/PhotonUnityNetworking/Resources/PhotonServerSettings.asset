@@ -36,5 +36,6 @@ MonoBehaviour:
   - Test
   - StopProgram
   - StartProgram
+  - UpdatePoints
   DisableAutoOpenWizard: 1
   ShowSettings: 0
