@@ -5,7 +5,7 @@ public class Timer : MonoBehaviour
 {
     ScoreBoard sb;
 
-    bool gameEnded;
+    int gameStatus;
 
     void Start()
     {
@@ -13,17 +13,18 @@ public class Timer : MonoBehaviour
 
         if(PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.FetchServerTimestamp();
             ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
             hash.Add(RoomProperty.StartTime, PhotonNetwork.Time);
             PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+            Debug.Log((double)hash[RoomProperty.StartTime] + " " + PhotonNetwork.Time);
         }
         UpdateTime((double)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameTime]);
+        gameStatus = 1;
     }
 
     void Update()
     {
-        if (!gameEnded)
+        if (gameStatus == 1)
         {
             ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
             double time = PhotonNetwork.Time - (double)hash[RoomProperty.StartTime];
@@ -36,6 +37,7 @@ public class Timer : MonoBehaviour
             else
             {
                 EndGame();
+                Debug.Log("END");
             }
         }
     }
@@ -48,7 +50,7 @@ public class Timer : MonoBehaviour
 
     void EndGame()
     {
-        gameEnded = true;
+        gameStatus = 2;
 
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         int redScores = (int)hash[RoomProperty.RedScore];
