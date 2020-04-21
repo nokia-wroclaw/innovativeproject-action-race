@@ -34,5 +34,6 @@ MonoBehaviour:
   - StartProgram
   - StopProgram
   - TakeKick
+  - EndGame
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -3,16 +3,13 @@ using Photon.Pun;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] GameObject winPanel;
-    [SerializeField] GameObject losePanel;
-
-    ScoreBoard scoreBoard;
+    ScoreBoard sb;
 
     bool gameEnded;
 
     void Start()
     {
-        scoreBoard = FindObjectOfType<ScoreBoard>();
+        sb = FindObjectOfType<ScoreBoard>();
 
         if(PhotonNetwork.IsMasterClient)
         {
@@ -32,13 +29,13 @@ public class Timer : MonoBehaviour
             double time = PhotonNetwork.Time - (double)hash[RoomProperty.StartTime];
             time = (double)hash[RoomProperty.GameTime] - time;
 
-            if(time <= 0)
+            if(time > 0)
             {
-                EndGame();
+                UpdateTime(time);
             }
             else
             {
-                UpdateTime(time);
+                EndGame();
             }
         }
     }
@@ -46,7 +43,7 @@ public class Timer : MonoBehaviour
     void UpdateTime(double time)
     {
         Vector2Int gameTime = new Vector2Int((int)time / 60, (int)time % 60);
-        scoreBoard.SetTime(gameTime);
+        sb.SetTime(gameTime);
     }
 
     void EndGame()
@@ -62,11 +59,19 @@ public class Timer : MonoBehaviour
         else if(blueScores > redScores) winner = Team.Blue;
         else winner = Team.None;
 
+
         foreach (PlayerTeam pt in FindObjectsOfType<PlayerTeam>())
         {
-            Team team = pt.GetTeam();
-            if (team == winner) winPanel.SetActive(true);
-            else losePanel.SetActive(true);
+            PhotonView pv = pt.GetComponent<PhotonView>();
+            if (pv.IsMine)
+            {
+                Team team = pt.GetTeam();
+                if (winner == team) sb.ShowWinPanel();
+                else if (winner == Team.None) sb.ShowTiePanel();
+                else sb.ShowLosePanel();
+            }
         }
+
+
     }
 }

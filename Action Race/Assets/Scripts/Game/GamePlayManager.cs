@@ -4,15 +4,17 @@ using Photon.Realtime;
 
 public class GamePlayManager : MonoBehaviourPunCallbacks
 {
-    ScoreBoard scoreBoard;
+    ScoreBoard sb;
 
     void Start()
     {
-        scoreBoard = FindObjectOfType<ScoreBoard>();
+        sb = FindObjectOfType<ScoreBoard>();
+
+        sb.SetNickName(PhotonNetwork.LocalPlayer.NickName);
 
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        scoreBoard.SetRedScore((int)hash[RoomProperty.RedScore]);
-        scoreBoard.SetBlueScore((int)hash[RoomProperty.BlueScore]);
+        sb.SetRedScore((int)hash[RoomProperty.RedScore]);
+        sb.SetBlueScore((int)hash[RoomProperty.BlueScore]);
     }
 
     public void LeaveRoom()
@@ -47,12 +49,11 @@ public class GamePlayManager : MonoBehaviourPunCallbacks
         object value;
         if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out value))
         {
-            scoreBoard.SetRedScore((int)value);
+            sb.SetRedScore((int)value);
         }
         if (propertiesThatChanged.TryGetValue(RoomProperty.BlueScore, out value))
         {
-            scoreBoard.SetBlueScore((int)value);
+            sb.SetBlueScore((int)value);
         }
-        Debug.Log(propertiesThatChanged.Count);
     }
 }
