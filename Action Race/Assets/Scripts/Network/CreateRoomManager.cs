@@ -24,7 +24,7 @@ public class CreateRoomManager : MonoBehaviourPunCallbacks
         roomOps.CustomRoomProperties.Add(RoomProperty.RedScore, 0);
         roomOps.CustomRoomProperties.Add(RoomProperty.BlueScore, 0);
         roomOps.CustomRoomProperties.Add(RoomProperty.StartTime, PhotonNetwork.Time);
-        roomOps.CustomRoomProperties.Add(RoomProperty.GameTime, 360.0);
+        roomOps.CustomRoomProperties.Add(RoomProperty.GameTime, 10.0);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
     }
