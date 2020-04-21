@@ -21,7 +21,7 @@ public class JoinRoomManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo roomInfo in roomList)
         {
-            string roomPassword = roomInfo.CustomProperties["Password"] as string;
+            string roomPassword = roomInfo.CustomProperties["Password"].ToString();
             if (!roomListInfo.ShowPrivate && !string.IsNullOrEmpty(roomPassword.Trim())) continue;
 
             string roomName = roomInfo.Name;
@@ -29,11 +29,13 @@ public class JoinRoomManager : MonoBehaviourPunCallbacks
             string textFilter = roomListInfo.TextFilter.Trim();
             if (!roomName.ToLower().Contains(textFilter.ToLower()) && !roomOwner.ToLower().Contains(textFilter.ToLower())) continue;
 
+            string roomMode = "";
+
             int roomPlayers = roomInfo.PlayerCount;
             int roomMaxPlayers = roomInfo.MaxPlayers;
             if (!roomListInfo.ShowFull && roomPlayers == roomMaxPlayers) continue;
 
-            roomListInfo.AddRoom(roomPassword, roomName, roomOwner, roomPlayers, roomMaxPlayers);
+            roomListInfo.AddRoom(roomPassword, roomName, roomOwner, roomMode, roomPlayers, roomMaxPlayers);
         }
     }
 

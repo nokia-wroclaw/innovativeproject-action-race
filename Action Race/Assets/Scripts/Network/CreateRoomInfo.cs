@@ -3,19 +3,10 @@ using UnityEngine.UI;
 
 public class CreateRoomInfo : MonoBehaviour
 {
-    [Header("Fields")]
     [SerializeField] InputField roomNameIF;
     [SerializeField] InputField roomPasswordIF;
     [SerializeField] InputField roomMaxPlayersIF;
-    [SerializeField] Toggle isVisibleT;
-
-    [Header("References")]
-    [SerializeField] NicknameManager nickNameManager;
-
-    public void OnEnable()
-    {
-        RoomName = nickNameManager.NickName + "'s room";
-    }
+    [SerializeField] Toggle isVisibleToggle;
 
     public string RoomName
     {
@@ -35,6 +26,6 @@ public class CreateRoomInfo : MonoBehaviour
 
     public bool IsVisible
     {
-        get { return isVisibleT.isOn; }
+        get { return isVisibleToggle.isOn; }
     }
 }

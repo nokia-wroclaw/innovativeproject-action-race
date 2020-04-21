@@ -9,6 +9,7 @@ public class Room : MonoBehaviour
     [SerializeField] Text roomPasswordText;
 
     bool _roomPassword;
+    string _roomName, _roomOwner, _roomMode;
     int _roomPlayers, _roomMaxPlayers;
 
     public string RoomName
@@ -16,15 +17,17 @@ public class Room : MonoBehaviour
         get { return roomNameText.text; }
         set
         {
+            _roomName = value;
             roomNameText.text = value;
         }
     }
 
     public string RoomOwner
     {
-        get { return roomOwnerText.text; }
+        get { return _roomOwner; }
         set
         {
+            _roomOwner = value;
             roomOwnerText.text = value;
         }
     }
@@ -34,7 +37,6 @@ public class Room : MonoBehaviour
         get { return _roomPassword; }
         set
         {
-            _roomPassword = value;
             if (value) roomPasswordText.text = "Required";
             else roomPasswordText.text = "Not Required";
         }

@@ -1,33 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 public class NicknameManager : MonoBehaviour
 {
     [SerializeField] InputField nickname;
+    [SerializeField] CreateRoomInfo createRoomInfo;
 
     void Start()
     {
         int number = Random.Range(0, 10000);
         string nick = "Player" + number;
         nickname.text = nick;
+
+        createRoomInfo.RoomName = nick + "'s room";
     }
 
-    public void ChangeNickName(string nickName)
+    public string GetNickname()
     {
-        NickName = nickName;
-    }
-
-    public string NickName
-    {
-        get
-        {
-            return PhotonNetwork.LocalPlayer.NickName;
-        }
-
-        set
-        {
-            PhotonNetwork.LocalPlayer.NickName = value;
-        }
+        return nickname.text;
     }
 }

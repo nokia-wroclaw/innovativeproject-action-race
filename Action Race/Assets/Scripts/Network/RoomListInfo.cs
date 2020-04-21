@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class RoomListInfo : MonoBehaviour
 {
-    [Header("Room filters")]
-    [SerializeField] InputField textFilterIF;
-    [SerializeField] Toggle showFullT;
-    [SerializeField] Toggle showPrivateT;
+    [Header("Room filter")]
+    [SerializeField] InputField textFilter;
+    [SerializeField] Toggle showFull;
+    [SerializeField] Toggle showPrivate;
 
-    [Header("Rooms list")]
+    [Header("Room list")]
     [SerializeField] RectTransform roomList;
     [SerializeField] GameObject roomPrefab;
 
-    void OnEnable()
+    void Start()
     {
         TextFilter = "";
         ShowFull = true;
@@ -27,7 +27,7 @@ public class RoomListInfo : MonoBehaviour
         }
     }
 
-    public void AddRoom(string roomPassword, string roomName, string roomOwner, int roomPlayers, int roomMaxPlayers)
+    public void AddRoom(string roomPassword, string roomName, string roomOwner, string roomMode, int roomPlayers, int roomMaxPlayers)
     {
         GameObject room = Instantiate(roomPrefab);
         Room roomPanel = room.GetComponent<Room>();
@@ -41,19 +41,19 @@ public class RoomListInfo : MonoBehaviour
 
     public string TextFilter
     {
-        get { return textFilterIF.text; }
-        set { textFilterIF.text = value; }
+        get { return textFilter.text; }
+        set { textFilter.text = value; }
     }
 
     public bool ShowFull
     {
-        get { return showFullT.isOn; }
-        set { showFullT.isOn = value; }
+        get { return showFull.isOn; }
+        set { showFull.isOn = value; }
     }
 
     public bool ShowPrivate
     {
-        get { return showPrivateT.isOn; }
-        set { showPrivateT.isOn = value; }
+        get { return showPrivate.isOn; }
+        set { showPrivate.isOn = value; }
     }
 }

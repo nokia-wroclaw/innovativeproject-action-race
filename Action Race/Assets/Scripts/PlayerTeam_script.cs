@@ -11,7 +11,7 @@ public class PlayerTeam_script : MonoBehaviour
     {
         Teams_script t = Teams_script.FindObjectOfType<Teams_script>();
         sprite = GetComponent<SpriteRenderer>();
-        //t.addToArray(this);
+        t.addToArray(this);
         //team = t.giveTeam(this);
 
 

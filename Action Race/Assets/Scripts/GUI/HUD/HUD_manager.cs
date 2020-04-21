@@ -13,16 +13,16 @@ public class HUD_manager : MonoBehaviour
 
     void Update()
     {
-        //Timer -= Time.deltaTime;
-        ////show timer on UI
-        //if (Timer <= 0)
-        //{
-        //    //endgame
-        //    Timer = 60;
-        //}
+        Timer -= Time.deltaTime;
+        //show timer on UI
+        if (Timer <= 0)
+        {
+            //endgame
+            Timer = 60;
+        }
 
-        ////update the label value
-        //timerLabel.text = "" + (int)Timer + " s";
+        //update the label value
+        timerLabel.text = "" + (int)Timer + " s";
     }
 
     public void UpdatePoints(int redTeamScore, int blueTeamScore)
