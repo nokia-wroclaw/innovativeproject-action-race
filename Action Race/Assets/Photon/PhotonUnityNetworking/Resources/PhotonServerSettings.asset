@@ -35,5 +35,6 @@ MonoBehaviour:
   - StopProgram
   - TakeKick
   - EndGame
+  - SetNickNameTag
   DisableAutoOpenWizard: 1
   ShowSettings: 0

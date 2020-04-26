@@ -1,19 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Photon.Pun;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    bool isProgramming;
-    AntennaController ac;
+    [SerializeField] float kickCooldown = 1f;
+    [SerializeField] CircleCollider2D kickFoot;
 
     Animator animator;
     PhotonView pv;
+    PlayerMovement pm;
     PlayerTeam pt;
+
+    // ANTENNA PROGRAMMING
+    bool isTouchingAntenna, isProgrammingAntenna;
+    AntennaController ac;
+
+    // KICK
+    float kickDelay = 0f;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
+        pm = GetComponent<PlayerMovement>();
         pt = GetComponent<PlayerTeam>();
     }
 
@@ -21,49 +31,98 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (!pv.IsMine) return;
 
-        Animate();
+        ProgramAntenna();
+        Kick();
+    }
 
-        if (isProgramming && Input.GetKeyUp(KeyCode.E))
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!pv.IsMine) return;
+
+        if (collision.tag == "Antenna")
+        {
+            ac = collision.GetComponent<AntennaController>();
+            isTouchingAntenna = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!pv.IsMine) return;
+
+        if (collision.tag == "Antenna") isTouchingAntenna = false;
+    }
+
+    void ProgramAntenna()
+    {
+        //  START PROGRAM
+        if (!isProgrammingAntenna && isTouchingAntenna && Input.GetKeyDown(KeyCode.E))
+        {
+            if (ac.CanProgram(pt.GetTeam()))
+            {
+                StartProgram();
+                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllBuffered, pt.GetTeam(), pv.ViewID);
+            }
+        }
+
+        // STOP PROGRAM
+        if (isProgrammingAntenna && Input.GetKeyUp(KeyCode.E))
         {
             StopProgram();
             ac.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllBuffered);
         }
     }
 
-    void OnTriggerStay2D(Collider2D col)
+    void Kick()
     {
-        if (!pv.IsMine) return;
-
-        if (!isProgramming && Input.GetKeyDown(KeyCode.E))
+        if (kickDelay > 0f)
         {
-            ac = col.GetComponent<AntennaController>();
-            if (ac && ac.CanProgram(pt.GetTeam()))
+            kickDelay -= Time.deltaTime;
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                StartProgram();
-                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllBuffered, pt.GetTeam(), pv.ViewID);
+                kickDelay = kickCooldown;
+                animator.SetTrigger("Kick");
+
+                int layerMask = LayerMask.GetMask("Player");
+                List<Collider2D> colliders = new List<Collider2D>();
+                kickFoot.OverlapCollider(new ContactFilter2D() { layerMask = layerMask }, colliders);
+                foreach (Collider2D collider in colliders)
+                {
+                    PhotonView pvOther = collider.GetComponentInParent<PhotonView>();
+                    if (pvOther) pv.RPC("TakeKick", RpcTarget.All, pvOther.ViewID);
+                }
             }
         }
     }
 
-    void Animate()
-    {
-        animator.SetBool("Interact", isProgramming);
-    }
-
     void StartProgram()
     {
-        isProgramming = true;
-        GetComponent<PlayerMovement>().enabled = false;
+        isProgrammingAntenna = true;
+        animator.SetBool("Interact", true);
+
+        pm.StopMovement();
+        pm.enabled = false;
     }
 
     public void StopProgram()
     {
-        isProgramming = false;
-        GetComponent<PlayerMovement>().enabled = true;
+        isProgrammingAntenna = false;
+        animator.SetBool("Interact", false);
+
+        pm.enabled = true;
     }
 
-    public bool IsProgramming()
+    public bool IsProgrammingAntenna()
     {
-        return isProgramming;
+        return isProgrammingAntenna;
+    }
+
+    [PunRPC]
+    void TakeKick(int viewId)
+    {
+        PhotonNetwork.GetPhotonView(viewId).GetComponent<Rigidbody2D>().velocity += new Vector2(0, 30);
     }
 }

@@ -38,7 +38,7 @@ public class AntennaController : MonoBehaviour
                 FinishProgram();
 
                 PlayerInteraction pi = player.GetComponent<PlayerInteraction>();
-                if (pi.IsProgramming()) pi.StopProgram();
+                if (pi.IsProgrammingAntenna()) pi.StopProgram();
             }
         }
     }
