@@ -6,7 +6,7 @@ public class AntennaController : MonoBehaviour
     [SerializeField] float programmingTimeDuration = 5f;
 
     Team actualTeam, newTeam;
-    bool isProgrammed, isFinished;
+    bool isProgrammed;
     float programmingTime;
 
     Animator animator;
@@ -81,6 +81,5 @@ public class AntennaController : MonoBehaviour
         }
 
         actualTeam = newTeam;
-        isFinished = true;
     }
 }

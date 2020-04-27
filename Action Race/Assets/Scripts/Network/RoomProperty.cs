@@ -9,7 +9,7 @@
     public const string StartTime = "StartTime";
     public const string GameTime = "GameTime";
 
-    static public string [] GetProperties()
+    static public string [] GetPublicProperties()
     {
         string[] properties =
         {
