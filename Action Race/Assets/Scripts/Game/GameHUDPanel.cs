@@ -7,6 +7,10 @@ public class GameHUDPanel : MonoBehaviour
     [SerializeField] Text blueScoreText;
     [SerializeField] Text timeText;
 
+    [SerializeField] GameObject losePanel;
+    [SerializeField] GameObject drawPanel;
+    [SerializeField] GameObject winPanel;
+
     public void UpdateScoreText(Team team, int score)
     {
         switch(team)
@@ -28,5 +32,23 @@ public class GameHUDPanel : MonoBehaviour
         sTime += time.y.ToString();
 
         timeText.text = sTime;
+    }
+
+    public void ShowEndGamePanel(int state)
+    {
+        switch (state)
+        {
+            case -1:
+                losePanel.SetActive(true);
+                break;
+
+            case 0:
+                drawPanel.SetActive(true);
+                break;
+
+            case 1:
+                winPanel.SetActive(true);
+                break;
+        }
     }
 }

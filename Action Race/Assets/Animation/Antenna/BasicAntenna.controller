@@ -41,7 +41,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: ActualTeam
+    m_ConditionEvent: CurrentTeam
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4112498730537764612}
@@ -172,7 +172,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: ActualTeam
+    m_ConditionEvent: CurrentTeam
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4112498730537764612}
@@ -230,25 +230,25 @@ AnimatorController:
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: ActualTeam
+    m_Controller: {fileID: 0}
+  - m_Name: CurrentTeam
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: NewTeam
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 2
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Program
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -465,7 +465,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: ActualTeam
+    m_ConditionEvent: CurrentTeam
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3819724507725950285}
@@ -519,7 +519,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Program
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: ActualTeam
+    m_ConditionEvent: CurrentTeam
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4856894442859499481}
@@ -671,7 +671,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 3
+    m_ConditionEvent: ProgramSpeedMultiplier
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4856894442859499481}
   m_Solo: 0

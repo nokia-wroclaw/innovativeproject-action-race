@@ -35,8 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!pv.IsMine) return;
+        nickNameTag.transform.localScale = transform.localScale;
 
+        if (!pv.IsMine) return;
         Run();
         Jump();
         FlipSprite();
@@ -69,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 flipScale = new Vector3(Mathf.Sign(rb.velocity.x), 1f, 1f);
             transform.localScale = flipScale;
-            nickNameTag.transform.localScale = flipScale;
         }
     }
 

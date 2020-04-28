@@ -2,7 +2,7 @@
 using TMPro;
 using Photon.Pun;
 
-public class NickNameTag : MonoBehaviour
+public class PlayerTag : MonoBehaviour
 {
     [SerializeField] TextMeshPro nickNameTMP;
 

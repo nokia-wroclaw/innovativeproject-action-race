@@ -3,11 +3,11 @@ using Photon.Pun;
 
 public class GameScore : MonoBehaviourPunCallbacks
 {
-    GameHUDPanel gh;
+    GameHUDPanel ghp;
 
     void Start()
     {
-        gh = FindObjectOfType<GameHUDPanel>();
+        ghp = FindObjectOfType<GameHUDPanel>();
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -15,10 +15,10 @@ public class GameScore : MonoBehaviourPunCallbacks
         object value;
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.BlueScore, out value))
-            gh.UpdateScoreText(Team.Blue, (int)value);
+            ghp.UpdateScoreText(Team.Blue, (int)value);
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out value))
-            gh.UpdateScoreText(Team.Red, (int)value);
+            ghp.UpdateScoreText(Team.Red, (int)value);
     }
 
     public void AddScore(Team team, int score)
@@ -36,6 +36,14 @@ public class GameScore : MonoBehaviourPunCallbacks
                 hash.Add(RoomProperty.RedScore, redScore);
                 break;
         }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    public void ResetScore()
+    {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.BlueScore, 0);
+        hash.Add(RoomProperty.RedScore, 0);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 }
