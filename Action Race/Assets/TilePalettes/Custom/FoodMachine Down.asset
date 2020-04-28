@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: HighGround
+  m_Name: FoodMachine Down
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: d853e4d3f64dfc74ea126843eab460f3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d31a8a2a8210b6449e75124eaa48cc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
