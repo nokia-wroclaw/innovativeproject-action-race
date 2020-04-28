@@ -21,11 +21,7 @@ public class CreateRoomManager : MonoBehaviourPunCallbacks
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameManager.NickName);
         roomOps.CustomRoomProperties.Add(RoomProperty.Password, roomPassword);
-        roomOps.CustomRoomProperties.Add(RoomProperty.RedScore, 0);
-        roomOps.CustomRoomProperties.Add(RoomProperty.BlueScore, 0);
-        roomOps.CustomRoomProperties.Add(RoomProperty.StartTime, PhotonNetwork.Time);
-        roomOps.CustomRoomProperties.Add(RoomProperty.GameTime, 60.0);
-        roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetProperties();
+        roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetPublicProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
     }
 

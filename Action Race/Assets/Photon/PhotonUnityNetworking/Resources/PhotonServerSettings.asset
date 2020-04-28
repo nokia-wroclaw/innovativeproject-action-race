@@ -35,5 +35,7 @@ MonoBehaviour:
   - StopProgram
   - TakeKick
   - EndGame
+  - SetNickNameTag
+  - ChangeAntennaState
   DisableAutoOpenWizard: 1
   ShowSettings: 0

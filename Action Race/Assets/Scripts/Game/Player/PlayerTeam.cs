@@ -3,15 +3,15 @@ using Photon.Pun;
 
 public class PlayerTeam : MonoBehaviour
 {
-    SpriteRenderer sr;
     PhotonView pv;
+    SpriteRenderer sr;
 
     Team team;
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
         pv = GetComponent<PhotonView>();
+        sr = GetComponent<SpriteRenderer>();
 
         if (pv.IsMine)
         {

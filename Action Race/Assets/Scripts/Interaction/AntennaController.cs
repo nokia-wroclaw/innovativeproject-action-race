@@ -5,22 +5,18 @@ public class AntennaController : MonoBehaviour
 {
     [SerializeField] float programmingTimeDuration = 5f;
 
-    Team actualTeam, newTeam;
-    bool isProgrammed, isFinished;
-    float programmingTime;
-
     Animator animator;
-    PhotonView pv;
+    GameScore gs;
 
-    GamePlayManager gamePlayManager;
-    GameObject player;
+    bool isProgrammed;
+    float programmingTime;
+    Team currentTeam, newTeam;
+    PlayerInteraction pi;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        pv = GetComponent<PhotonView>();
-
-        gamePlayManager = FindObjectOfType<GamePlayManager>();
+        gs = FindObjectOfType<GameScore>();
 
         animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
     }
@@ -33,26 +29,27 @@ public class AntennaController : MonoBehaviour
         {
             programmingTime += Time.deltaTime;
 
-            if(programmingTime >= programmingTimeDuration)
+            if (programmingTime >= programmingTimeDuration)
             {
                 FinishProgram();
 
-                PlayerInteraction pi = player.GetComponent<PlayerInteraction>();
-                if (pi.IsProgramming()) pi.StopProgram();
+                if (pi.IsProgrammingAntenna()) pi.StopProgram();
             }
         }
     }
 
     void Animate()
     {
-        animator.SetInteger("ActualTeam", (int)actualTeam);
+        animator.SetInteger("CurrentTeam", (int)currentTeam);
         animator.SetInteger("NewTeam", (int)newTeam);
         animator.SetBool("Program", isProgrammed);
+
+        //animator.getCurr
     }
 
     public bool CanProgram(Team team)
     {
-        if (team == actualTeam || isProgrammed) return false;
+        if (team == currentTeam || isProgrammed) return false;
         return true;
     }
 
@@ -61,7 +58,7 @@ public class AntennaController : MonoBehaviour
     {
         newTeam = team;
         programmingTime = 0f;
-        player = PhotonNetwork.GetPhotonView(viewID).gameObject;
+        pi = PhotonNetwork.GetPhotonView(viewID).GetComponent<PlayerInteraction>();
 
         isProgrammed = true;
     }
@@ -76,11 +73,10 @@ public class AntennaController : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            gamePlayManager.SetScore(newTeam, 1);
-            gamePlayManager.SetScore(actualTeam, -1);
+            gs.AddScore(newTeam, 1);
+            gs.AddScore(currentTeam, -1);
         }
 
-        actualTeam = newTeam;
-        isFinished = true;
+        currentTeam = newTeam;
     }
 }

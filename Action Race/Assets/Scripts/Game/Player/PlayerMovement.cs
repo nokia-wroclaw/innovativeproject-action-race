@@ -1,30 +1,26 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 8f;
-    [SerializeField] float kickCooldown = 1f;
 
     [Header("References")]
     [SerializeField] GameObject playerCamera;
     [SerializeField] BoxCollider2D feet;
-    [SerializeField] CircleCollider2D foot;
+    [SerializeField] GameObject nickNameTag;
 
+    Animator animator;
     PhotonView pv;
     Rigidbody2D rb;
-    Animator animator;
-
-    float kickDelay = 0f;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
 
         if (pv.IsMine)
         {
@@ -39,12 +35,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!pv.IsMine) return;
+        nickNameTag.transform.localScale = transform.localScale;
 
+        if (!pv.IsMine) return;
         Run();
         Jump();
-        Kick();
-
         FlipSprite();
     }
 
@@ -68,44 +63,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Kick()
-    {
-        if (kickDelay > 0f)
-        {
-            kickDelay -= Time.deltaTime;
-        }
-        else 
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                kickDelay = kickCooldown;
-                animator.SetTrigger("Kick");
-
-                int layerMask = LayerMask.GetMask("Player");
-                List<Collider2D> colliders = new List<Collider2D>();
-                foot.OverlapCollider(new ContactFilter2D() { layerMask = layerMask }, colliders);
-                foreach (Collider2D collider in colliders)
-                {
-                    PhotonView pvOther = collider.GetComponentInParent<PhotonView>();
-                    if(pvOther) pv.RPC("TakeKick", RpcTarget.All, pvOther.ViewID);
-                    Debug.Log("kick");
-                }
-            }
-        }
-    }
-
     void FlipSprite()
     {
         bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0;
         if (playerHasHorizontalSpeed)
         {
-            transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x), 1f, 1f);
+            Vector3 flipScale = new Vector3(Mathf.Sign(rb.velocity.x), 1f, 1f);
+            transform.localScale = flipScale;
         }
     }
 
-    [PunRPC]
-    void TakeKick(int viewId)
+    public void StopMovement()
     {
-        PhotonNetwork.GetPhotonView(viewId).GetComponent<Rigidbody2D>().velocity += new Vector2(0, 30);
+        rb.velocity = Vector2.zero;
     }
 }
