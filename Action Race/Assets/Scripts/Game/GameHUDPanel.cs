@@ -51,4 +51,11 @@ public class GameHUDPanel : MonoBehaviour
                 break;
         }
     }
+
+    public void HideEndGamePanel()
+    {
+        losePanel.SetActive(false);
+        drawPanel.SetActive(false);
+        winPanel.SetActive(false);
+    }
 }

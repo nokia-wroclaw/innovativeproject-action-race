@@ -2,7 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameLobby : MonoBehaviour
+public class GameLobby : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameLobbyPanel glp;
 
@@ -16,9 +16,14 @@ public class GameLobby : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            glp.ToggleLobbyPanel();
+            glp.Toggle();
         }
     }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        glp.AddPlayerToTeamPanel(Team.None, newPlayer.NickName);
+    }   
 
     public void LeaveRoom()
     {
@@ -38,14 +43,5 @@ public class GameLobby : MonoBehaviour
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.ScoreLimit, score);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-    }
-
-    public void Test()
-    {
-        Player[] players = PhotonNetwork.PlayerList;
-        foreach(Player p in players)
-        {
-            glp.AddPlayerToTeamPanel(Team.None, p.NickName);
-        }
     }
 }

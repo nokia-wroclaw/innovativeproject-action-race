@@ -43,6 +43,8 @@ public class AntennaController : MonoBehaviour
         animator.SetInteger("CurrentTeam", (int)currentTeam);
         animator.SetInteger("NewTeam", (int)newTeam);
         animator.SetBool("Program", isProgrammed);
+
+        //animator.getCurr
     }
 
     public bool CanProgram(Team team)

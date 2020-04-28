@@ -50994,6 +50994,8 @@ MonoBehaviour:
   noTeamPanel: {fileID: 138749148}
   gameLobbyPlayer: {fileID: 9092717083965989364, guid: c96bcb2938c6b5847a739a5bcf8ab7f2,
     type: 3}
+  timeLimitDropdown: {fileID: 1735694580}
+  scoreLimitDropdown: {fileID: 601515675}
   startGameButton: {fileID: 1702168456}
   stopGameButton: {fileID: 592369737}
   pauseGameButton: {fileID: 1250407444}

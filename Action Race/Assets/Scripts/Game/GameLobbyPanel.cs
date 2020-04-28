@@ -11,6 +11,9 @@ public class GameLobbyPanel : MonoBehaviour
     [SerializeField] RectTransform noTeamPanel;
     [SerializeField] GameObject gameLobbyPlayer;
 
+    [SerializeField] Dropdown timeLimitDropdown;
+    [SerializeField] Dropdown scoreLimitDropdown;
+
     [SerializeField] GameObject startGameButton;
     [SerializeField] GameObject stopGameButton;
     [SerializeField] GameObject pauseGameButton;
@@ -20,9 +23,16 @@ public class GameLobbyPanel : MonoBehaviour
     void Start()
     {
         gl = FindObjectOfType<GameLobby>();
+
+        UpdateTimeLimitDropdown(timeLimitDropdown);
     }
 
-    public void ToggleLobbyPanel()
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+
+    public void Toggle()
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }

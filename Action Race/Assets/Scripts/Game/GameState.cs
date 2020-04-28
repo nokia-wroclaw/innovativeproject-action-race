@@ -1,50 +1,39 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class GameState : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform[] antennasTransforms;
     [SerializeField] GameLobbyPanel glp;
 
-    GameScore gs;
-    GameTime gt;
-
     void Start()
     {
-        gs = FindObjectOfType<GameScore>();
-        gt = FindObjectOfType<GameTime>();
-
-        if(PhotonNetwork.IsMasterClient)
-        {
-            EndGame();
-        }
+        if (!PhotonNetwork.IsMasterClient) return;
+        EndGame();
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         object value;
-
         if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
         {
             State state = (State)value;
             switch(state)
             {
                 case State.End:
-                    PhotonNetwork.DestroyAll();
-                    glp.ToggleLobbyPanel();
+                    if (PhotonNetwork.IsMasterClient)
+                        PhotonNetwork.DestroyAll();
+
+                    glp.SetActive(true);
                     break;
 
                 case State.Play:
-                    SpawnAntennas();
-                    SpawnPlayer();
-
                     if (PhotonNetwork.IsMasterClient)
-                    {
-                        gs.ResetScore();
-                        gt.ResetTime();
-                    }
+                        SpawnAntennas();
 
-                    glp.ToggleLobbyPanel();
+                    SpawnPlayer();
+                    glp.SetActive(false);
                     break;
 
                 case State.Pause:
@@ -52,6 +41,19 @@ public class GameState : MonoBehaviourPunCallbacks
             }
 
             glp.UpdateGameStateButtons(state);
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (!newPlayer.IsLocal) return;
+
+        Debug.Log("HM");
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        if((State)hash[RoomProperty.GameState] == State.Play)
+        {
+            Debug.Log("HM1");
+            SpawnPlayer();
         }
     }
 
