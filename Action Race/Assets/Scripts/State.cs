@@ -1,4 +1,4 @@
 ﻿public enum State
 {
-    End, Pause, Play
+    NotStarted, Play, Pause
 }

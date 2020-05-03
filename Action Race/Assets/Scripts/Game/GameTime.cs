@@ -5,10 +5,30 @@ using System.Collections;
 public class GameTime : MonoBehaviourPunCallbacks
 {
     GameHUDPanel ghp;
+    bool countdown;
 
     void Start()
     {
         ghp = FindObjectOfType<GameHUDPanel>();
+    }
+
+    void Update()
+    {
+        if (!countdown) return;
+
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        double time = PhotonNetwork.Time - (double)hash[RoomProperty.StartTime];
+        time = (int)hash[RoomProperty.TimeLimit] - time;
+
+        if (time > 0)
+        {
+            UpdateTime(time);
+        }
+        else
+        {
+            countdown = false;
+            //StartCoroutine(EndGame());
+        }
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -18,12 +38,36 @@ public class GameTime : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
             UpdateTime((int)value);
 
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+        {
+            State state = (State)value;
+            switch (state)
+            {
+                case State.Play:
+                    if (PhotonNetwork.IsMasterClient)
+                        ResetTime();
+
+                    countdown = true;
+                    break;
+
+                default:
+                    countdown = false;
+                    break;
+            }
+        }
     }
 
-    void UpdateTime(int time)
+    void UpdateTime(double time)
     {
         Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
         ghp.UpdateTimeText(vTime);
+    }
+
+    public void ResetTime()
+    {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.StartTime, PhotonNetwork.Time);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
     /*GameHUDPanel ghp;

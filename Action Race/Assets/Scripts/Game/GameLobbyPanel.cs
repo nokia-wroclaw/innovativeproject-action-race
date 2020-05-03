@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class GameLobbyPanel : MonoBehaviour
+public class GameLobbyPanel : MonoBehaviourPunCallbacks
 {
     [Header("Properties")]
     [SerializeField] int startTimeLimitID = 3;
@@ -19,10 +21,14 @@ public class GameLobbyPanel : MonoBehaviour
 
     [SerializeField] Dropdown timeLimitDropdown;
     [SerializeField] Dropdown scoreLimitDropdown;
+    [SerializeField] Text timeLimitText;
+    [SerializeField] Text scoreLimitText;
 
-    //[SerializeField] GameObject startGameButton;
-    //[SerializeField] GameObject stopGameButton;
-    //[SerializeField] GameObject pauseGameButton;
+    [SerializeField] GameObject gameLobbyPanel;
+
+    [SerializeField] GameObject startGameButton;
+    [SerializeField] GameObject stopGameButton;
+    [SerializeField] GameObject pauseGameButton;
 
     GameLobby gl;
 
@@ -35,6 +41,10 @@ public class GameLobbyPanel : MonoBehaviour
 
         scoreLimitDropdown.value = startScoreLimitID;
         UpdateScoreLimitDropdown();
+
+        UpdateCurrentPlayersCountText();
+        maxPlayersCountText.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
     }
 
     void Update()
@@ -43,6 +53,24 @@ public class GameLobbyPanel : MonoBehaviour
         {
             Toggle();
         }
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        object value;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+            ChangePanelState((State)value);
+
+        if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
+            timeLimitText.text = timeLimitDropdown.options[timeLimitDropdown.value].text;
+
+        if (propertiesThatChanged.TryGetValue(RoomProperty.ScoreLimit, out value))
+            scoreLimitText.text = scoreLimitDropdown.options[scoreLimitDropdown.value].text;
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
     }
 
     public void UpdateTimeLimitDropdown()
@@ -57,9 +85,47 @@ public class GameLobbyPanel : MonoBehaviour
         gl.ChangeScoreLimit(score);
     }
 
+    void UpdateCurrentPlayersCountText()
+    {
+
+    }
+
     void Toggle()
     {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
+        gameLobbyPanel.SetActive(!gameLobbyPanel.activeInHierarchy);
+    }
+
+    public void SetActive(bool active)
+    {
+        gameLobbyPanel.SetActive(active);
+    }
+
+    void ChangePanelState(State state)
+    {
+        switch(state)
+        {
+            case State.NotStarted:
+                startGameButton.SetActive(true);
+                stopGameButton.SetActive(false);
+                pauseGameButton.SetActive(false);
+
+                timeLimitText.gameObject.SetActive(false);
+                scoreLimitText.gameObject.SetActive(false);
+                timeLimitDropdown.gameObject.SetActive(true);
+                scoreLimitDropdown.gameObject.SetActive(true);
+                break;
+
+            case State.Play:
+                startGameButton.SetActive(false);
+                stopGameButton.SetActive(true);
+                pauseGameButton.SetActive(true);
+
+                timeLimitDropdown.gameObject.SetActive(false);
+                scoreLimitDropdown.gameObject.SetActive(false);
+                timeLimitText.gameObject.SetActive(true);
+                scoreLimitText.gameObject.SetActive(true);
+                break;
+        }
     }
 
     /*public void SetActive(bool active)

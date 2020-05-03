@@ -4,6 +4,80 @@ using Photon.Realtime;
 
 public class GameState : MonoBehaviourPunCallbacks
 {
+    [SerializeField] Transform[] antennasWaypoints;
+    [SerializeField] GameObject viewCamera;
+
+    GameLobbyPanel glp;
+
+    void Start()
+    {
+        glp = FindObjectOfType<GameLobbyPanel>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ResetState();
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        object value;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+        {
+            State state = (State)value;
+            switch (state)
+            {
+                case State.NotStarted:
+                    StopGame();
+                    break;
+
+                case State.Play:
+                    SetGame();
+                    break;
+            }
+        }
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+
+    }
+
+    public void ChangeGameState(int state)
+    {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.GameState, (State)state);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    void StopGame()
+    {
+        viewCamera.SetActive(true);
+
+        PhotonNetwork.DestroyAll();
+    }
+
+    void SetGame()
+    {
+        viewCamera.SetActive(false);
+
+        PhotonNetwork.Instantiate("Player", Vector3.up * -3f, Quaternion.identity);
+        foreach (Transform waypoint in antennasWaypoints)
+        {
+            PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);
+        }
+
+        glp.SetActive(false);
+    }
+
+    void ResetState()
+    {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.GameState, State.NotStarted);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
     /*[SerializeField] Transform[] antennasTransforms;
     [SerializeField] GameLobbyPanel glp;
 

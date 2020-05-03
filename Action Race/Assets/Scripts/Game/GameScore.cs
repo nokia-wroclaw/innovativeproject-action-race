@@ -25,6 +25,18 @@ public class GameScore : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out value))
             ghp.UpdateScoreText(Team.Red, (int)value);
 
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+        {
+            State state = (State)value;
+            switch (state)
+            {
+                case State.Play:
+                    if (PhotonNetwork.IsMasterClient)
+                        ResetScore();
+
+                    break;
+            }
+        }
 
         /*if (!PhotonNetwork.IsMasterClient) return;
         if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
