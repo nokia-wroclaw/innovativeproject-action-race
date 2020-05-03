@@ -8,6 +8,11 @@ public class CreateRoomPanel : MonoBehaviour
     [SerializeField] Dropdown roomMaxPlayersDropdown;
     [SerializeField] Toggle isVisibleToggle;
 
+    void Start()
+    {
+        RoomName = "Room" + Random.Range(0, 1000);
+    }
+
     public string RoomName
     {
         get { return roomNameIF.text; }

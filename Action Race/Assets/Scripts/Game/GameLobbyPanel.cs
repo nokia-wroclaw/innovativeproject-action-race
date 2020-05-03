@@ -45,6 +45,13 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         UpdateCurrentPlayersCountText();
         maxPlayersCountText.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+
+        if (PhotonNetwork.IsMasterClient)
+            ConfigureMasterLobbyPanel(State.NotStarted);
+        else
+            ConfigurePlayerLobbyPanel();
+
+        UpdateTeamPanel();
     }
 
     void Update()
@@ -59,7 +66,8 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     {
         object value;
         if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
-            ChangePanelState((State)value);
+            if(PhotonNetwork.IsMasterClient)
+                ConfigureMasterLobbyPanel((State)value);
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
             timeLimitText.text = timeLimitDropdown.options[timeLimitDropdown.value].text;
@@ -68,9 +76,22 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
             scoreLimitText.text = scoreLimitDropdown.options[scoreLimitDropdown.value].text;
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+            ConfigureMasterLobbyPanel((State)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameState]);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+        UpdateCurrentPlayersCountText();
+        UpdateTeamPanel();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        UpdateCurrentPlayersCountText();
+        UpdateTeamPanel();
     }
 
     public void UpdateTimeLimitDropdown()
@@ -87,7 +108,19 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     void UpdateCurrentPlayersCountText()
     {
+        currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+    }
 
+    void UpdateTeamPanel()
+    {
+        foreach (Transform child in noTeamPanel)
+            Destroy(child.gameObject);
+
+        foreach (var p in PhotonNetwork.CurrentRoom.Players)
+        {
+            GameObject go = Instantiate(lobbyNickNameTemplate, noTeamPanel);
+            go.GetComponentInChildren<Text>().text = p.Value.NickName;
+        }
     }
 
     void Toggle()
@@ -100,7 +133,19 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         gameLobbyPanel.SetActive(active);
     }
 
-    void ChangePanelState(State state)
+    void ConfigurePlayerLobbyPanel()
+    {
+        startGameButton.SetActive(false);
+        stopGameButton.SetActive(false);
+        pauseGameButton.SetActive(false);
+
+        timeLimitDropdown.gameObject.SetActive(false);
+        scoreLimitDropdown.gameObject.SetActive(false);
+        timeLimitText.gameObject.SetActive(true);
+        scoreLimitText.gameObject.SetActive(true);
+    }
+
+    void ConfigureMasterLobbyPanel(State state)
     {
         switch(state)
         {

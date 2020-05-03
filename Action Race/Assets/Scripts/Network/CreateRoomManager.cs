@@ -4,16 +4,16 @@ using Photon.Realtime;
 
 public class CreateRoomManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] CreateRoomInfo createRoomInfo;
+    [SerializeField] CreateRoomPanel createRoomPanel;
     [SerializeField] int roomSceneIndex;
     [SerializeField] NicknameManager nicknameManager;
 
     public void CreateGame()
     {
-        string roomName = createRoomInfo.RoomName;
-        string roomPassword = createRoomInfo.RoomPassword;
-        int roomMaxPlayers = createRoomInfo.RoomMaxPlayers;
-        bool roomIsVisible = createRoomInfo.IsVisible;
+        string roomName = createRoomPanel.RoomName;
+        string roomPassword = createRoomPanel.RoomPassword;
+        int roomMaxPlayers = createRoomPanel.RoomMaxPlayers;
+        bool roomIsVisible = createRoomPanel.IsVisible;
 
         PhotonNetwork.FetchServerTimestamp();
 
