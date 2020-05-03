@@ -14,12 +14,12 @@ public class PlayerInteraction : MonoBehaviour
 
     // ANTENNA PROGRAMMING
     bool isTouchingAntenna, isProgrammingAntenna;
-    AntennaController ac;
+    Antenna a;
 
     // KICK
     float kickDelay = 0f;
 
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
@@ -41,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (collision.tag == "Antenna")
         {
-            ac = collision.GetComponent<AntennaController>();
+            a = collision.GetComponent<Antenna>();
             isTouchingAntenna = true;
         }
     }
@@ -50,7 +50,10 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (!pv.IsMine) return;
 
-        if (collision.tag == "Antenna") isTouchingAntenna = false;
+        if (collision.tag == "Antenna")
+        {
+            isTouchingAntenna = false;
+        }
     }
 
     void ProgramAntenna()
@@ -58,10 +61,10 @@ public class PlayerInteraction : MonoBehaviour
         //  START PROGRAM
         if (!isProgrammingAntenna && isTouchingAntenna && Input.GetKeyDown(KeyCode.E))
         {
-            if (ac.CanProgram(pt.GetTeam()))
+            if (a.CanProgram(pt.GetTeam()))
             {
                 StartProgram();
-                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllBuffered, pt.GetTeam(), pv.ViewID);
+                a.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, pt.GetTeam(), 0f, pv.ViewID);
             }
         }
 
@@ -69,7 +72,7 @@ public class PlayerInteraction : MonoBehaviour
         if (isProgrammingAntenna && Input.GetKeyUp(KeyCode.E))
         {
             StopProgram();
-            ac.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllBuffered);
+            a.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllViaServer);
         }
     }
 

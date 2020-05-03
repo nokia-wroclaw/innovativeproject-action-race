@@ -3,20 +3,26 @@ using UnityEngine.UI;
 
 public class GameLobbyPanel : MonoBehaviour
 {
+    [Header("Properties")]
+    [SerializeField] int startTimeLimitID = 3;
+    [SerializeField] int startScoreLimitID = 3;
+
+    [Header("References")]
     [SerializeField] Text currentPlayersCountText;
     [SerializeField] Text maxPlayersCountText;
+    [SerializeField] Text roomNameText;
 
-    [SerializeField] RectTransform redTeamPanel;
     [SerializeField] RectTransform blueTeamPanel;
     [SerializeField] RectTransform noTeamPanel;
-    [SerializeField] GameObject gameLobbyPlayer;
+    [SerializeField] RectTransform redTeamPanel;
+    [SerializeField] GameObject lobbyNickNameTemplate;
 
     [SerializeField] Dropdown timeLimitDropdown;
     [SerializeField] Dropdown scoreLimitDropdown;
 
-    [SerializeField] GameObject startGameButton;
-    [SerializeField] GameObject stopGameButton;
-    [SerializeField] GameObject pauseGameButton;
+    //[SerializeField] GameObject startGameButton;
+    //[SerializeField] GameObject stopGameButton;
+    //[SerializeField] GameObject pauseGameButton;
 
     GameLobby gl;
 
@@ -24,10 +30,39 @@ public class GameLobbyPanel : MonoBehaviour
     {
         gl = FindObjectOfType<GameLobby>();
 
-        UpdateTimeLimitDropdown(timeLimitDropdown);
+        timeLimitDropdown.value = startTimeLimitID;
+        UpdateTimeLimitDropdown();
+
+        scoreLimitDropdown.value = startScoreLimitID;
+        UpdateScoreLimitDropdown();
     }
 
-    public void SetActive(bool active)
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Toggle();
+        }
+    }
+
+    public void UpdateTimeLimitDropdown()
+    {
+        int time = (timeLimitDropdown.value + 1) * 60;
+        gl.ChangeTimeLimit(time);
+    }
+
+    public void UpdateScoreLimitDropdown()
+    {
+        int score = scoreLimitDropdown.value + 1;
+        gl.ChangeScoreLimit(score);
+    }
+
+    void Toggle()
+    {
+        gameObject.SetActive(!gameObject.activeInHierarchy);
+    }
+
+    /*public void SetActive(bool active)
     {
         gameObject.SetActive(active);
     }
@@ -122,5 +157,5 @@ public class GameLobbyPanel : MonoBehaviour
                 pauseGameButton.SetActive(true);
                 break;
         }
-    }
+    }*/
 }

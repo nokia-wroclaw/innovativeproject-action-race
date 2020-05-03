@@ -4,7 +4,7 @@ using Photon.Realtime;
 
 public class GameState : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Transform[] antennasTransforms;
+    /*[SerializeField] Transform[] antennasTransforms;
     [SerializeField] GameLobbyPanel glp;
 
     void Start()
@@ -89,5 +89,5 @@ public class GameState : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.GameState, State.End);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-    }
+    }*/
 }

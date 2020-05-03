@@ -5,6 +5,28 @@ using System.Collections;
 public class GameTime : MonoBehaviourPunCallbacks
 {
     GameHUDPanel ghp;
+
+    void Start()
+    {
+        ghp = FindObjectOfType<GameHUDPanel>();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        object value;
+
+        if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
+            UpdateTime((int)value);
+
+    }
+
+    void UpdateTime(int time)
+    {
+        Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
+        ghp.UpdateTimeText(vTime);
+    }
+
+    /*GameHUDPanel ghp;
     GameState gs;
 
     bool countdown;
@@ -104,5 +126,5 @@ public class GameTime : MonoBehaviourPunCallbacks
 
         ghp.HideEndGamePanel();
         gs.EndGame();
-    }
+    }*/
 }

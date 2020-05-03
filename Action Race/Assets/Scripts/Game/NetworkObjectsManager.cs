@@ -22,5 +22,8 @@ public class NetworkObjectsManager : MonoBehaviour
         Debug.Log("Create antenna");
         Vector3 position = new Vector3(-2.5f, -3.6f, 0);
         PhotonNetwork.InstantiateSceneObject("BasicAntenna", position, Quaternion.identity);
+
+        Vector3 position1 = new Vector3(2.5f, -3.6f, 0);
+        PhotonNetwork.InstantiateSceneObject("BasicAntenna", position1, Quaternion.identity);
     }
 }
