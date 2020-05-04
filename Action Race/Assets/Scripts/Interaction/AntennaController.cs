@@ -7,7 +7,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
     [SerializeField] float programmingTimeDuration = 5f;
 
     Animator animator;
-    GameScore gs;
+    GameScoreController gs;
     PhotonView pv;
 
     bool isProgrammed;
@@ -18,7 +18,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
     void Start()
     {
         animator = GetComponent<Animator>();
-        gs = FindObjectOfType<GameScore>();
+        gs = FindObjectOfType<GameScoreController>();
         pv = GetComponent<PhotonView>();
 
         animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);

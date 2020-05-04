@@ -31,30 +31,23 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     [SerializeField] GameObject stopGameButton;
     [SerializeField] GameObject pauseGameButton;
 
-    GameLobby gl;
+    GameLobbyController glc;
     Dictionary<Player, GameObject> playersTemplates = new Dictionary<Player, GameObject>();
 
     void Start()
     {
-        gl = FindObjectOfType<GameLobby>();
+        glc = FindObjectOfType<GameLobbyController>();
 
-        timeLimitDropdown.value = startTimeLimitID;
-        UpdateTimeLimitDropdown();
+        SynchronizeCustomProperties();
 
-        scoreLimitDropdown.value = startScoreLimitID;
-        UpdateScoreLimitDropdown();
-
+        // PLAYERS COUNT SYNCHRO
         UpdateCurrentPlayersCountText();
         maxPlayersCountText.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
-        ConfigureTeamPanel();
+        SynchronizeTeams();
 
-        if (PhotonNetwork.IsMasterClient)
-            ConfigureMasterLobbyPanel(State.NotStarted);
-        else
-            ConfigurePlayerLobbyPanel();
-
+        ConfigurePanel();
         SetActive(true);
     }
 
@@ -69,174 +62,111 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         object value;
-        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
-            if(PhotonNetwork.IsMasterClient)
-                ConfigureMasterLobbyPanel((State)value);
-
+        
         if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
-            timeLimitText.text = timeLimitDropdown.options[(int)((int)value / 60) - 1].text;
+        {
+            timeLimitDropdown.value = ((int)value / 60) - 1;
+            timeLimitText.text = timeLimitDropdown.options[timeLimitDropdown.value].text;
+        }
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.ScoreLimit, out value))
-            scoreLimitText.text = scoreLimitDropdown.options[(int)value - 1].text;
+        {
+            scoreLimitDropdown.value = (int)value - 1;
+            scoreLimitText.text = scoreLimitDropdown.options[scoreLimitDropdown.value].text;
+        }
+
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+            if (PhotonNetwork.IsMasterClient)
+                ConfigureMasterPanel((State)value);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         object value;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
-            UpdateTeamPanel(targetPlayer, (Team)value);
+            SynchronizePlayerTemplate(targetPlayer, (Team)value);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if (PhotonNetwork.IsMasterClient)
-            ConfigureMasterLobbyPanel((State)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameState]);
+        {
+            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+            object value;
+
+            if (hash.TryGetValue(RoomProperty.GameState, out value))
+                ConfigureMasterPanel((State)value);
+            else
+                ConfigureMasterPanel(State.NotStarted);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(PlayerProperty.Team, Team.None);
-        newPlayer.SetCustomProperties(hash);
-
         UpdateCurrentPlayersCountText();
+        SynchronizePlayerTemplate(newPlayer);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdateCurrentPlayersCountText();
-
-        GameObject go;
-        if (playersTemplates.TryGetValue(otherPlayer, out go))
-        {
-            Destroy(go);
-            playersTemplates.Remove(otherPlayer);
-        }
+        RemovePlayerTemplate(otherPlayer);
     }
 
-    public void UpdateTimeLimitDropdown()
+    void SynchronizeCustomProperties()
     {
-        int time = (timeLimitDropdown.value + 1) * 60;
-        gl.ChangeTimeLimit(time);
-    }
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        object value;
 
-    public void UpdateScoreLimitDropdown()
-    {
-        int score = scoreLimitDropdown.value + 1;
-        gl.ChangeScoreLimit(score);
-    }
-
-    void UpdateCurrentPlayersCountText()
-    {
-        currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
-    }
-
-    void UpdateTeamPanel(Player player, Team team = Team.None)
-    {
-        GameObject go;
-        if (!playersTemplates.TryGetValue(player, out go))
-        {
-            switch (team)
-            {
-                case Team.Blue:
-                    go = Instantiate(playerTemplate, blueTeamPanel);
-                    break;
-
-                case Team.Red:
-                    go = Instantiate(playerTemplate, redTeamPanel);
-                    break;
-
-                default:
-                    go = Instantiate(playerTemplate, noTeamPanel);
-                    break;
-            }
-
-            go.GetComponent<NickNameTemplatePanel>().SetUpTemplate(player);
-            playersTemplates.Add(player, go);
-        }
+        // TIME LIMIT SYNCHRO
+        if (hash.TryGetValue(RoomProperty.TimeLimit, out value))
+            timeLimitDropdown.value = ((int)value / 60) - 1;
         else
-        {
-            switch (team)
-            {
-                case Team.Blue:
-                    go.transform.SetParent(blueTeamPanel);
-                    break;
+            timeLimitDropdown.value = startTimeLimitID;
+        timeLimitText.text = timeLimitDropdown.options[timeLimitDropdown.value].text;
 
-                case Team.Red:
-                    go.transform.SetParent(redTeamPanel);
-                    break;
-
-                default:
-                    go.transform.SetParent(noTeamPanel);
-                    break;
-            }
-        }
-
-        Debug.Log("Update team panel");
+        // SCORE LIMIT SYNCHRO
+        if (hash.TryGetValue(RoomProperty.ScoreLimit, out value))
+            scoreLimitDropdown.value = (int)value - 1;
+        else
+            scoreLimitDropdown.value = startScoreLimitID;
+        scoreLimitText.text = scoreLimitDropdown.options[scoreLimitDropdown.value].text;
     }
 
-    void ConfigureTeamPanel()
+    void SynchronizeTeams()
     {
+        foreach (Transform child in blueTeamPanel)
+            Destroy(child.gameObject);
+
+        foreach (Transform child in redTeamPanel)
+            Destroy(child.gameObject);
+
         foreach (Transform child in noTeamPanel)
             Destroy(child.gameObject);
 
         foreach (var p in PhotonNetwork.CurrentRoom.Players)
+            SynchronizePlayerTemplate(p.Value);
+    }
+
+    void ConfigurePanel()
+    {
+        if(PhotonNetwork.IsMasterClient)
         {
-            if (p.Value.CustomProperties.Count <= 0)
-            {
-                GameObject go1 = Instantiate(playerTemplate, noTeamPanel);
-                go1.GetComponent<NickNameTemplatePanel>().SetUpTemplate(p.Value);
-                playersTemplates.Add(p.Value, go1);
-                continue;
-            }
+            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+            object value;
 
-            Team team = (Team)p.Value.CustomProperties[PlayerProperty.Team];
-
-            GameObject go;
-            switch (team)
-            {
-                case Team.Blue:
-                    go = Instantiate(playerTemplate, blueTeamPanel);
-                    break;
-
-                case Team.Red:
-                    go = Instantiate(playerTemplate, redTeamPanel);
-                    break;
-
-                default:
-                    go = Instantiate(playerTemplate, noTeamPanel);
-                    break;
-            }
-            go.GetComponent<NickNameTemplatePanel>().SetUpTemplate(p.Value);
-            playersTemplates.Add(p.Value, go);
+            if (hash.TryGetValue(RoomProperty.GameState, out value))
+                ConfigureMasterPanel((State)value);
+            else
+                ConfigureMasterPanel(State.NotStarted);
         }
+        else
+            ConfigurePlayerPanel();
     }
 
-    void Toggle()
+    void ConfigureMasterPanel(State state)
     {
-        gameLobbyPanel.SetActive(!gameLobbyPanel.activeInHierarchy);
-    }
-
-    public void SetActive(bool active)
-    {
-        gameLobbyPanel.SetActive(active);
-    }
-
-    void ConfigurePlayerLobbyPanel()
-    {
-        startGameButton.SetActive(false);
-        stopGameButton.SetActive(false);
-        pauseGameButton.SetActive(false);
-
-        timeLimitDropdown.gameObject.SetActive(false);
-        scoreLimitDropdown.gameObject.SetActive(false);
-        timeLimitText.gameObject.SetActive(true);
-        scoreLimitText.gameObject.SetActive(true);
-    }
-
-    void ConfigureMasterLobbyPanel(State state)
-    {
-        switch(state)
+        switch (state)
         {
             case State.NotStarted:
                 startGameButton.SetActive(true);
@@ -262,100 +192,117 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         }
     }
 
-    /*public void SetActive(bool active)
+    void ConfigurePlayerPanel()
     {
-        gameObject.SetActive(active);
+        startGameButton.SetActive(false);
+        stopGameButton.SetActive(false);
+        pauseGameButton.SetActive(false);
+
+        timeLimitDropdown.gameObject.SetActive(false);
+        scoreLimitDropdown.gameObject.SetActive(false);
+        timeLimitText.gameObject.SetActive(true);
+        scoreLimitText.gameObject.SetActive(true);
     }
 
-    public void Toggle()
-    {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
-    }
-
-    public void UpdateCurrentPlayersCountText(int count)
-    {
-        currentPlayersCountText.text = count.ToString();
-    }
-
-    public void UpdateMaxPlayersCountText(int count)
-    {
-        maxPlayersCountText.text = count.ToString();
-    }
-
-    public void UpdateTimeLimitDropdown(Dropdown dd)
-    {
-        int time = (dd.value + 1) * 60;
-        gl.ChangeTimeLimit(time);
-    }
-
-    public void UpdateScoreLimitDropdown(Dropdown dd)
-    {
-        int score = (dd.value + 1);
-        gl.ChangeScoreLimit(score);
-    }
-
-    public void AddPlayerToTeamPanel(Team team, string nickName)
+    void SynchronizePlayerTemplate(Player player, Team team = Team.None)
     {
         GameObject go;
-        switch(team)
+
+        if (playersTemplates.TryGetValue(player, out go))
         {
-            case Team.Blue:
-                go = Instantiate(gameLobbyPlayer, blueTeamPanel);
-                break;
+            switch (team)
+            {
+                case Team.Blue:
+                    go.transform.SetParent(blueTeamPanel);
+                    break;
 
-            case Team.Red:
-                go = Instantiate(gameLobbyPlayer, redTeamPanel);
-                break;
+                case Team.Red:
+                    go.transform.SetParent(redTeamPanel);
+                    break;
 
-            default:
-                go = Instantiate(gameLobbyPlayer, noTeamPanel);
-                break;
+                default:
+                    go.transform.SetParent(noTeamPanel);
+                    break;
+            }
         }
-        go.GetComponentInChildren<Text>().text = nickName;
+        else
+        {
+            ExitGames.Client.Photon.Hashtable hash = player.CustomProperties;
+            object value;
+
+            if (hash.TryGetValue(PlayerProperty.Team, out value))
+            {
+                switch ((Team)value)
+                {
+                    case Team.Blue:
+                        go = Instantiate(playerTemplate, blueTeamPanel);
+                        break;
+
+                    case Team.Red:
+                        go = Instantiate(playerTemplate, redTeamPanel);
+                        break;
+
+                    default:
+                        go = Instantiate(playerTemplate, noTeamPanel);
+                        break;
+                }
+            }
+            else
+                go = Instantiate(playerTemplate, noTeamPanel);
+
+            go.GetComponent<PlayerTemplate>().SetUpTemplate(player);
+
+            playersTemplates.Add(player, go);
+        }
     }
 
-    public void ClearTeamPanel(Team team)
+    void RemovePlayerTemplate(Player player)
     {
-        switch (team)
+        GameObject go;
+
+        if (playersTemplates.TryGetValue(player, out go))
         {
-            case Team.Blue:
-                foreach (Transform child in blueTeamPanel)
-                    Destroy(child);
-                break;
-
-            case Team.Red:
-                foreach (Transform child in redTeamPanel)
-                    Destroy(child);
-                break;
-
-            default:
-                foreach (Transform child in noTeamPanel)
-                    Destroy(child);
-                break;
+            Destroy(go);
+            playersTemplates.Remove(player);
         }
     }
 
-    public void UpdateGameStateButtons(State state)
+    public void UpdateTimeLimitDropdown()
     {
-        switch(state)
-        {
-            case State.End:
-                startGameButton.SetActive(true);
-                stopGameButton.SetActive(false);
-                pauseGameButton.SetActive(false);
-                break;
+        int time = (timeLimitDropdown.value + 1) * 60;
+        glc.ChangeTimeLimit(time);
+    }
 
-            case State.Pause:
-                startGameButton.SetActive(false);
-                stopGameButton.SetActive(true);
-                pauseGameButton.SetActive(true);
-                break;
+    public void UpdateScoreLimitDropdown()
+    {
+        int score = scoreLimitDropdown.value + 1;
+        glc.ChangeScoreLimit(score);
+    }
 
-            case State.Play:
-                startGameButton.SetActive(false);
-                stopGameButton.SetActive(true);
-                pauseGameButton.SetActive(true);
-                break;
-        }
-    }*/
+    void UpdateCurrentPlayersCountText()
+    {
+        currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+    }
+
+    void Toggle()
+    {
+        gameLobbyPanel.SetActive(!gameLobbyPanel.activeInHierarchy);
+    }
+
+    public void SetActive(bool active)
+    {
+        gameLobbyPanel.SetActive(active);
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void ChangeGameState(int state)
+    {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.GameState, (State)state);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
 }

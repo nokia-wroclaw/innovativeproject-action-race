@@ -1,27 +1,17 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class GameScore : MonoBehaviourPunCallbacks
+public class GameScoreController : MonoBehaviourPunCallbacks
 {
     GameHUDPanel ghp;
-    GameState gs;
+    GameStateController gsc;
 
     void Start()
     {
         ghp = FindObjectOfType<GameHUDPanel>();
-        gs = FindObjectOfType<GameState>();
+        gsc = FindObjectOfType<GameStateController>();
 
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        object value;
-        if(hash.TryGetValue(RoomProperty.BlueScore, out value))
-            ghp.UpdateScoreText(Team.Blue, (int)value);
-        if (hash.TryGetValue(RoomProperty.RedScore, out value))
-            ghp.UpdateScoreText(Team.Red, (int)value);
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            ResetScore();
-        }
+        Synchronize();
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -34,7 +24,7 @@ public class GameScore : MonoBehaviourPunCallbacks
             ghp.UpdateScoreText(Team.Blue, score);
 
             if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gs.EndGame());
+                StartCoroutine(gsc.EndGame());
         }
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out value))
@@ -43,36 +33,50 @@ public class GameScore : MonoBehaviourPunCallbacks
             ghp.UpdateScoreText(Team.Red, score);
 
             if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gs.EndGame());
+                StartCoroutine(gsc.EndGame());
         }
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
         {
-            State state = (State)value;
-            switch (state)
-            {
-                case State.Play:
-                    if (PhotonNetwork.IsMasterClient)
-                        ResetScore();
-
-                    break;
-            }
+            ResetScore();
         }
+    }
+
+    void Synchronize()
+    {
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        object value;
+
+        if (hash.TryGetValue(RoomProperty.BlueScore, out value))
+            ghp.UpdateScoreText(Team.Blue, (int)value);
+        else
+            ghp.UpdateScoreText(Team.Blue, 0);
+
+        if (hash.TryGetValue(RoomProperty.RedScore, out value))
+            ghp.UpdateScoreText(Team.Red, (int)value);
+        else
+            ghp.UpdateScoreText(Team.Red, 0);
     }
 
     public void AddScore(Team team, int score)
     {
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        object value;
+
         switch (team)
         {
             case Team.Blue:
-                int blueScore = (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.BlueScore] + score;
-                hash.Add(RoomProperty.BlueScore, blueScore);
+                if (hash.TryGetValue(RoomProperty.BlueScore, out value))
+                    score += (int)value;
+
+                hash.Add(RoomProperty.BlueScore, score);
                 break;
 
             case Team.Red:
-                int redScore = (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.RedScore] + score;
-                hash.Add(RoomProperty.RedScore, redScore);
+                if (hash.TryGetValue(RoomProperty.RedScore, out value))
+                    score += (int)value;
+
+                hash.Add(RoomProperty.RedScore, score);
                 break;
         }
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
@@ -80,6 +84,8 @@ public class GameScore : MonoBehaviourPunCallbacks
 
     void ResetScore()
     {
+        if (PhotonNetwork.IsMasterClient) return;
+
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.BlueScore, 0);
         hash.Add(RoomProperty.RedScore, 0);

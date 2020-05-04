@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 using System.Collections.Generic;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -8,14 +8,34 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     RectTransform currentParent;
     TeamPanelController tpc;
 
+    bool IsPlaying()
+    {
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        object value;
+
+        if (hash.TryGetValue(RoomProperty.GameState, out value))
+        {
+            if ((State)value == State.NotStarted) 
+                return false;
+            else 
+                return true;
+        }
+        else
+            return false;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!PhotonNetwork.IsMasterClient || IsPlaying()) return;
+
         currentParent = transform.parent as RectTransform;
         transform.SetParent(FindObjectOfType<Canvas>().transform);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!PhotonNetwork.IsMasterClient || IsPlaying()) return;
+
         RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
         RectTransform rt = GetComponent<RectTransform>();
         Vector3 globalMousePos;
@@ -26,6 +46,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!PhotonNetwork.IsMasterClient || IsPlaying()) return;
+
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);
 
@@ -34,7 +56,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             if(tp = r.gameObject.GetComponent<TeamPanel>())
             {
-                tp.ChangeTeam(gameObject);
+                tp.AddToPanel(gameObject);
                 return;
             }
         }

@@ -36,7 +36,7 @@ public class TeamPanelController : MonoBehaviourPunCallbacks
         else
         {
             go = Instantiate(playerTemplate, noTeamPanel.transform);
-            go.GetComponent<NickNameTemplatePanel>().SetUpTemplate(player);
+            go.GetComponent<PlayerTemplate>().SetUpTemplate(player);
         }
     }
 }

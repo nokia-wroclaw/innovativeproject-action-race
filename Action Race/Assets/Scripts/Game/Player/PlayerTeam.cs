@@ -5,40 +5,38 @@ using Photon.Realtime;
 public class PlayerTeam : MonoBehaviourPunCallbacks
 {
     PhotonView pv;
-    SpriteRenderer sr;
-
-    Team team;
 
     void Start()
     {
         pv = GetComponent<PhotonView>();
-        sr = GetComponent<SpriteRenderer>();
-
-        /*if (pv.IsMine)
-        {
-            Team team = (Team)Random.Range(1, 3);
-            ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-            hash.Add(PlayerProperty.Team, team);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-        }*/
-        if(pv.Owner.CustomProperties.Count > 0)
-            SetTeam((Team)pv.Owner.CustomProperties[PlayerProperty.Team]);
+        Synchronize();
     }
 
-    public void SetTeam(Team team)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        this.team = team;
-        RefreshColor();
+        //if (!targetPlayer.IsLocal) return;
+
+        //object value;
+        //if (changedProps.TryGetValue(PlayerProperty.Team, out value))
+        //    pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
     }
 
-    public Team GetTeam()
+    void Synchronize()
     {
-        return team;
+        if (!pv.IsMine) return;
+
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+        object value;
+
+        if (hash.TryGetValue(PlayerProperty.Team, out value))
+            pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
     }
 
-    void RefreshColor()
+    [PunRPC]
+    void RefreshColor(Team team, int viewID)
     {
-        switch(team)
+        SpriteRenderer sr = PhotonNetwork.GetPhotonView(viewID).GetComponent<SpriteRenderer>();
+        switch (team)
         {
             case Team.Blue:
                 sr.color = new Color(0, 0, 1, 1);
@@ -46,10 +44,6 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
 
             case Team.Red:
                 sr.color = new Color(1, 0, 0, 1);
-                break;
-
-            default:
-                sr.color = new Color(0, 1, 0, 1);
                 break;
         }
     }

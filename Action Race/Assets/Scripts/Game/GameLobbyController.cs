@@ -2,7 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameLobby : MonoBehaviourPunCallbacks
+public class GameLobbyController : MonoBehaviourPunCallbacks
 {
     public void ChangeTimeLimit(int time)
     {

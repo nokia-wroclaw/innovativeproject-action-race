@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Photon.Realtime;
 
-public class NickNameTemplatePanel : MonoBehaviour
+public class PlayerTemplate : MonoBehaviour
 {
     [SerializeField] Text nickNameText;
 

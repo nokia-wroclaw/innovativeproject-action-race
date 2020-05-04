@@ -10,7 +10,6 @@ public class PlayerInteraction : MonoBehaviour
     Animator animator;
     PhotonView pv;
     PlayerMovement pm;
-    PlayerTeam pt;
 
     // ANTENNA PROGRAMMING
     bool isTouchingAntenna, isProgrammingAntenna;
@@ -24,7 +23,6 @@ public class PlayerInteraction : MonoBehaviour
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         pm = GetComponent<PlayerMovement>();
-        pt = GetComponent<PlayerTeam>();
     }
 
     void Update()
@@ -61,10 +59,19 @@ public class PlayerInteraction : MonoBehaviour
         //  START PROGRAM
         if (!isProgrammingAntenna && isTouchingAntenna && Input.GetKeyDown(KeyCode.E))
         {
-            if (a.CanProgram(pt.GetTeam()))
+            Team team;
+
+            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+            object value;
+            if (hash.TryGetValue(PlayerProperty.Team, out value))
+                team = (Team)value;
+            else
+                team = Team.None;
+
+            if (a.CanProgram(team))
             {
                 StartProgram();
-                a.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, pt.GetTeam(), 0f, pv.ViewID);
+                a.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, team, 0f, pv.ViewID);
             }
         }
 
