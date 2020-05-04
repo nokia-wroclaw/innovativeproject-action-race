@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     RectTransform currentParent;
-    TeamPanelController tpc;
 
     bool IsPlaying()
     {

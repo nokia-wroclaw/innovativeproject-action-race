@@ -38,7 +38,8 @@ public class GameScoreController : MonoBehaviourPunCallbacks
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
         {
-            ResetScore();
+            if((State)value == State.Play)
+                ResetScore();
         }
     }
 
@@ -66,14 +67,14 @@ public class GameScoreController : MonoBehaviourPunCallbacks
         switch (team)
         {
             case Team.Blue:
-                if (hash.TryGetValue(RoomProperty.BlueScore, out value))
+                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProperty.BlueScore, out value))
                     score += (int)value;
 
                 hash.Add(RoomProperty.BlueScore, score);
                 break;
 
             case Team.Red:
-                if (hash.TryGetValue(RoomProperty.RedScore, out value))
+                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProperty.RedScore, out value))
                     score += (int)value;
 
                 hash.Add(RoomProperty.RedScore, score);

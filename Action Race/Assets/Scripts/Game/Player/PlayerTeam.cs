@@ -6,7 +6,7 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
 {
     PhotonView pv;
 
-    void Start()
+    void Awake()
     {
         pv = GetComponent<PhotonView>();
         Synchronize();

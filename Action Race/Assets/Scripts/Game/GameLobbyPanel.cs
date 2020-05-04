@@ -31,6 +31,9 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     [SerializeField] GameObject stopGameButton;
     [SerializeField] GameObject pauseGameButton;
 
+    [SerializeField] GameObject moveBlueToSpec;
+    [SerializeField] GameObject moveRedToSpec;
+
     GameLobbyController glc;
     Dictionary<Player, GameObject> playersTemplates = new Dictionary<Player, GameObject>();
 
@@ -49,6 +52,12 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
         ConfigurePanel();
         SetActive(true);
+
+
+        //TEMPORARY OFF
+        pauseGameButton.SetActive(false);
+        moveBlueToSpec.SetActive(false);
+        moveRedToSpec.SetActive(false);
     }
 
     void Update()
@@ -99,6 +108,10 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
             else
                 ConfigureMasterPanel(State.NotStarted);
         }
+
+        GameObject go;
+        if (playersTemplates.TryGetValue(newMasterClient, out go))
+            go.GetComponent<PlayerTemplate>().SetStatus("HOST");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -111,6 +124,10 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     {
         UpdateCurrentPlayersCountText();
         RemovePlayerTemplate(otherPlayer);
+
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(PlayerProperty.Team, Team.None);
+        otherPlayer.SetCustomProperties(hash);
     }
 
     void SynchronizeCustomProperties()
@@ -171,23 +188,29 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
             case State.NotStarted:
                 startGameButton.SetActive(true);
                 stopGameButton.SetActive(false);
-                pauseGameButton.SetActive(false);
+                //pauseGameButton.SetActive(false);
 
                 timeLimitText.gameObject.SetActive(false);
                 scoreLimitText.gameObject.SetActive(false);
                 timeLimitDropdown.gameObject.SetActive(true);
                 scoreLimitDropdown.gameObject.SetActive(true);
+
+                //moveBlueToSpec.SetActive(true);
+                //moveRedToSpec.SetActive(true);
                 break;
 
             case State.Play:
                 startGameButton.SetActive(false);
                 stopGameButton.SetActive(true);
-                pauseGameButton.SetActive(true);
+                //pauseGameButton.SetActive(true);
 
                 timeLimitDropdown.gameObject.SetActive(false);
                 scoreLimitDropdown.gameObject.SetActive(false);
                 timeLimitText.gameObject.SetActive(true);
                 scoreLimitText.gameObject.SetActive(true);
+
+               // moveBlueToSpec.SetActive(false);
+                //moveRedToSpec.SetActive(false);
                 break;
         }
     }
@@ -196,12 +219,15 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     {
         startGameButton.SetActive(false);
         stopGameButton.SetActive(false);
-        pauseGameButton.SetActive(false);
+        //pauseGameButton.SetActive(false);
 
         timeLimitDropdown.gameObject.SetActive(false);
         scoreLimitDropdown.gameObject.SetActive(false);
         timeLimitText.gameObject.SetActive(true);
         scoreLimitText.gameObject.SetActive(true);
+
+        //moveBlueToSpec.SetActive(false);
+        //moveRedToSpec.SetActive(false);
     }
 
     void SynchronizePlayerTemplate(Player player, Team team = Team.None)
@@ -250,7 +276,13 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
             else
                 go = Instantiate(playerTemplate, noTeamPanel);
 
-            go.GetComponent<PlayerTemplate>().SetUpTemplate(player);
+            PlayerTemplate pt = go.GetComponent<PlayerTemplate>();
+            pt.SetUpTemplate(player);
+
+            if (player.IsMasterClient)
+                pt.SetStatus("HOST");
+            else if (player.IsLocal)
+                pt.SetStatus("ME");
 
             playersTemplates.Add(player, go);
         }
@@ -305,4 +337,16 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         hash.Add(RoomProperty.GameState, (State)state);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
+
+    /*public void MoveToSpec(int team)
+    {
+        foreach(var p in playersTemplates)
+        {
+            object value;
+            if(p.Key.CustomProperties.TryGetValue(PlayerProperty.Team, out value))
+            {
+                SynchronizePlayerTemplate
+            }
+        }
+    }*/
 }

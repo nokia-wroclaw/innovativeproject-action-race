@@ -130,9 +130,22 @@ public class PlayerInteraction : MonoBehaviour
         return isProgrammingAntenna;
     }
 
+    public Antenna GetProgrammableAntenna()
+    {
+        return a;
+    }
+
     [PunRPC]
     void TakeKick(int viewId)
     {
-        PhotonNetwork.GetPhotonView(viewId).GetComponent<Rigidbody2D>().velocity += new Vector2(0, 30);
+        PhotonView otherPV = PhotonNetwork.GetPhotonView(viewId);
+        otherPV.GetComponent<Rigidbody2D>().velocity += new Vector2(0, 20);
+
+        PlayerInteraction otherPI = otherPV.GetComponent<PlayerInteraction>();
+        if (otherPI.IsProgrammingAntenna())
+        {
+            otherPI.StopProgram();
+            otherPI.GetProgrammableAntenna().GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllViaServer);
+        }
     }
 }

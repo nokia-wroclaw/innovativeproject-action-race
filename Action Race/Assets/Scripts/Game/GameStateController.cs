@@ -86,10 +86,22 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
         if (hash.TryGetValue(PlayerProperty.Team, out value))
         {
-            if ((Team)value != Team.None)
+            int spawnerId;
+            switch ((Team)value)
             {
-                PhotonNetwork.Instantiate("Player", Vector3.up * -3f, Quaternion.identity);
-                viewCamera.SetActive(false);
+                case Team.Blue:
+                    spawnerId = Random.Range(0, blueTeamSpawns.Length);
+                    PhotonNetwork.Instantiate("Player", blueTeamSpawns[spawnerId].position, Quaternion.identity);
+                    viewCamera.SetActive(false);
+                    glp.SetActive(false);
+                    break;
+
+                case Team.Red:
+                    spawnerId = Random.Range(0, redTeamSpawns.Length);
+                    PhotonNetwork.Instantiate("Player", redTeamSpawns[spawnerId].position, Quaternion.identity);
+                    viewCamera.SetActive(false);
+                    glp.SetActive(false);
+                    break;
             }
         }
 
@@ -97,8 +109,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);
         }
-
-        glp.SetActive(false);
     }
 
     public IEnumerator EndGame()
