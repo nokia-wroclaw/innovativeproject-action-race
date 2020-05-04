@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 
 public class GameLobbyPanel : MonoBehaviourPunCallbacks
 {
@@ -18,7 +18,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     [SerializeField] RectTransform blueTeamPanel;
     [SerializeField] RectTransform noTeamPanel;
     [SerializeField] RectTransform redTeamPanel;
-    [SerializeField] GameObject lobbyNickNameTemplate;
+    [SerializeField] GameObject playerTemplate;
 
     [SerializeField] Dropdown timeLimitDropdown;
     [SerializeField] Dropdown scoreLimitDropdown;
@@ -32,6 +32,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     [SerializeField] GameObject pauseGameButton;
 
     GameLobby gl;
+    Dictionary<Player, GameObject> playersTemplates = new Dictionary<Player, GameObject>();
 
     void Start()
     {
@@ -47,7 +48,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         maxPlayersCountText.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
-        UpdateTeamPanel();
+        ConfigureTeamPanel();
 
         if (PhotonNetwork.IsMasterClient)
             ConfigureMasterLobbyPanel(State.NotStarted);
@@ -83,7 +84,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     {
         object value;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
-            UpdateTeamPanel();
+            UpdateTeamPanel(targetPlayer, (Team)value);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -104,7 +105,13 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdateCurrentPlayersCountText();
-        UpdateTeamPanel();
+
+        GameObject go;
+        if (playersTemplates.TryGetValue(otherPlayer, out go))
+        {
+            Destroy(go);
+            playersTemplates.Remove(otherPlayer);
+        }
     }
 
     public void UpdateTimeLimitDropdown()
@@ -124,15 +131,84 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         currentPlayersCountText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString();
     }
 
-    void UpdateTeamPanel()
+    void UpdateTeamPanel(Player player, Team team = Team.None)
+    {
+        GameObject go;
+        if (!playersTemplates.TryGetValue(player, out go))
+        {
+            switch (team)
+            {
+                case Team.Blue:
+                    go = Instantiate(playerTemplate, blueTeamPanel);
+                    break;
+
+                case Team.Red:
+                    go = Instantiate(playerTemplate, redTeamPanel);
+                    break;
+
+                default:
+                    go = Instantiate(playerTemplate, noTeamPanel);
+                    break;
+            }
+
+            go.GetComponent<NickNameTemplatePanel>().SetUpTemplate(player);
+            playersTemplates.Add(player, go);
+        }
+        else
+        {
+            switch (team)
+            {
+                case Team.Blue:
+                    go.transform.SetParent(blueTeamPanel);
+                    break;
+
+                case Team.Red:
+                    go.transform.SetParent(redTeamPanel);
+                    break;
+
+                default:
+                    go.transform.SetParent(noTeamPanel);
+                    break;
+            }
+        }
+
+        Debug.Log("Update team panel");
+    }
+
+    void ConfigureTeamPanel()
     {
         foreach (Transform child in noTeamPanel)
             Destroy(child.gameObject);
 
         foreach (var p in PhotonNetwork.CurrentRoom.Players)
         {
-            GameObject go = Instantiate(lobbyNickNameTemplate, noTeamPanel);
-            go.GetComponentInChildren<Text>().text = p.Value.NickName;
+            if (p.Value.CustomProperties.Count <= 0)
+            {
+                GameObject go1 = Instantiate(playerTemplate, noTeamPanel);
+                go1.GetComponent<NickNameTemplatePanel>().SetUpTemplate(p.Value);
+                playersTemplates.Add(p.Value, go1);
+                continue;
+            }
+
+            Team team = (Team)p.Value.CustomProperties[PlayerProperty.Team];
+
+            GameObject go;
+            switch (team)
+            {
+                case Team.Blue:
+                    go = Instantiate(playerTemplate, blueTeamPanel);
+                    break;
+
+                case Team.Red:
+                    go = Instantiate(playerTemplate, redTeamPanel);
+                    break;
+
+                default:
+                    go = Instantiate(playerTemplate, noTeamPanel);
+                    break;
+            }
+            go.GetComponent<NickNameTemplatePanel>().SetUpTemplate(p.Value);
+            playersTemplates.Add(p.Value, go);
         }
     }
 

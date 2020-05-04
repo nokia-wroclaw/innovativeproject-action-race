@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class GameTime : MonoBehaviourPunCallbacks
 {
@@ -12,6 +11,14 @@ public class GameTime : MonoBehaviourPunCallbacks
     {
         ghp = FindObjectOfType<GameHUDPanel>();
         gs = FindObjectOfType<GameState>();
+
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        object value;
+        if(hash.TryGetValue(RoomProperty.GameState, out value))
+        {
+            countdown = (State)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameState] == State.Play ? true : false;
+        }  
+        else countdown = false;
     }
 
     void Update()
@@ -19,17 +26,21 @@ public class GameTime : MonoBehaviourPunCallbacks
         if (!countdown) return;
 
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        double time = PhotonNetwork.Time - (double)hash[RoomProperty.StartTime];
-        time = (int)hash[RoomProperty.TimeLimit] - time;
+        object value;
+        if (hash.TryGetValue(RoomProperty.StartTime, out value))
+        {
+            double time = PhotonNetwork.Time - (double)value;
+            time = (int)hash[RoomProperty.TimeLimit] - time;
 
-        if (time > 0)
-        {
-            UpdateTime(time);
-        }
-        else
-        {
-            countdown = false;
-            StartCoroutine(gs.EndGame());
+            if (time > 0)
+            {
+                UpdateTime(time);
+            }
+            else
+            {
+                countdown = false;
+                StartCoroutine(gs.EndGame());
+            }
         }
     }
 

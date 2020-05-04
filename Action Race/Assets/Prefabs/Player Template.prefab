@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 3538405108197451611}
   - component: {fileID: 3538405108197451588}
   - component: {fileID: 1673339431288216246}
+  - component: {fileID: 1683463721471715702}
   m_Layer: 5
   m_Name: Lobby Nick Name Template
   m_TagString: Untagged
@@ -208,4 +209,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578cc0f1ce32e1e41856a457db3ab2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
+--- !u!114 &1683463721471715702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538405108197451590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c3927fcca4ac4419f0ec0e4b8cd58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickNameText: {fileID: 3538405108054514900}

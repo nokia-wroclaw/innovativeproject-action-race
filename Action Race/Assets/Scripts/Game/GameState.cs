@@ -16,6 +16,8 @@ public class GameState : MonoBehaviourPunCallbacks
         glp = FindObjectOfType<GameLobbyPanel>();
         ghp = FindObjectOfType<GameHUDPanel>();
 
+        Application.runInBackground = true;
+
         if (PhotonNetwork.IsMasterClient)
         {
             ResetState();
@@ -62,7 +64,8 @@ public class GameState : MonoBehaviourPunCallbacks
     {
         viewCamera.SetActive(true);
 
-        PhotonNetwork.DestroyAll();
+        if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.DestroyAll();
 
         glp.SetActive(true);
     }
@@ -71,7 +74,10 @@ public class GameState : MonoBehaviourPunCallbacks
     {
         viewCamera.SetActive(false);
 
-        PhotonNetwork.Instantiate("Player", Vector3.up * -3f, Quaternion.identity);
+        //if((Team)PhotonNetwork.LocalPlayer.CustomProperties[PlayerProperty.Team] != Team.None)
+        if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Instantiate("Player", Vector3.up * -3f, Quaternion.identity);
+
         foreach (Transform waypoint in antennasWaypoints)
         {
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);

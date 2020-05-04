@@ -11,6 +11,13 @@ public class GameScore : MonoBehaviourPunCallbacks
         ghp = FindObjectOfType<GameHUDPanel>();
         gs = FindObjectOfType<GameState>();
 
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        object value;
+        if(hash.TryGetValue(RoomProperty.BlueScore, out value))
+            ghp.UpdateScoreText(Team.Blue, (int)value);
+        if (hash.TryGetValue(RoomProperty.RedScore, out value))
+            ghp.UpdateScoreText(Team.Red, (int)value);
+
         if (PhotonNetwork.IsMasterClient)
         {
             ResetScore();
