@@ -40,7 +40,13 @@ public class JoinRoomManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Debug.Log("OnRoomListUpdate");
-        this.roomList = roomList;
+        this.roomList.Clear();
+        foreach(var r in roomList)
+        {
+            if (r.RemovedFromList) continue;
+
+            this.roomList.Add(r);
+        }
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

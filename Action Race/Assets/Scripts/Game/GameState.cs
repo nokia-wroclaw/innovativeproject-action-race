@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class GameState : MonoBehaviourPunCallbacks
 {
@@ -9,10 +9,12 @@ public class GameState : MonoBehaviourPunCallbacks
     [SerializeField] GameObject viewCamera;
 
     GameLobbyPanel glp;
+    GameHUDPanel ghp;
 
     void Start()
     {
         glp = FindObjectOfType<GameLobbyPanel>();
+        ghp = FindObjectOfType<GameHUDPanel>();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -42,7 +44,11 @@ public class GameState : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(0);
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel(0);
     }
 
     public void ChangeGameState(int state)
@@ -57,6 +63,8 @@ public class GameState : MonoBehaviourPunCallbacks
         viewCamera.SetActive(true);
 
         PhotonNetwork.DestroyAll();
+
+        glp.SetActive(true);
     }
 
     void SetGame()
@@ -77,6 +85,35 @@ public class GameState : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.GameState, State.NotStarted);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+    }
+
+    public IEnumerator EndGame()
+    {
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
+        int redScores = (int)hash[RoomProperty.RedScore];
+        int blueScores = (int)hash[RoomProperty.BlueScore];
+
+        Team winner;
+        if (redScores > blueScores) winner = Team.Red;
+        else if (blueScores > redScores) winner = Team.Blue;
+        else winner = Team.None;
+
+        foreach (PlayerTeam pt in FindObjectsOfType<PlayerTeam>())
+        {
+            PhotonView pv = pt.GetComponent<PhotonView>();
+            if (pv.IsMine)
+            {
+                Team team = pt.GetTeam();
+                if (winner == team) ghp.ShowEndGamePanel(1);
+                else if (winner == Team.None) ghp.ShowEndGamePanel(0);
+                else ghp.ShowEndGamePanel(-1);
+            }
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        ghp.HideEndGamePanel();
+        ChangeGameState(0);
     }
 
     /*[SerializeField] Transform[] antennasTransforms;

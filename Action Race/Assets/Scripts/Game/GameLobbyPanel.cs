@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -46,12 +47,14 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
         maxPlayersCountText.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
+        UpdateTeamPanel();
+
         if (PhotonNetwork.IsMasterClient)
             ConfigureMasterLobbyPanel(State.NotStarted);
         else
             ConfigurePlayerLobbyPanel();
 
-        UpdateTeamPanel();
+        SetActive(true);
     }
 
     void Update()
@@ -70,10 +73,17 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
                 ConfigureMasterLobbyPanel((State)value);
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
-            timeLimitText.text = timeLimitDropdown.options[timeLimitDropdown.value].text;
+            timeLimitText.text = timeLimitDropdown.options[(int)((int)value / 60) - 1].text;
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.ScoreLimit, out value))
-            scoreLimitText.text = scoreLimitDropdown.options[scoreLimitDropdown.value].text;
+            scoreLimitText.text = scoreLimitDropdown.options[(int)value - 1].text;
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        object value;
+        if (changedProps.TryGetValue(PlayerProperty.Team, out value))
+            UpdateTeamPanel();
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -84,8 +94,11 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(PlayerProperty.Team, Team.None);
+        newPlayer.SetCustomProperties(hash);
+
         UpdateCurrentPlayersCountText();
-        UpdateTeamPanel();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

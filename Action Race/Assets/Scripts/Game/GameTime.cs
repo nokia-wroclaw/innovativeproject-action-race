@@ -5,11 +5,13 @@ using System.Collections;
 public class GameTime : MonoBehaviourPunCallbacks
 {
     GameHUDPanel ghp;
+    GameState gs;
     bool countdown;
 
     void Start()
     {
         ghp = FindObjectOfType<GameHUDPanel>();
+        gs = FindObjectOfType<GameState>();
     }
 
     void Update()
@@ -27,7 +29,7 @@ public class GameTime : MonoBehaviourPunCallbacks
         else
         {
             countdown = false;
-            //StartCoroutine(EndGame());
+            StartCoroutine(gs.EndGame());
         }
     }
 
