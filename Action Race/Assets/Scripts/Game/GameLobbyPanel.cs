@@ -62,7 +62,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.BackQuote))
         {
             Toggle();
         }
