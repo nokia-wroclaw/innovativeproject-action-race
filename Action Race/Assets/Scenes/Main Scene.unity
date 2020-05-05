@@ -1287,18 +1287,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &310039935 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6592668770222047058, guid: 539f37d50e3252641a8e247a596f6f8c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7292683210868819025}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c1c72bd5a45e1148917c62b3ebe454c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &346822413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1486,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 310039935}
+      - m_Target: {fileID: 0}
         m_MethodName: Refresh
         m_Mode: 1
         m_Arguments:
@@ -1691,7 +1679,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1561396427}
+      - m_Target: {fileID: 0}
         m_MethodName: QuickPlay
         m_Mode: 1
         m_Arguments:
@@ -5536,18 +5524,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
---- !u!114 &1003251873 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8910753440452845690, guid: d87a72f75eee5584b9440a584a139d47,
-    type: 3}
-  m_PrefabInstance: {fileID: 8910753439466932443}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba3c23fa8fcb75c41a53f5f13ab4a487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1025222646
 GameObject:
   m_ObjectHideFlags: 0
@@ -6289,7 +6265,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1561396426}
+      - m_Target: {fileID: 0}
         m_MethodName: CreateGame
         m_Mode: 1
         m_Arguments:
@@ -8501,7 +8477,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1561396427}
+      - m_Target: {fileID: 0}
         m_MethodName: QuickPlay
         m_Mode: 1
         m_Arguments:
@@ -9605,7 +9581,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 372.35, y: -59.179993}
-  m_SizeDelta: {x: 415.0776, y: 118.36}
+  m_SizeDelta: {x: 408.34357, y: 118.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444201502
 MonoBehaviour:
@@ -10183,30 +10159,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533509457}
   m_CullTransparentMesh: 0
---- !u!114 &1561396426 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7292683210868819025}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc3af70c47a65141a2aa3b334d5a49c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1561396427 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7292683209712304282, guid: 539f37d50e3252641a8e247a596f6f8c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7292683210868819025}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0257be5464a7474f9cc6bacd9914b81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1562814882
 GameObject:
   m_ObjectHideFlags: 0
@@ -10870,7 +10822,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 310039935}
+      - m_Target: {fileID: 0}
         m_MethodName: Refresh
         m_Mode: 1
         m_Arguments:
@@ -12302,7 +12254,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 310039935}
+      - m_Target: {fileID: 0}
         m_MethodName: Refresh
         m_Mode: 1
         m_Arguments:
@@ -12398,7 +12350,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 310039935}
+      - m_Target: {fileID: 0}
         m_MethodName: Refresh
         m_Mode: 1
         m_Arguments:
@@ -12640,7 +12592,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 310039935}
+      - m_Target: {fileID: 0}
         m_MethodName: Refresh
         m_Mode: 1
         m_Arguments:
@@ -13906,7 +13858,7 @@ PrefabInstance:
         type: 3}
       propertyPath: nicknameController
       value: 
-      objectReference: {fileID: 1003251873}
+      objectReference: {fileID: 0}
     - target: {fileID: 7292683209712304283, guid: 539f37d50e3252641a8e247a596f6f8c,
         type: 3}
       propertyPath: connectionStatusController

@@ -36,6 +36,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnDisconnected");
         foreach (Button button in networkButtons)
-            button.interactable = false;
+            if(button)
+                button.interactable = false;
     }
 }

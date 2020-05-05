@@ -1,44 +1,50 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerTeam : MonoBehaviour
+public class PlayerTeam : MonoBehaviourPunCallbacks
 {
     PhotonView pv;
-    SpriteRenderer sr;
 
-    Team team;
-
-    void Start()
+    void Awake()
     {
         pv = GetComponent<PhotonView>();
-        sr = GetComponent<SpriteRenderer>();
+        Synchronize();
+    }
 
-        if (pv.IsMine)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        //if (!targetPlayer.IsLocal) return;
+
+        //object value;
+        //if (changedProps.TryGetValue(PlayerProperty.Team, out value))
+        //    pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
+    }
+
+    void Synchronize()
+    {
+        if (!pv.IsMine) return;
+
+        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+        object value;
+
+        if (hash.TryGetValue(PlayerProperty.Team, out value))
+            pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
+    }
+
+    [PunRPC]
+    void RefreshColor(Team team, int viewID)
+    {
+        SpriteRenderer sr = PhotonNetwork.GetPhotonView(viewID).GetComponent<SpriteRenderer>();
+        switch (team)
         {
-            Team team = (Team)Random.Range(1, 3);
-            ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-            hash.Add(PlayerProperty.Team, team);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            case Team.Blue:
+                sr.color = new Color(0, 0, 1, 1);
+                break;
+
+            case Team.Red:
+                sr.color = new Color(1, 0, 0, 1);
+                break;
         }
-        SetTeam((Team)pv.Owner.CustomProperties[PlayerProperty.Team]);
-    }
-
-    public void SetTeam(Team team)
-    {
-        this.team = team;
-        RefreshColor();
-    }
-
-    public Team GetTeam()
-    {
-        return team;
-    }
-
-    void RefreshColor()
-    {
-        if (team == Team.Red)
-            sr.color = new Color(1, 0, 0, 1);
-        if (team == Team.Blue)
-            sr.color = new Color(0, 0, 1, 1);
     }
 }

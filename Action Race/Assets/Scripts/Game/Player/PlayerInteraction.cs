@@ -10,21 +10,19 @@ public class PlayerInteraction : MonoBehaviour
     Animator animator;
     PhotonView pv;
     PlayerMovement pm;
-    PlayerTeam pt;
 
     // ANTENNA PROGRAMMING
     bool isTouchingAntenna, isProgrammingAntenna;
-    AntennaController ac;
+    Antenna a;
 
     // KICK
     float kickDelay = 0f;
 
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         pm = GetComponent<PlayerMovement>();
-        pt = GetComponent<PlayerTeam>();
     }
 
     void Update()
@@ -41,7 +39,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (collision.tag == "Antenna")
         {
-            ac = collision.GetComponent<AntennaController>();
+            a = collision.GetComponent<Antenna>();
             isTouchingAntenna = true;
         }
     }
@@ -50,7 +48,10 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (!pv.IsMine) return;
 
-        if (collision.tag == "Antenna") isTouchingAntenna = false;
+        if (collision.tag == "Antenna")
+        {
+            isTouchingAntenna = false;
+        }
     }
 
     void ProgramAntenna()
@@ -58,10 +59,19 @@ public class PlayerInteraction : MonoBehaviour
         //  START PROGRAM
         if (!isProgrammingAntenna && isTouchingAntenna && Input.GetKeyDown(KeyCode.E))
         {
-            if (ac.CanProgram(pt.GetTeam()))
+            Team team;
+
+            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+            object value;
+            if (hash.TryGetValue(PlayerProperty.Team, out value))
+                team = (Team)value;
+            else
+                team = Team.None;
+
+            if (a.CanProgram(team))
             {
                 StartProgram();
-                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllBuffered, pt.GetTeam(), pv.ViewID);
+                a.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, team, 0f, pv.ViewID);
             }
         }
 
@@ -69,7 +79,7 @@ public class PlayerInteraction : MonoBehaviour
         if (isProgrammingAntenna && Input.GetKeyUp(KeyCode.E))
         {
             StopProgram();
-            ac.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllBuffered);
+            a.GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllViaServer);
         }
     }
 
@@ -120,9 +130,22 @@ public class PlayerInteraction : MonoBehaviour
         return isProgrammingAntenna;
     }
 
+    public Antenna GetProgrammableAntenna()
+    {
+        return a;
+    }
+
     [PunRPC]
     void TakeKick(int viewId)
     {
-        PhotonNetwork.GetPhotonView(viewId).GetComponent<Rigidbody2D>().velocity += new Vector2(0, 30);
+        PhotonView otherPV = PhotonNetwork.GetPhotonView(viewId);
+        otherPV.GetComponent<Rigidbody2D>().velocity += new Vector2(0, 20);
+
+        PlayerInteraction otherPI = otherPV.GetComponent<PlayerInteraction>();
+        if (otherPI.IsProgrammingAntenna())
+        {
+            otherPI.StopProgram();
+            otherPI.GetProgrammableAntenna().GetComponent<PhotonView>().RPC("StopProgram", RpcTarget.AllViaServer);
+        }
     }
 }

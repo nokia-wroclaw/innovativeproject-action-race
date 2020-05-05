@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc72c625cac23648bbcd501b690a48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createRoomInfo: {fileID: 0}
+  createRoomPanel: {fileID: 0}
   roomSceneIndex: 1
   nicknameManager: {fileID: 0}
 --- !u!114 &1099129991

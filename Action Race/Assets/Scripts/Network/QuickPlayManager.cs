@@ -15,6 +15,6 @@ public class QuickPlayManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("No room to join, create your own");
 
-        uiManager.switchFrom_QuickPlayPanel_to_CreateRoomPanel();
+        uiManager.switchFrom_MainPanel_to_CreateRoomPanel();
     }
 }

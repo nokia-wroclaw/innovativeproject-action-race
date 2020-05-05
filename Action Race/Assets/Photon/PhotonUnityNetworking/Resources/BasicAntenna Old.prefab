@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5406566938806228450}
   - component: {fileID: 5406566938806228455}
   - component: {fileID: 5406566938806228451}
+  - component: {fileID: 5406566938806228448}
   - component: {fileID: 5406566938806228449}
   - component: {fileID: 7687280666058453562}
-  - component: {fileID: -6717863733657849678}
   m_Layer: 10
   m_Name: BasicAntenna
   m_TagString: Antenna
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1829224115
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 009223ca4dcda954c90d7bc1f380a560, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -245,6 +245,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5406566938806228448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5406566938806228453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b31bd8b406fb6a40a808ff018fdfa62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  programmingTimeDuration: 5
 --- !u!114 &5406566938806228449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,25 +301,6 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Program
-  - Type: 3
-    SynchronizeType: 0
-    Name: CurrentTeam
-  - Type: 3
-    SynchronizeType: 0
-    Name: NewTeam
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &-6717863733657849678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5406566938806228453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2e655cd8f223c4399cf30edb170bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  programmingTimeDuration: 5

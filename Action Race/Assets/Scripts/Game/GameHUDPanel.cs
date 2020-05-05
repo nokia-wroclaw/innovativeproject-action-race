@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class GameHUDPanel : MonoBehaviour
 {
-    [SerializeField] Text redScoreText;
-    [SerializeField] Text blueScoreText;
     [SerializeField] Text timeText;
+    [SerializeField] Text blueScoreText;
+    [SerializeField] Text redScoreText;
 
     [SerializeField] GameObject losePanel;
     [SerializeField] GameObject drawPanel;
@@ -13,7 +13,7 @@ public class GameHUDPanel : MonoBehaviour
 
     public void UpdateScoreText(Team team, int score)
     {
-        switch(team)
+        switch (team)
         {
             case Team.Blue:
                 blueScoreText.text = score.ToString();
@@ -28,7 +28,7 @@ public class GameHUDPanel : MonoBehaviour
     public void UpdateTimeText(Vector2Int time)
     {
         string sTime = time.x.ToString() + " : ";
-        if (time.y < 10) sTime +=  "0";
+        if (time.y < 10) sTime += "0";
         sTime += time.y.ToString();
 
         timeText.text = sTime;
