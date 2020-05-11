@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 251456686226556692}
   - component: {fileID: 7544462690047443929}
   - component: {fileID: 8491946737450811158}
+  - component: {fileID: 215108874371433184}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -465,6 +466,7 @@ MonoBehaviour:
   playerCamera: {fileID: 6568489185380166790}
   feet: {fileID: 7142071977193633451}
   nickNameTag: {fileID: 4647192227523570597}
+  isClimbing: 1
 --- !u!114 &-1142099495913379594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +567,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nickNameTMP: {fileID: 9092753801885750293}
+--- !u!114 &215108874371433184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568489183840287007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d43f369a142da46ad3a8aff964a73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6568489185380166790
 GameObject:
   m_ObjectHideFlags: 0

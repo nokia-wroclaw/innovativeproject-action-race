@@ -31,13 +31,10 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - RefreshColor
   - StartProgram
   - StopProgram
-  - TakeKick
-  - EndGame
-  - SetNickNameTag
-  - ChangeAntennaState
   - SynchronizeProgram
-  - RefreshColor
+  - TakeKick
   DisableAutoOpenWizard: 1
   ShowSettings: 0
