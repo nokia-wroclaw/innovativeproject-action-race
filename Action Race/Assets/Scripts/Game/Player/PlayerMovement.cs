@@ -15,12 +15,16 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     PhotonView pv;
     Rigidbody2D rb;
+    public bool isClimbing;
+    float gravScale;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
+        isClimbing = false;
+        gravScale = rb.gravityScale;
 
         if (pv.IsMine)
         {
@@ -39,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!pv.IsMine) return;
         Run();
+        Climb();
         Jump();
         FlipSprite();
     }
@@ -51,6 +56,22 @@ public class PlayerMovement : MonoBehaviour
 
         bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0f;
         animator.SetBool("Run", playerHasHorizontalSpeed);
+    }
+
+    void Climb()
+    {
+        if (isClimbing)
+        {
+            rb.gravityScale = 0;
+            float axis = Input.GetAxis("Vertical");
+            Vector2 climbVelocity = new Vector2(0, axis * runSpeed);
+            rb.velocity = climbVelocity;
+        }
+        
+        if(!isClimbing)
+        {
+            rb.gravityScale = gravScale;
+        }
     }
 
     void Jump()
