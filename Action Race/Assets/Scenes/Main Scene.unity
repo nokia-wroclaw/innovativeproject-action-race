@@ -7098,12 +7098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65180a1afb5579f4db4240422ba66da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectionStatusPanel: {fileID: 1191657893}
-  joinRandomMessage: Searching the available room...
-  joinRandomFailedMessage: No room available. Create your own.
-  createRoomMessage: Creating the room ...
-  createRoomFailedMessage: ...
-  joinRoomMessage: Joining to the room ...
 --- !u!4 &1191657892
 Transform:
   m_ObjectHideFlags: 0
@@ -7132,6 +7126,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionStatusPanel: {fileID: 1384232968}
   messageText: {fileID: 1431097900}
+  joinRandomMessage: Searching the available room...
+  joinRandomFailedMessage: No room available!
+  createRoomInfo: Creating the room ...
+  createRoomFailInfo: Unable to create the room!
+  joinRoomInfo: Joining to the room ...
+  joinRoomFailInfo: Unable to join the room!
 --- !u!1 &1196091044
 GameObject:
   m_ObjectHideFlags: 0

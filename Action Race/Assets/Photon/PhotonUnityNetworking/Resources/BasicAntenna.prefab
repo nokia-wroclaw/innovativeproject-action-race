@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5406566938806228451}
   - component: {fileID: 5406566938806228449}
   - component: {fileID: 7687280666058453562}
-  - component: {fileID: -6717863733657849678}
+  - component: {fileID: -679243799521143599}
   m_Layer: 10
   m_Name: BasicAntenna
   m_TagString: Antenna
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &-6717863733657849678
+--- !u!114 &-679243799521143599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

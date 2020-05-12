@@ -7,22 +7,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 {
     RectTransform currentParent;
 
-    bool IsPlaying()
-    {
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        object value;
-
-        if (hash.TryGetValue(RoomProperty.GameState, out value))
-        {
-            if ((State)value == State.NotStarted) 
-                return false;
-            else 
-                return true;
-        }
-        else
-            return false;
-    }
-
     bool IsLocal()
     {
         return GetComponent<PlayerTemplate>().GetPlayer().IsLocal;
@@ -30,7 +14,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
+        if (IsLocal() || PhotonNetwork.IsMasterClient)
         {
             currentParent = transform.parent as RectTransform;
             transform.SetParent(FindObjectOfType<Canvas>().transform);
@@ -39,7 +23,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
+        if (IsLocal() || PhotonNetwork.IsMasterClient)
         {
             RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
             RectTransform rt = GetComponent<RectTransform>();
@@ -52,7 +36,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
+        if (IsLocal() || PhotonNetwork.IsMasterClient)
         {
             List<RaycastResult> raycastResults = new List<RaycastResult>();
             FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);

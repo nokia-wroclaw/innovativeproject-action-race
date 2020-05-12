@@ -43,6 +43,28 @@ public class GameStateController : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        object value;
+        if (changedProps.TryGetValue(PlayerProperty.Team, out value))
+        {
+            if ((State)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameState] != State.Play) return;
+
+            if (!targetPlayer.IsLocal) return;
+            switch ((Team)value)
+            {
+                case Team.Blue:
+                    SpawnPlayer(blueTeamSpawns);
+                    break;
+
+                case Team.Red:
+                    SpawnPlayer(redTeamSpawns);
+                    break;
+            }
+        }
+            //pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
+    }
+
     public override void OnLeftRoom()
     {
         PhotonNetwork.LoadLevel(0);
@@ -87,21 +109,14 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
         if (hash.TryGetValue(PlayerProperty.Team, out value))
         {
-            int spawnerId;
             switch ((Team)value)
             {
                 case Team.Blue:
-                    spawnerId = Random.Range(0, blueTeamSpawns.Length);
-                    PhotonNetwork.Instantiate("Player", blueTeamSpawns[spawnerId].position, Quaternion.identity);
-                    viewCamera.SetActive(false);
-                    glp.SetActive(false);
+                    SpawnPlayer(blueTeamSpawns);
                     break;
 
                 case Team.Red:
-                    spawnerId = Random.Range(0, redTeamSpawns.Length);
-                    PhotonNetwork.Instantiate("Player", redTeamSpawns[spawnerId].position, Quaternion.identity);
-                    viewCamera.SetActive(false);
-                    glp.SetActive(false);
+                    SpawnPlayer(redTeamSpawns);
                     break;
             }
         }
@@ -160,5 +175,13 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
         if(PhotonNetwork.IsMasterClient)
             glp.ChangeGameState(0);
+    }
+
+    void SpawnPlayer(Transform[] spawns)
+    {
+        int spawnId = Random.Range(0, spawns.Length);
+        PhotonNetwork.Instantiate("Player", spawns[spawnId].position, Quaternion.identity);
+        viewCamera.SetActive(false);
+        glp.SetActive(false);
     }
 }

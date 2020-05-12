@@ -25,17 +25,12 @@ public class PlayerMovement : MonoBehaviour
         isClimbing = false;
 
         if (pv.IsMine)
-        {
             gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
-        }
         else
-        {
             playerCamera.SetActive(false);
-        }
-
     }
 
-    void Update()
+    void FixedUpdate()
     {
         nickNameTag.transform.localScale = transform.localScale;
 

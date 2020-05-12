@@ -276,15 +276,20 @@ GameObject:
   - component: {fileID: 6568489183840287004}
   - component: {fileID: 5051959756576712816}
   - component: {fileID: -8659828470300474635}
-  - component: {fileID: 7113217025269451930}
   - component: {fileID: -1142099495913379594}
+  - component: {fileID: 4997979216421511712}
+  - component: {fileID: 7113217025269451930}
+  - component: {fileID: 8491946737450811158}
   - component: {fileID: 496306998480683318}
   - component: {fileID: 5250901528713324337}
   - component: {fileID: 251456686226556692}
   - component: {fileID: 7544462690047443929}
+<<<<<<< HEAD
   - component: {fileID: 8491946737450811158}
   - component: {fileID: 215108874371433184}
   - component: {fileID: -6733588091047916763}
+=======
+>>>>>>> create room panel and join room panel bug fixes, refresh correction
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -402,7 +407,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 5
-  m_Material: {fileID: 6200000, guid: 9c8b4fba126a81240bc5890713ec403c, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -450,6 +455,32 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-1142099495913379594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568489183840287007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f215bc9cab4249c46a118d70f8897c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4997979216421511712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568489183840287007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40942dfbec433fe4ea6d5d6f99f098f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kickCooldown: 1
+  foot: {fileID: 2691111720630981942}
 --- !u!114 &7113217025269451930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,8 +498,8 @@ MonoBehaviour:
   playerCamera: {fileID: 6568489185380166790}
   feet: {fileID: 7142071977193633451}
   nickNameTag: {fileID: 4647192227523570597}
-  isClimbing: 1
---- !u!114 &-1142099495913379594
+  isClimbing: 0
+--- !u!114 &8491946737450811158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -477,11 +508,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6568489183840287007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f215bc9cab4249c46a118d70f8897c25, type: 3}
+  m_Script: {fileID: 11500000, guid: 53921ee90b4facc4bac5728429a12ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kickCooldown: 1
-  kickFoot: {fileID: 2691111720630981942}
+  nickNameTMP: {fileID: 9092753801885750293}
 --- !u!114 &496306998480683318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,11 +583,12 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Interact
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Ladder
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+<<<<<<< HEAD
 --- !u!114 &8491946737450811158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +647,8 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+=======
+>>>>>>> create room panel and join room panel bug fixes, refresh correction
 --- !u!1 &6568489185380166790
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,13 +34,10 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     [SerializeField] GameObject moveBlueToSpec;
     [SerializeField] GameObject moveRedToSpec;
 
-    GameLobbyController glc;
     Dictionary<Player, GameObject> playersTemplates = new Dictionary<Player, GameObject>();
 
     void Start()
     {
-        glc = FindObjectOfType<GameLobbyController>();
-
         SynchronizeCustomProperties();
 
         // PLAYERS COUNT SYNCHRO
@@ -62,7 +59,7 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.BackQuote))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
             Toggle();
         }
@@ -124,10 +121,13 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     {
         UpdateCurrentPlayersCountText();
         RemovePlayerTemplate(otherPlayer);
+    }
 
+    public override void OnLeftRoom()
+    {
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(PlayerProperty.Team, Team.None);
-        otherPlayer.SetCustomProperties(hash);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
     void SynchronizeCustomProperties()
@@ -302,13 +302,17 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
     public void UpdateTimeLimitDropdown()
     {
         int time = (timeLimitDropdown.value + 1) * 60;
-        glc.ChangeTimeLimit(time);
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.TimeLimit, time);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
     public void UpdateScoreLimitDropdown()
     {
         int score = scoreLimitDropdown.value + 1;
-        glc.ChangeScoreLimit(score);
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash.Add(RoomProperty.ScoreLimit, score);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
     void UpdateCurrentPlayersCountText()

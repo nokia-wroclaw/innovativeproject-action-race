@@ -9,12 +9,14 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
     void Awake()
     {
         pv = GetComponent<PhotonView>();
+
         Synchronize();
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        //if (!targetPlayer.IsLocal) return;
+        if (!targetPlayer.IsLocal) return;
+        Debug.Log("XD");
 
         //object value;
         //if (changedProps.TryGetValue(PlayerProperty.Team, out value))
@@ -39,11 +41,15 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
         switch (team)
         {
             case Team.Blue:
-                sr.color = new Color(0, 0, 1, 1);
+                sr.color = Color.blue;
                 break;
 
             case Team.Red:
-                sr.color = new Color(1, 0, 0, 1);
+                sr.color = Color.red;
+                break;
+
+            default:
+                sr.color = Color.black;
                 break;
         }
     }
