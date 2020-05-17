@@ -5,16 +5,16 @@ public class TeamPanel : MonoBehaviour
     [SerializeField] Team team;
     [SerializeField] RectTransform content;
 
-    public void AddToPanel(GameObject go)
+    GameLobbyController glc;
+
+    void Awake()
     {
-        go.transform.SetParent(content);
-        ChangeTeam(go);
+        glc = FindObjectOfType<GameLobbyController>();
     }
 
-    void ChangeTeam(GameObject go)
+    public void ChangePanel(GameObject go, int actorNumber)
     {
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(PlayerProperty.Team, team);
-        go.GetComponent<PlayerTemplate>().GetPlayer().SetCustomProperties(hash);
+        go.transform.SetParent(content);
+        glc.ChangePlayerTeam(actorNumber, team);
     }
 }

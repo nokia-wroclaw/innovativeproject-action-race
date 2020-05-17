@@ -5,52 +5,53 @@ using System.Collections.Generic;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    PlayerTemplate pt;
+
+    RectTransform canvas;
     RectTransform currentParent;
 
-    bool IsLocal()
+    void Awake()
     {
-        return GetComponent<PlayerTemplate>().GetPlayer().IsLocal;
+        pt = GetComponent<PlayerTemplate>();
+
+        canvas = FindObjectOfType<Canvas>().transform as RectTransform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (IsLocal() || PhotonNetwork.IsMasterClient)
-        {
-            currentParent = transform.parent as RectTransform;
-            transform.SetParent(FindObjectOfType<Canvas>().transform);
-        }
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
+
+        currentParent = transform.parent as RectTransform;
+        transform.SetParent(canvas);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (IsLocal() || PhotonNetwork.IsMasterClient)
-        {
-            RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
-            RectTransform rt = GetComponent<RectTransform>();
-            Vector3 globalMousePos;
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
 
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane as RectTransform, eventData.position, eventData.pressEventCamera, out globalMousePos))
-                rt.position = globalMousePos;
-        }
+        RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
+        Vector3 globalMousePos;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, eventData.position, eventData.pressEventCamera, out globalMousePos))
+            transform.position = globalMousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (IsLocal() || PhotonNetwork.IsMasterClient)
-        {
-            List<RaycastResult> raycastResults = new List<RaycastResult>();
-            FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
 
-            TeamPanel tp;
-            foreach (var r in raycastResults)
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);
+
+        foreach (var rr in raycastResults)
+        {
+            TeamPanel tp = rr.gameObject.GetComponent<TeamPanel>();
+            if (tp)
             {
-                if (tp = r.gameObject.GetComponent<TeamPanel>())
-                {
-                    tp.AddToPanel(gameObject);
-                    return;
-                }
+                tp.ChangePanel(gameObject, pt.ActorNumber);
+                return;
             }
-            transform.SetParent(currentParent);
         }
+
+        transform.SetParent(currentParent);
     }
 }

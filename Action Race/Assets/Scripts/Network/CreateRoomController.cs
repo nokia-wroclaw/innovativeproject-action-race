@@ -5,7 +5,6 @@ using Photon.Realtime;
 public class CreateRoomController : MonoBehaviourPunCallbacks
 {
     [SerializeField] int roomSceneIndex;
-    [SerializeField] NicknameManager nicknameManager;
 
     CreateRoomPanel createRoomPanel;
 
@@ -23,7 +22,7 @@ public class CreateRoomController : MonoBehaviourPunCallbacks
 
         RoomOptions roomOps = new RoomOptions() { IsVisible = showInRoomList, IsOpen = true, MaxPlayers = (byte)maxPlayers };
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
-        roomOps.CustomRoomProperties.Add(RoomProperty.Owner, nicknameManager.NickName);
+        roomOps.CustomRoomProperties.Add(RoomProperty.Owner, PhotonNetwork.LocalPlayer.NickName);
         roomOps.CustomRoomProperties.Add(RoomProperty.Password, password);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetPublicProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);

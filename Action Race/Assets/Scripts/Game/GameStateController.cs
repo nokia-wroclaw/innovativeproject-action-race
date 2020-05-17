@@ -14,55 +14,49 @@ public class GameStateController : MonoBehaviourPunCallbacks
     GameLobbyPanel glp;
     GameHUDPanel ghp;
 
-    void Start()
+    private void Awake()
     {
         glp = FindObjectOfType<GameLobbyPanel>();
         ghp = FindObjectOfType<GameHUDPanel>();
+    }
 
+    void Start()
+    {
         Application.runInBackground = true;
 
-        Synchronize();
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        UpdateGameState(customRoomProperties);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        object value;
-        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
-        {
-            State state = (State)value;
-            switch (state)
-            {
-                case State.NotStarted:
-                    StopGame();
-                    break;
-
-                case State.Play:
-                    SetGame();
-                    break;
-            }
-        }
+        UpdateGameState(propertiesThatChanged);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        object value;
+        object value, value1;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
         {
-            if ((State)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.GameState] != State.Play) return;
-
-            if (!targetPlayer.IsLocal) return;
-            switch ((Team)value)
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProperty.GameState, out value1))
             {
-                case Team.Blue:
-                    SpawnPlayer(blueTeamSpawns);
-                    break;
+                if ((State)value1 != State.Play) return;
 
-                case Team.Red:
-                    SpawnPlayer(redTeamSpawns);
-                    break;
+                if (!targetPlayer.IsLocal) return;
+                PhotonNetwork.DestroyPlayerObjects(targetPlayer.ActorNumber, false);
+
+                switch ((Team)value)
+                {
+                    case Team.Blue:
+                        SpawnPlayer(blueTeamSpawns);
+                        break;
+
+                    case Team.Red:
+                        SpawnPlayer(redTeamSpawns);
+                        break;
+                }
             }
         }
-            //pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
     }
 
     public override void OnLeftRoom()
@@ -70,16 +64,14 @@ public class GameStateController : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(0);
     }
 
-    void Synchronize()
+    void UpdateGameState(ExitGames.Client.Photon.Hashtable properties)
     {
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         object value;
-
-        if (hash.TryGetValue(RoomProperty.GameState, out value))
+        if (properties.TryGetValue(RoomProperty.GameState, out value))
         {
             switch ((State)value)
             {
-                case State.NotStarted:
+                case State.Stop:
                     StopGame();
                     break;
 
@@ -88,8 +80,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
                     break;
             }
         }
-        else
-            StopGame();
     }
 
     void StopGame()
@@ -173,8 +163,8 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
         ghp.HideEndGamePanel();
 
-        if(PhotonNetwork.IsMasterClient)
-            glp.ChangeGameState(0);
+        //if(PhotonNetwork.IsMasterClient)
+            //glp.ChangeGameState(0);
     }
 
     void SpawnPlayer(Transform[] spawns)

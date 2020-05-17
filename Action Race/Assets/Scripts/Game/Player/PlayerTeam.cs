@@ -16,7 +16,7 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (!targetPlayer.IsLocal) return;
-        Debug.Log("XD");
+        //Debug.Log("XD");
 
         //object value;
         //if (changedProps.TryGetValue(PlayerProperty.Team, out value))

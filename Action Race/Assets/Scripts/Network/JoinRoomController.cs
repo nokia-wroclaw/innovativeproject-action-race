@@ -17,14 +17,6 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         this.roomsList = roomList;
-
-        //this.roomList.Clear();
-        //foreach (var r in roomList)
-        //{
-        //    if (r.RemovedFromList) continue;
-
-        //    this.roomList.Add(r);
-        //}
     }
 
     public void JoinRoom(RoomTemplate roomTemplate)

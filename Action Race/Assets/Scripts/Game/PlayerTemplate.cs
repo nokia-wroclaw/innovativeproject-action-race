@@ -4,35 +4,46 @@ using Photon.Realtime;
 
 public class PlayerTemplate : MonoBehaviour
 {
-    [SerializeField] Text statusText;
+    [SerializeField] Image image;
+    [SerializeField] Text masterClientText;
     [SerializeField] Text nickNameText;
     [SerializeField] Text pingText;
 
-    Player player;
+    bool _isLocal, _isMasterClient;
 
-    public void SetUpTemplate(Player player)
+    public int ActorNumber { get; set; }
+
+    public string NickName
     {
-        this.player = player;
-        SetNickName(player.NickName);
+        set { nickNameText.text = value; }
     }
 
-    public void SetStatus(string status)
+    public bool IsLocal
     {
-        statusText.text = status;
+        get { return _isLocal; }
+        set
+        {
+            _isLocal = value;
+
+            if(value)
+                image.color = new Color(255, 255, 0); 
+        }
+    }
+
+    public bool IsMasterClient
+    {
+        get { return _isMasterClient; }
+        set 
+        {
+            _isMasterClient = value;
+
+            if(_isMasterClient)
+                masterClientText.text = "Host";
+        }
     }
 
     public void SetPing(string ping)
     {
         pingText.text = ping;
-    }
-
-    public void SetNickName(string nickName)
-    {
-        nickNameText.text = nickName;
-    }
-
-    public Player GetPlayer()
-    {
-        return player;
     }
 }
