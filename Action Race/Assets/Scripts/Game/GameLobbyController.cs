@@ -6,6 +6,8 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
 {
     GameLobbyPanel glp;
 
+    bool isLeaving;
+
     void Awake()
     {
         glp = FindObjectOfType<GameLobbyPanel>();
@@ -144,7 +146,10 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
+        if (isLeaving) return;
+
         PhotonNetwork.LeaveRoom();
+        isLeaving = true;
     }
 
     public void StartGame()
