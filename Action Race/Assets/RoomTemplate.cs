@@ -11,9 +11,16 @@ public class RoomTemplate : MonoBehaviour
     [SerializeField] Text playersText;
     [SerializeField] Text maxPlayersText;
 
+    string _password;
+
     public string Password
     {
-        set { passwordImage.color = string.IsNullOrEmpty(value) ? new Color(1, 1, 1, 0) : new Color(1, 1, 1, 1); }
+        get { return _password; }
+        set
+        {
+            _password = value;
+            passwordImage.color = string.IsNullOrEmpty(value) ? new Color(1, 1, 1, 0) : new Color(1, 1, 1, 1);
+        }
     }
 
     public string RoomName

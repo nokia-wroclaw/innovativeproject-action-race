@@ -1,4 +1,4 @@
 ﻿public enum ConnectionStatus
 {
-    Create, CreateFail, Join, JoinFail
+    Create, CreateFail, Join, JoinFail, PasswordWrong
 }

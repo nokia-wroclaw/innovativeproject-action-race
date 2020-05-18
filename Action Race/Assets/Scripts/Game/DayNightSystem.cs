@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 using System.Collections;
 
-public class DayNightSystem : MonoBehaviour
+public class DayNightSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField] Image fadeImage;
 
@@ -10,6 +11,11 @@ public class DayNightSystem : MonoBehaviour
     {
         StartCoroutine(ChangeTimeOfDay());
     }
+
+    //public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    //{
+        
+    //}
 
     IEnumerator ChangeTimeOfDay()
     {

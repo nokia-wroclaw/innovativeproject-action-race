@@ -4,25 +4,21 @@ using Photon.Realtime;
 
 public class CreateRoomController : MonoBehaviourPunCallbacks
 {
+    [Header("Properties")]
     [SerializeField] int roomSceneIndex;
 
-    ConnectionStatusPanel csp;
-    CreateRoomPanel crp;
-
-    void Awake()
-    {
-        csp = FindObjectOfType<ConnectionStatusPanel>();
-        crp = FindObjectOfType<CreateRoomPanel>();
-    }
+    [Header("Custom Scripts References")]
+    [SerializeField] ConnectionStatusPanel connectionStatusPanel;
+    [SerializeField] CreateRoomPanel createRoomPanel;
 
     public void CreateGame()
     {
-        StartCoroutine(csp.MessageFadeIn(ConnectionStatus.Create));
+        StartCoroutine(connectionStatusPanel.MessageFadeIn(ConnectionStatus.Create));
 
-        string roomName = crp.RoomName;
-        string password = crp.Password;
-        int maxPlayers = crp.MaxPlayers;
-        bool showInRoomList = crp.ShowInRoomList;
+        string roomName = createRoomPanel.RoomName;
+        string password = createRoomPanel.Password;
+        int maxPlayers = createRoomPanel.MaxPlayers;
+        bool showInRoomList = createRoomPanel.ShowInRoomList;
 
         RoomOptions roomOps = new RoomOptions() { IsVisible = showInRoomList, IsOpen = true, MaxPlayers = (byte)maxPlayers };
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
@@ -34,13 +30,13 @@ public class CreateRoomController : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        csp.ChangeMessage(ConnectionStatus.Join);
+        connectionStatusPanel.ChangeMessage(ConnectionStatus.Join);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        csp.ChangeMessage(ConnectionStatus.CreateFail);
-        StartCoroutine(csp.MessageFadeOut());
+        connectionStatusPanel.ChangeMessage(ConnectionStatus.CreateFail);
+        StartCoroutine(connectionStatusPanel.MessageFadeOut());
     }
 
     public override void OnJoinedRoom()

@@ -4,20 +4,16 @@ using Photon.Realtime;
 
 public class GameLobbyController : MonoBehaviourPunCallbacks
 {
-    GameLobbyPanel glp;
+    [Header("Custom Scripts References")]
+    [SerializeField] GameLobbyPanel gameLobbyPanel;
 
     bool isLeaving;
 
-    void Awake()
-    {
-        glp = FindObjectOfType<GameLobbyPanel>();
-    }
-
     void Start()
     {
-        glp.RoomName = PhotonNetwork.CurrentRoom.Name;
-        glp.Players = PhotonNetwork.CurrentRoom.PlayerCount;
-        glp.MaxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
+        gameLobbyPanel.RoomName = PhotonNetwork.CurrentRoom.Name;
+        gameLobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
+        gameLobbyPanel.MaxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
 
         ResetTimeLimit();
         ResetScoreLimit();
@@ -29,11 +25,17 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         UpdateTeams();
 
         if (PhotonNetwork.IsMasterClient)
-            glp.ConfigureMasterClientPanel(State.Stop);
+            gameLobbyPanel.ConfigureMasterClientPanel(State.Stop);
         else
-            glp.ConfigureClientPanel();
+            gameLobbyPanel.ConfigureClientPanel();
 
-        glp.SetActive(true);
+        gameLobbyPanel.gameObject.SetActive(true);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+            gameLobbyPanel.gameObject.SetActive(!gameLobbyPanel.gameObject.activeInHierarchy);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -47,24 +49,24 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     {
         object value;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
-            glp.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)value);
+            gameLobbyPanel.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)value);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        glp.ChangePlayerIsMasterClient(newMasterClient.ActorNumber);
+        gameLobbyPanel.ChangePlayerIsMasterClient(newMasterClient.ActorNumber);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        glp.Players = PhotonNetwork.CurrentRoom.PlayerCount;
-        glp.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, Team.None);
+        gameLobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
+        gameLobbyPanel.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, Team.None);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        glp.Players = PhotonNetwork.CurrentRoom.PlayerCount;
-        glp.RemovePlayer(otherPlayer.ActorNumber);
+        gameLobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
+        gameLobbyPanel.RemovePlayer(otherPlayer.ActorNumber);
     }
 
     public override void OnLeftRoom()
@@ -78,14 +80,14 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     {
         object value;
         if (properties.TryGetValue(RoomProperty.TimeLimit, out value))
-            glp.TimeLimit = (int)value / 60;
+            gameLobbyPanel.TimeLimit = (int)value / 60;
     }
 
     void UpdateScoreLimit(ExitGames.Client.Photon.Hashtable properties)
     {
         object value;
         if (properties.TryGetValue(RoomProperty.ScoreLimit, out value))
-            glp.ScoreLimit = (int)value;
+            gameLobbyPanel.ScoreLimit = (int)value;
     }
 
     void UpdatePanelLayout(ExitGames.Client.Photon.Hashtable properties)
@@ -93,7 +95,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         object value;
         if (properties.TryGetValue(RoomProperty.GameState, out value))
             if(PhotonNetwork.IsMasterClient)
-                glp.ConfigureMasterClientPanel((State)value);
+                gameLobbyPanel.ConfigureMasterClientPanel((State)value);
     }
 
     void ResetTimeLimit()
@@ -101,7 +103,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.TimeLimit, glp.DefaultTimeLimit * 60);
+        hash.Add(RoomProperty.TimeLimit, gameLobbyPanel.DefaultTimeLimit * 60);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
@@ -110,7 +112,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.ScoreLimit, glp.DefaultScoreLimit);
+        hash.Add(RoomProperty.ScoreLimit, gameLobbyPanel.DefaultScoreLimit);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
@@ -122,7 +124,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
 
             object value;
             player.CustomProperties.TryGetValue(PlayerProperty.Team, out value);
-            glp.AddPlayer(player.ActorNumber, player.NickName, player.IsLocal, player.IsMasterClient, value != null ? (Team)value : Team.None);
+            gameLobbyPanel.AddPlayer(player.ActorNumber, player.NickName, player.IsLocal, player.IsMasterClient, value != null ? (Team)value : Team.None);
         }
     }
 
@@ -131,7 +133,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.TimeLimit, glp.TimeLimit * 60);
+        hash.Add(RoomProperty.TimeLimit, gameLobbyPanel.TimeLimit * 60);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
@@ -140,7 +142,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.ScoreLimit, glp.ScoreLimit);
+        hash.Add(RoomProperty.ScoreLimit, gameLobbyPanel.ScoreLimit);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 

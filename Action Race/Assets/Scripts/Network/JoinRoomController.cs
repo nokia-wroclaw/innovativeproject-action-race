@@ -5,16 +5,12 @@ using System.Collections.Generic;
 
 public class JoinRoomController : MonoBehaviourPunCallbacks
 {
-    ConnectionStatusPanel csp;
-    JoinRoomPanel jrp;
+    [Header("Custom Scripts References")]
+    [SerializeField] ConnectionStatusPanel connectionStatusPanel;
+    [SerializeField] JoinRoomPanel joinRoomPanel;
+    [SerializeField] PasswordPanel passwordPanel;
 
     List<RoomInfo> roomsList = new List<RoomInfo>();
-
-    void Awake()
-    {
-        csp = FindObjectOfType<ConnectionStatusPanel>();
-        jrp = FindObjectOfType<JoinRoomPanel>();
-    }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -23,31 +19,36 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
 
     public void JoinRoom(RoomTemplate roomTemplate)
     {
-        //StartCoroutine(csp.MessageFadeIn(ConnectionStatus.Join));
-        PhotonNetwork.JoinRoom(roomTemplate.RoomName);
+        if (string.IsNullOrEmpty(roomTemplate.Password))
+        {
+            StartCoroutine(connectionStatusPanel.MessageFadeIn(ConnectionStatus.Join));
+            PhotonNetwork.JoinRoom(roomTemplate.RoomName);
+        }
+        else 
+            passwordPanel.TryJoinRoom(roomTemplate.RoomName, roomTemplate.Password);
     }
 
     public void Refresh()
     {
-        jrp.ClearRoomList();
+        joinRoomPanel.ClearRoomList();
 
         foreach (RoomInfo roomInfo in roomsList)
         {
             if (roomInfo.RemovedFromList) continue;
 
             string password = roomInfo.CustomProperties[RoomProperty.Password] as string;
-            if (!jrp.ShowPrivate && !string.IsNullOrEmpty(password.Trim())) continue;
+            if (!joinRoomPanel.ShowPrivate && !string.IsNullOrEmpty(password.Trim())) continue;
 
             string roomName = roomInfo.Name;
             string owner = roomInfo.CustomProperties[RoomProperty.Owner] as string;
-            string textFilter = jrp.Filter.Trim();
+            string textFilter = joinRoomPanel.Filter.Trim();
             if (!roomName.ToLower().Contains(textFilter.ToLower()) && !owner.ToLower().Contains(textFilter.ToLower())) continue;
 
             int players = roomInfo.PlayerCount;
             int maxPlayers = roomInfo.MaxPlayers;
-            if (!jrp.ShowFull && players == maxPlayers) continue;
+            if (!joinRoomPanel.ShowFull && players == maxPlayers) continue;
 
-            jrp.AddRoom(password, roomName, owner, players, maxPlayers);
+            joinRoomPanel.AddRoom(password, roomName, owner, players, maxPlayers, JoinRoom);
         }
     }
 }

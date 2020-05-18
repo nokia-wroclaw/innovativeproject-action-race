@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class JoinRoomPanel : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class JoinRoomPanel : MonoBehaviour
             Destroy(room.gameObject);
     }
 
-    public void AddRoom(string password, string roomName, string owner, int players, int maxPlayers)
+    public void AddRoom(string password, string roomName, string owner, int players, int maxPlayers, Action<RoomTemplate> clickMethod)
     {
         GameObject roomTemplate = Instantiate(roomTemplateGO, roomsList);
         RoomTemplate rt = roomTemplate.GetComponent<RoomTemplate>();
@@ -52,5 +53,7 @@ public class JoinRoomPanel : MonoBehaviour
         rt.Owner = owner;
         rt.Players = players;
         rt.MaxPlayers = maxPlayers;
+
+        rt.GetComponent<Button>().onClick.AddListener(delegate { clickMethod(rt); });
     }
 }

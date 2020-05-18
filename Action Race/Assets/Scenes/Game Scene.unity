@@ -38451,7 +38451,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1306262636}
+      - m_Target: {fileID: 0}
         m_MethodName: ChangeGameState
         m_Mode: 3
         m_Arguments:
@@ -53057,88 +53057,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 1}
---- !u!1 &1306262635
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1306262638}
-  - component: {fileID: 1306262637}
-  - component: {fileID: 1306262636}
-  m_Layer: 0
-  m_Name: Game Panels
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1306262636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306262635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11f2c9f10d62204c902c425d5aa3242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultTimeLimitDropdownId: 2
-  defaultScoreLimitDropdownId: 2
-  playersText: {fileID: 740071052}
-  maxPlayersText: {fileID: 1114732994}
-  roomNameText: {fileID: 1292842685}
-  blueTeamPanel: {fileID: 1665207850}
-  noTeamPanel: {fileID: 1532893968}
-  redTeamPanel: {fileID: 364195147}
-  playerTemplate: {fileID: 3538405108197451590, guid: 451441b08b1874046abe6280d46071dc,
-    type: 3}
-  timeLimitDropdown: {fileID: 297823072}
-  scoreLimitDropdown: {fileID: 256007511}
-  timeLimitText: {fileID: 256747100}
-  scoreLimitText: {fileID: 1476475632}
-  gameLobbyPanelGO: {fileID: 2657314629770117017}
-  startGameButton: {fileID: 2657314629636410547}
-  stopGameButton: {fileID: 1826532452}
-  pauseGameButton: {fileID: 160470901}
-  moveBlueToSpec: {fileID: 1385342490}
-  moveRedToSpec: {fileID: 1934761757}
---- !u!114 &1306262637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306262635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c7d686c26d69746b7fb2092a5445fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 2657314629447588157}
-  blueScoreText: {fileID: 1625080438826769761}
-  redScoreText: {fileID: 7471675816745482564}
-  losePanel: {fileID: 2657314630511235997}
-  drawPanel: {fileID: 2657314631202014436}
-  winPanel: {fileID: 2657314630196517894}
---- !u!4 &1306262638
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306262635}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1353240248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53362,7 +53280,7 @@ GameObject:
   - component: {fileID: 1385342493}
   - component: {fileID: 1385342492}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Move Blue Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53808,7 +53726,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1606931268
 GameObject:
@@ -55126,7 +55044,7 @@ GameObject:
   - component: {fileID: 1934761760}
   - component: {fileID: 1934761759}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Move Red Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93087,6 +93005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 514d197cc0803f94ba57ff209d01f8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLobbyPanel: {fileID: 2657314629770117018}
 --- !u!4 &2075197704
 Transform:
   m_ObjectHideFlags: 0
@@ -93099,7 +93018,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2075197706
 MonoBehaviour:
@@ -93113,6 +93032,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463417ce88ae42845af2fb4ec1d68c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameHUDPanel: {fileID: 2657314630982437988}
+  gameStateController: {fileID: 2075197708}
 --- !u!114 &2075197707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93125,6 +93046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb2d52017ec88f47aa6b2b99fcce3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameHUDPanel: {fileID: 2657314630982437988}
+  gameStateController: {fileID: 2075197708}
 --- !u!114 &2075197708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93137,6 +93060,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f3a68161b508c469035ba0b0003dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameHUDPanel: {fileID: 2657314630982437988}
+  gameLobbyPanel: {fileID: 2657314629770117018}
   antennasWaypoints:
   - {fileID: 879302172}
   - {fileID: 1838985172}
@@ -93429,7 +93354,7 @@ GameObject:
   - component: {fileID: 3068997879126559160}
   - component: {fileID: 6290231134047833808}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Separator Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94276,6 +94201,7 @@ GameObject:
   - component: {fileID: 2657314629770117022}
   - component: {fileID: 2657314629770117020}
   - component: {fileID: 2657314629770117023}
+  - component: {fileID: 2657314629770117018}
   m_Layer: 5
   m_Name: Game Lobby Panel
   m_TagString: Untagged
@@ -94283,6 +94209,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2657314629770117018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657314629770117017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e11f2c9f10d62204c902c425d5aa3242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTimeLimitDropdownId: 2
+  defaultScoreLimitDropdownId: 2
+  playersText: {fileID: 740071052}
+  maxPlayersText: {fileID: 1114732994}
+  roomNameText: {fileID: 1292842685}
+  blueTeamPanel: {fileID: 1665207850}
+  noTeamPanel: {fileID: 1532893968}
+  redTeamPanel: {fileID: 364195147}
+  playerTemplate: {fileID: 3538405108197451590, guid: 451441b08b1874046abe6280d46071dc,
+    type: 3}
+  timeLimitDropdown: {fileID: 297823072}
+  scoreLimitDropdown: {fileID: 256007511}
+  timeLimitText: {fileID: 256747100}
+  scoreLimitText: {fileID: 256747100}
+  startGameButton: {fileID: 2657314629636410547}
+  stopGameButton: {fileID: 1826532452}
+  pauseGameButton: {fileID: 160470901}
+  moveBlueToSpec: {fileID: 1385342490}
+  moveRedToSpec: {fileID: 1934761757}
 --- !u!222 &2657314629770117020
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -95488,6 +95445,7 @@ GameObject:
   - component: {fileID: 2657314630982437987}
   - component: {fileID: 2657314630982437985}
   - component: {fileID: 2657314630982437984}
+  - component: {fileID: 2657314630982437988}
   m_Layer: 5
   m_Name: Game HUD Panel
   m_TagString: Untagged
@@ -95518,6 +95476,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2657314630982437988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657314630982437986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c7d686c26d69746b7fb2092a5445fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 2657314629447588157}
+  blueScoreText: {fileID: 1625080438826769761}
+  redScoreText: {fileID: 7471675816745482564}
+  losePanel: {fileID: 2657314630511235997}
+  drawPanel: {fileID: 2657314631202014436}
+  winPanel: {fileID: 2657314630196517894}
 --- !u!114 &2657314630987933224
 MonoBehaviour:
   m_ObjectHideFlags: 0

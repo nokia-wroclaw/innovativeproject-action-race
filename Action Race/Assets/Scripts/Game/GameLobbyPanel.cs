@@ -23,8 +23,6 @@ public class GameLobbyPanel : MonoBehaviour
     [SerializeField] Text timeLimitText;
     [SerializeField] Text scoreLimitText;
 
-    [SerializeField] GameObject gameLobbyPanelGO;
-
     [SerializeField] GameObject startGameButton;
     [SerializeField] GameObject stopGameButton;
     [SerializeField] GameObject pauseGameButton;
@@ -85,22 +83,6 @@ public class GameLobbyPanel : MonoBehaviour
         pauseGameButton.SetActive(false);
         moveBlueToSpec.SetActive(false);
         moveRedToSpec.SetActive(false);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-            Toggle();
-    }
-
-    void Toggle()
-    {
-        gameLobbyPanelGO.SetActive(!gameLobbyPanelGO.activeInHierarchy);
-    }
-
-    public void SetActive(bool active)
-    {
-        gameLobbyPanelGO.SetActive(active);
     }
 
     /*void ConfigurePanel()

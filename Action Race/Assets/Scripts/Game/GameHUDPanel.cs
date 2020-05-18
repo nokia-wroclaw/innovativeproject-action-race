@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class GameHUDPanel : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Text timeText;
     [SerializeField] Text blueScoreText;
     [SerializeField] Text redScoreText;
-
     [SerializeField] GameObject losePanel;
     [SerializeField] GameObject drawPanel;
     [SerializeField] GameObject winPanel;

@@ -3,28 +3,21 @@ using Photon.Pun;
 
 public class QuickPlayController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameObject mainMenuPanelGO;
-    [SerializeField] GameObject createRoomPanelGO;
-
-    ConnectionStatusPanel csp;
-
-    void Awake()
-    {
-        csp = FindObjectOfType<ConnectionStatusPanel>();
-    }
+    [Header("Custom Scripts References")]
+    [SerializeField] MainMenuPanel mainMenuPanel;
+    [SerializeField] ConnectionStatusPanel connectionStatusPanel;
 
     public void QuickPlay()
     {
-        StartCoroutine(csp.MessageFadeIn(ConnectionStatus.Join));
+        StartCoroutine(connectionStatusPanel.MessageFadeIn(ConnectionStatus.Join));
         PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        csp.ChangeMessage(ConnectionStatus.JoinFail);
-        StartCoroutine(csp.MessageFadeOut());
+        connectionStatusPanel.ChangeMessage(ConnectionStatus.JoinFail);
+        StartCoroutine(connectionStatusPanel.MessageFadeOut());
 
-        mainMenuPanelGO.SetActive(false);
-        createRoomPanelGO.SetActive(true);
+        mainMenuPanel.TryCreateRoom();
     }
 }

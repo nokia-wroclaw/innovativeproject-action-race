@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ButtonSoundsManager : MonoBehaviour
 {
-
     public AudioSource audioSource, audioSourceCamera;
 
     public AudioClip hoverClip;
@@ -12,21 +11,19 @@ public class ButtonSoundsManager : MonoBehaviour
 
     public AudioClip checkVolumeClip;
 
-    // functions for playing sounds
-
-    public void hoverSound()
+    public void HoverSound()
     {
         audioSource.PlayOneShot(hoverClip);
     }
 
-    public void clickSound()
+    public void ClickSound()
     {
         audioSource.PlayOneShot(clickClip);
     }
 
     // playes clip in options panel for checking the volume
 
-    public void checkVolume()
+    public void CheckVolume()
     {
         audioSourceCamera.PlayOneShot(checkVolumeClip);
     }

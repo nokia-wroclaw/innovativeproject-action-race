@@ -4,14 +4,11 @@ using Photon.Pun;
 
 public class NickNameController : MonoBehaviour
 {
+    [Header("Custom Scripts References")]
+    [SerializeField] CreateRoomPanel createRoomPanel;
+
+    [Header("References")]
     [SerializeField] InputField nickNameIF;
-
-    CreateRoomPanel crp;
-
-    void Awake()
-    {
-        crp = FindObjectOfType<CreateRoomPanel>();
-    }
 
     void Start()
     {
@@ -33,6 +30,6 @@ public class NickNameController : MonoBehaviour
         PlayerPrefs.SetString("NickName", nickName);
         PhotonNetwork.LocalPlayer.NickName = nickName;
 
-        crp.RoomName = nickName + "'s room";
+        createRoomPanel.RoomName = nickName + "'s room";
     }
 }

@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class ConnectionStatusPanel : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] CanvasGroup connectionStatusPanelCG;
     [SerializeField] Text messageText;
 
     [Header("Messages")]
@@ -13,12 +13,17 @@ public class ConnectionStatusPanel : MonoBehaviour
     [SerializeField] string createRoomFailInfo = "Unable to create the room!";
     [SerializeField] string joinRoomInfo = "Joining to the room ...";
     [SerializeField] string joinRoomFailInfo = "Unable to join the room!";
+    [SerializeField] string passwordWrongInfo = "Entered Password is wrong!";
+
+    CanvasGroup canvasGroup;
 
     void Start()
     {
-        connectionStatusPanelCG.alpha = 0;
-        connectionStatusPanelCG.blocksRaycasts = false;
-        connectionStatusPanelCG.gameObject.SetActive(true);
+        canvasGroup = GetComponent<CanvasGroup>();
+
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.gameObject.SetActive(true);
     }
 
     public string Message
@@ -45,65 +50,40 @@ public class ConnectionStatusPanel : MonoBehaviour
             case ConnectionStatus.JoinFail:
                 Message = joinRoomFailInfo;
                 break;
+
+            case ConnectionStatus.PasswordWrong:
+                Message = passwordWrongInfo;
+                break;
         }
+    }
+
+    public IEnumerator MessageFadeInOut(ConnectionStatus connectionStatus)
+    {
+        yield return MessageFadeIn(connectionStatus);
+        yield return MessageFadeOut();
     }
 
     public IEnumerator MessageFadeIn(ConnectionStatus connectionStatus)
     {
-        connectionStatusPanelCG.blocksRaycasts = true;
+        canvasGroup.blocksRaycasts = true;
 
         ChangeMessage(connectionStatus);
 
         for (float a = 0; a <= 1; a += 2 * Time.deltaTime)
         {
-            connectionStatusPanelCG.alpha = a;
+            canvasGroup.alpha = a;
             yield return null;
         }
     }
 
     public IEnumerator MessageFadeOut()
     {
-        connectionStatusPanelCG.blocksRaycasts = false;
-
         for (float a = 1; a >= 0; a -= Time.deltaTime)
         {
-            connectionStatusPanelCG.alpha = a;
+            canvasGroup.alpha = a;
             yield return null;
         }
-    }
 
-    /*public void ShowMessage(string msg)
-    {
-        messageText.text = msg;
-        connectionStatusPanel.SetActive(true);
+        canvasGroup.blocksRaycasts = false;
     }
-
-    public void SetActive(bool active)
-    {
-        connectionStatusPanel.SetActive(active);
-    }
-
-    public void ShowCreateRoomInfo()
-    {
-        Message = createRoomInfo;
-        SetActive(true);
-    }
-
-    public void ShowCreateRoomFailInfo()
-    {
-        Message = createRoomFailInfo;
-        SetActive(true);
-    }
-
-    public void ShowJoinRoomInfo()
-    {
-        this.Message = joinRoomInfo;
-        this.SetActive(true);
-    }
-
-    public void ShowJoinRoomFailInfo()
-    {
-        this.Message = joinRoomFailInfo;
-        this.SetActive(true);
-    }*/
 }

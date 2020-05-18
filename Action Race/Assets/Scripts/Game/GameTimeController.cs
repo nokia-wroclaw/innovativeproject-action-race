@@ -3,16 +3,11 @@ using Photon.Pun;
 
 public class GameTimeController : MonoBehaviourPunCallbacks
 {
-    GameHUDPanel ghp;
-    GameStateController gsc;
+    [Header("Custom Scripts References")]
+    [SerializeField] GameHUDPanel gameHUDPanel;
+    [SerializeField] GameStateController gameStateController;
 
     bool countdown;
-
-    void Awake()
-    {
-        ghp = FindObjectOfType<GameHUDPanel>();
-        gsc = FindObjectOfType<GameStateController>();
-    }
 
     void Start()
     {
@@ -42,7 +37,7 @@ public class GameTimeController : MonoBehaviourPunCallbacks
         {
             int time = (int)value;
             Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
-            ghp.UpdateTimeText(vTime);
+            gameHUDPanel.UpdateTimeText(vTime);
         }
     }
 
@@ -59,12 +54,12 @@ public class GameTimeController : MonoBehaviourPunCallbacks
                 if (time > 0)
                 {
                     Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
-                    ghp.UpdateTimeText(vTime);
+                    gameHUDPanel.UpdateTimeText(vTime);
                 }
                 else
                 {
                     countdown = false;
-                    StartCoroutine(gsc.EndGame());
+                    StartCoroutine(gameStateController.EndGame());
                 }
             }
         }

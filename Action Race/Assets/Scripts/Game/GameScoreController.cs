@@ -3,14 +3,9 @@ using Photon.Pun;
 
 public class GameScoreController : MonoBehaviourPunCallbacks
 {
-    GameHUDPanel ghp;
-    GameStateController gsc;
-
-    void Awake()
-    {
-        ghp = FindObjectOfType<GameHUDPanel>();
-        gsc = FindObjectOfType<GameStateController>();
-    }
+    [Header("Custom Scripts References")]
+    [SerializeField] GameHUDPanel gameHUDPanel;
+    [SerializeField] GameStateController gameStateController;
 
     void Start()
     {
@@ -31,10 +26,10 @@ public class GameScoreController : MonoBehaviourPunCallbacks
         if (properties.TryGetValue(RoomProperty.BlueScore, out value))
         {
             int score = (int)value;
-            ghp.UpdateScoreText(Team.Blue, score);
+            gameHUDPanel.UpdateScoreText(Team.Blue, score);
 
             if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gsc.EndGame());
+                StartCoroutine(gameStateController.EndGame());
         }
     }
 
@@ -44,10 +39,10 @@ public class GameScoreController : MonoBehaviourPunCallbacks
         if (properties.TryGetValue(RoomProperty.RedScore, out value))
         {
             int score = (int)value;
-            ghp.UpdateScoreText(Team.Red, (int)score);
+            gameHUDPanel.UpdateScoreText(Team.Red, (int)score);
 
             if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gsc.EndGame());
+                StartCoroutine(gameStateController.EndGame());
         }
     }
 

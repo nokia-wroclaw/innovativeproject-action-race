@@ -8,7 +8,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
 {
     [SerializeField] List<Button> networkButtons;
 
-    string gameVersion = "1.0";
+    string gameVersion = "2.1";
 
     private void Awake()
     {
