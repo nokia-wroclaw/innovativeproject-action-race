@@ -155,8 +155,8 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     {
         if (isLeaving) return;
 
-        PhotonNetwork.LeaveRoom();
         isLeaving = true;
+        PhotonNetwork.LeaveRoom();
     }
 
     public void StartGame()

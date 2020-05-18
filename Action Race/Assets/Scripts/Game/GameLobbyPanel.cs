@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
-using Photon.Realtime;
 using System.Collections.Generic;
 
-public class GameLobbyPanel : MonoBehaviourPunCallbacks
+public class GameLobbyPanel : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] int defaultTimeLimitDropdownId = 2;

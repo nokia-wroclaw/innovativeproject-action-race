@@ -37,7 +37,8 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         foreach (Button button in networkButtons)
-            button.interactable = false;
+            if(button)
+                button.interactable = false;
     }
 
     void Connect()

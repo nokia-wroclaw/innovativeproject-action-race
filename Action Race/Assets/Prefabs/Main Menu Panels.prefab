@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2594962897303658825}
   - component: {fileID: 2594962897303658822}
   - component: {fileID: 2594962897303658823}
+  - component: {fileID: 197377345}
   m_Layer: 0
   m_Name: Main Menu Panels
   m_TagString: Untagged
@@ -44,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30bef32a6ec0c740b71862f1fd8b48c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultMaxPlayersDropdownId: 2
   roomNameIF: {fileID: 0}
   passwordIF: {fileID: 0}
   maxPlayersDropdown: {fileID: 0}
@@ -66,3 +68,21 @@ MonoBehaviour:
   roomsList: {fileID: 0}
   roomTemplateGO: {fileID: 127962384054372244, guid: 72bd43ceb30a1fe4ebe1b127e06685e2,
     type: 3}
+--- !u!114 &197377345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2594962897303658824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf88a4ff5a07044bae7d0a80c182a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectionStatusPanelCG: {fileID: 0}
+  messageText: {fileID: 0}
+  createRoomInfo: Creating the room ...
+  createRoomFailInfo: Unable to create the room!
+  joinRoomInfo: Joining to the room ...
+  joinRoomFailInfo: Unable to join the room!

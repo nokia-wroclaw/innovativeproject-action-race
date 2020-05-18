@@ -5,22 +5,25 @@ using System.Collections.Generic;
 
 public class JoinRoomController : MonoBehaviourPunCallbacks
 {
+    ConnectionStatusPanel csp;
     JoinRoomPanel jrp;
 
     List<RoomInfo> roomsList = new List<RoomInfo>();
 
     void Awake()
     {
+        csp = FindObjectOfType<ConnectionStatusPanel>();
         jrp = FindObjectOfType<JoinRoomPanel>();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        this.roomsList = roomList;
+        roomsList = roomList;
     }
 
     public void JoinRoom(RoomTemplate roomTemplate)
     {
+        //StartCoroutine(csp.MessageFadeIn(ConnectionStatus.Join));
         PhotonNetwork.JoinRoom(roomTemplate.RoomName);
     }
 

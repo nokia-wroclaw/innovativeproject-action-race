@@ -13,16 +13,6 @@ public class PlayerTeam : MonoBehaviourPunCallbacks
         Synchronize();
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        if (!targetPlayer.IsLocal) return;
-        //Debug.Log("XD");
-
-        //object value;
-        //if (changedProps.TryGetValue(PlayerProperty.Team, out value))
-        //    pv.RPC("RefreshColor", RpcTarget.AllBufferedViaServer, (Team)value, pv.ViewID);
-    }
-
     void Synchronize()
     {
         if (!pv.IsMine) return;
