@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     PhotonView pv;
     Rigidbody2D rb;
     public bool isClimbing;
-    float gravScale;
 
     void Start()
     {
@@ -24,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
         isClimbing = false;
-        gravScale = rb.gravityScale;
 
         if (pv.IsMine)
         {
@@ -62,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isClimbing)
         {
-            rb.gravityScale = 0;
+            rb.Sleep();
             float axis = Input.GetAxis("Vertical");
             Vector2 climbVelocity = new Vector2(0, axis * runSpeed);
             rb.velocity = climbVelocity;
@@ -72,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         
         if(!isClimbing)
         {
-            rb.gravityScale = gravScale;
+            rb.WakeUp();
             animator.SetBool("Ladder", false);
         }
     }
