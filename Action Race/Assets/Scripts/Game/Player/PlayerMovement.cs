@@ -66,11 +66,14 @@ public class PlayerMovement : MonoBehaviour
             float axis = Input.GetAxis("Vertical");
             Vector2 climbVelocity = new Vector2(0, axis * runSpeed);
             rb.velocity = climbVelocity;
+
+            animator.SetBool("Ladder", true);
         }
         
         if(!isClimbing)
         {
             rb.gravityScale = gravScale;
+            animator.SetBool("Ladder", false);
         }
     }
 

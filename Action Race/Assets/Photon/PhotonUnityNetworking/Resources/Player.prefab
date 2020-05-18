@@ -551,6 +551,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Interact
+  - Type: 4
+    SynchronizeType: 1
+    Name: Ladder
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
