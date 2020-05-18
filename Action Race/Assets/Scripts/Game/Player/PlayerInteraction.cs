@@ -71,6 +71,7 @@ public class PlayerInteraction : MonoBehaviour
             if (a.CanProgram(team))
             {
                 StartProgram();
+                SoundMenager.Playsound("program");
                 a.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, team, 0f, pv.ViewID);
             }
         }

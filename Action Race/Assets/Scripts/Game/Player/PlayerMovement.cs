@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && feet.IsTouchingLayers())
         {
+            SoundMenager.Playsound("jump");
             Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
             rb.velocity = jumpVelocity;
             animator.SetTrigger("Jump");
