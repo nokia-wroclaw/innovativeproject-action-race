@@ -32,6 +32,8 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
             glp.ConfigureMasterClientPanel(State.Stop);
         else
             glp.ConfigureClientPanel();
+
+        glp.SetActive(true);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -46,6 +48,11 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         object value;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
             glp.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)value);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        glp.ChangePlayerIsMasterClient(newMasterClient.ActorNumber);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

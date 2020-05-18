@@ -12,6 +12,7 @@ public class CreateRoomPanel : MonoBehaviour
     public string RoomName
     {
         get { return roomNameIF.text; }
+        set { roomNameIF.text = value; }
     }
 
     public string Password

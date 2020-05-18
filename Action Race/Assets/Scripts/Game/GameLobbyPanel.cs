@@ -83,12 +83,6 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //SynchronizeTeams();
-
-        //ConfigurePanel();
-        //SetActive(true);
-
-
         //TEMPORARY OFF
         pauseGameButton.SetActive(false);
         moveBlueToSpec.SetActive(false);
@@ -204,7 +198,12 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
 
     public void RemovePlayer(int actorNumber)
     {
-        playersTemplates.Remove(actorNumber);
+        GameObject go;
+        if(playersTemplates.TryGetValue(actorNumber, out go))
+        {
+            Destroy(go);
+            playersTemplates.Remove(actorNumber);
+        }
     }
 
     public void ChangePlayerTeam(int actorNumber, Team team)
@@ -227,5 +226,12 @@ public class GameLobbyPanel : MonoBehaviourPunCallbacks
                     break;
             }
         }
+    }
+
+    public void ChangePlayerIsMasterClient(int actorNumber)
+    {
+        GameObject go;
+        if (playersTemplates.TryGetValue(actorNumber, out go))
+            go.GetComponent<PlayerTemplate>().IsMasterClient = true;
     }
 }
