@@ -5,25 +5,37 @@ using System.Collections;
 
 public class DayNightSystem : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Image fadeImage;
+    [Header("References")]
+    [SerializeField] Sprite dayBackground;
+    [SerializeField] Sprite nightBackground;
 
-    void Start()
+    [Header("References")]
+    [SerializeField] Image fadeImage;
+    [SerializeField] SpriteRenderer background;
+
+    public bool IsNight { get; private set; }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        StartCoroutine(ChangeTimeOfDay());
+        object value;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+        {
+            if ((State)value == State.Play)
+            {
+                background.sprite = dayBackground;
+                IsNight = false;
+            }
+        }
     }
 
-    //public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
-    //{
-        
-    //}
-
-    IEnumerator ChangeTimeOfDay()
+    public IEnumerator ChangeTimeOfDay()
     {
-        yield return new WaitForSeconds(5f);
-
         yield return FadeIn();
-        yield return new WaitForSeconds(1f);
 
+        background.sprite = nightBackground;
+        IsNight = true;
+
+        yield return new WaitForSeconds(0.1f);
         yield return FadeOut();
     }
 

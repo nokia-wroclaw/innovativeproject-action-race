@@ -4,6 +4,7 @@ using Photon.Pun;
 public class GameTimeController : MonoBehaviourPunCallbacks
 {
     [Header("Custom Scripts References")]
+    [SerializeField] DayNightSystem dayNightSystem;
     [SerializeField] GameHUDPanel gameHUDPanel;
     [SerializeField] GameStateController gameStateController;
 
@@ -50,11 +51,15 @@ public class GameTimeController : MonoBehaviourPunCallbacks
 
             if (properties.TryGetValue(RoomProperty.TimeLimit, out value1))
             {
-                time = (int)value1 - time;
+                int timeLimit = (int)value1;
+                time = timeLimit - time;
                 if (time > 0)
                 {
                     Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
                     gameHUDPanel.UpdateTimeText(vTime);
+
+                    if (time <= timeLimit / 2 && !dayNightSystem.IsNight)
+                        StartCoroutine(dayNightSystem.ChangeTimeOfDay());
                 }
                 else
                 {

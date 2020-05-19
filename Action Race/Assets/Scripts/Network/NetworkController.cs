@@ -8,7 +8,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
 {
     [SerializeField] List<Button> networkButtons;
 
-    string gameVersion = "2.1";
+    string gameVersion = "2.2";
 
     private void Awake()
     {
@@ -28,10 +28,14 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        foreach(Button button in networkButtons)
-            button.interactable = true;
-
         PhotonNetwork.JoinLobby(TypedLobby.Default);
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("OnJoinedLobby");
+        foreach (Button button in networkButtons)
+            button.interactable = true;
     }
 
     public override void OnDisconnected(DisconnectCause cause)

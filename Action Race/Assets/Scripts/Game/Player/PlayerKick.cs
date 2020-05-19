@@ -7,27 +7,26 @@ public class PlayerKick : MonoBehaviour
     [Header("Properties")]
     [SerializeField] float kickCooldown = 1f;
 
-    [Header("References")]
-    [SerializeField] CircleCollider2D foot;
-
-
     Animator animator;
     PhotonView pv;
     PlayerAntennaProgramming pap;
 
-    float kickDelay = 0f;
+    PlayerKickFoot playerKickFoot;
+
+    float kickDelay;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         pap = GetComponent<PlayerAntennaProgramming>();
+
+        playerKickFoot = GetComponentInChildren<PlayerKickFoot>();
     }
 
     void Update()
     {
         if (!pv.IsMine) return;
-
         Kick();
     }
 
@@ -42,9 +41,7 @@ public class PlayerKick : MonoBehaviour
                 kickDelay = kickCooldown;
                 animator.SetTrigger("Kick");
 
-                int layerMask = LayerMask.GetMask("Player");
-                List<Collider2D> colliders = new List<Collider2D>();
-                foot.OverlapCollider(new ContactFilter2D() { layerMask = layerMask }, colliders);
+                List<Collider2D> colliders = playerKickFoot.CollidingPlayersBodies;
                 foreach (Collider2D collider in colliders)
                 {
                     PhotonView pvOther = collider.GetComponentInParent<PhotonView>();
@@ -57,7 +54,7 @@ public class PlayerKick : MonoBehaviour
     [PunRPC]
     void TakeKick()
     {
-        GetComponent<Rigidbody2D>().velocity = new Vector2(0, 20);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(20f, 20f);
 
         if (pap.IsProgrammingAntenna())
         {

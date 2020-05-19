@@ -27,8 +27,6 @@ public class PlayerAntennaProgramming : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!pv.IsMine) return;
-
         if (collision.tag == "Antenna")
         {
             ac = collision.GetComponent<AntennaController>();
@@ -38,8 +36,6 @@ public class PlayerAntennaProgramming : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (!pv.IsMine) return;
-
         if (collision.tag == "Antenna")
         {
             isTouchingAntenna = false;

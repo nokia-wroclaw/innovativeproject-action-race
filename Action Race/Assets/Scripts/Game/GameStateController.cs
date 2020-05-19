@@ -11,7 +11,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
     [Header("References")]
     [SerializeField] Transform[] antennasWaypoints;
-    [SerializeField] Transform[] laddersWaypoints;
     [SerializeField] Transform[] blueTeamSpawns;
     [SerializeField] Transform[] redTeamSpawns;
     [SerializeField] GameObject viewCamera;
@@ -88,6 +87,8 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
     void SetGame()
     {
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber, false);
+
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
         object value;
 
@@ -108,11 +109,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
         foreach (Transform waypoint in antennasWaypoints)
         {
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);
-        }
-
-        foreach (Transform waypoint in laddersWaypoints)
-        {
-            PhotonNetwork.InstantiateSceneObject("Ladder", waypoint.position, Quaternion.identity);
         }
     }
 
@@ -153,12 +149,11 @@ public class GameStateController : MonoBehaviourPunCallbacks
         else if (winner == Team.None) gameHUDPanel.ShowEndGamePanel(0); 
         else gameHUDPanel.ShowEndGamePanel(-1);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         gameHUDPanel.HideEndGamePanel();
 
-        //if(PhotonNetwork.IsMasterClient)
-            //glp.ChangeGameState(0);
+        StopGame();
     }
 
     void SpawnPlayer(Transform[] spawns)
