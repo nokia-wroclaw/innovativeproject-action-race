@@ -6,14 +6,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Properties")]
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 8f;
+    [SerializeField] AudioClip jumpSound;
 
     [Header("References")]
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject nickNameTag;
 
     Animator animator;
-    PhotonView pv;
-    Rigidbody2D rb;
+    AudioSource audioSource;
+    PhotonView photonView;
+    Rigidbody2D rigidBody;
 
     PlayerBody playerBody;
     PlayerFeet playerFeet;
@@ -21,8 +23,9 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        pv = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+        photonView = GetComponent<PhotonView>();
+        rigidBody = GetComponent<Rigidbody2D>();
 
         playerBody = GetComponentInChildren<PlayerBody>();
         playerFeet = GetComponentInChildren<PlayerFeet>();
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        if (pv.IsMine)
+        if (photonView.IsMine)
             gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
         else
             playerCamera.SetActive(false);
@@ -40,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     {
         nickNameTag.transform.localScale = transform.localScale;
 
-        if (!pv.IsMine) return;
+        if (!photonView.IsMine) return;
         Run();
         Jump();
         Climb();
@@ -50,8 +53,8 @@ public class PlayerMovement : MonoBehaviour
     void Run()
     {
         float horizontalSpeed = Input.GetAxis("Horizontal") * runSpeed;
-        Vector2 playerVelocity = new Vector2(horizontalSpeed, rb.velocity.y);
-        rb.velocity = playerVelocity;
+        Vector2 playerVelocity = new Vector2(horizontalSpeed, rigidBody.velocity.y);
+        rigidBody.velocity = playerVelocity;
 
         bool playerHasHorizontalSpeed = Mathf.Abs(horizontalSpeed) > 0f;
         animator.SetBool("Run", playerHasHorizontalSpeed);
@@ -62,8 +65,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && playerFeet.OnTheGround)
         {
             Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
-            rb.velocity = jumpVelocity;
+            rigidBody.velocity = jumpVelocity;
             animator.SetTrigger("Jump");
+            audioSource.PlayOneShot(jumpSound);
         }
     }
 
@@ -87,25 +91,25 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerFeet.IsTouchingLadder)
         {
-            rb.gravityScale = 0;
-            rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
+            rigidBody.gravityScale = 0;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, verticalSpeed);
         }
         else
-            rb.gravityScale = 5;
+            rigidBody.gravityScale = 5;
     }
 
     void FlipSprite()
     {
-        bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0;
+        bool playerHasHorizontalSpeed = Mathf.Abs(rigidBody.velocity.x) > 0;
         if (playerHasHorizontalSpeed)
         {
-            Vector3 flipScale = new Vector3(Mathf.Sign(rb.velocity.x), 1f, 1f);
+            Vector3 flipScale = new Vector3(Mathf.Sign(rigidBody.velocity.x), 1f, 1f);
             transform.localScale = flipScale;
         }
     }
 
     public void StopMovement()
     {
-        rb.velocity = Vector2.zero;
+        rigidBody.velocity = Vector2.zero;
     }
 }

@@ -3,10 +3,12 @@ using Photon.Pun;
 
 public class PlayerAntennaProgramming : MonoBehaviour
 {
-    Animator animator;
-    PhotonView pv;
-    PlayerMovement pm;
+    [SerializeField] AudioClip antennaProgrammingSound;
 
+    Animator animator;
+    AudioSource audioSource;
+    PhotonView photonView;
+    PlayerMovement playerMovement;
 
     bool isTouchingAntenna, isProgrammingAntenna;
     AntennaController ac;
@@ -14,13 +16,14 @@ public class PlayerAntennaProgramming : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        pv = GetComponent<PhotonView>();
-        pm = GetComponent<PlayerMovement>();
+        audioSource = GetComponent<AudioSource>();
+        photonView = GetComponent<PhotonView>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        if (!pv.IsMine) return;
+        if (!photonView.IsMine) return;
 
         ProgramAntenna();
     }
@@ -59,7 +62,8 @@ public class PlayerAntennaProgramming : MonoBehaviour
             if (ac.CanProgram(team))
             {
                 StartProgram();
-                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, team, 0f, pv.ViewID);
+                audioSource.PlayOneShot(antennaProgrammingSound);
+                ac.GetComponent<PhotonView>().RPC("StartProgram", RpcTarget.AllViaServer, team, 0f, photonView.ViewID);
             }
         }
 
@@ -76,8 +80,8 @@ public class PlayerAntennaProgramming : MonoBehaviour
         isProgrammingAntenna = true;
         animator.SetBool("Interact", true);
 
-        pm.StopMovement();
-        pm.enabled = false;
+        playerMovement.StopMovement();
+        playerMovement.enabled = false;
     }
 
     public void StopProgram()
@@ -85,7 +89,7 @@ public class PlayerAntennaProgramming : MonoBehaviour
         isProgrammingAntenna = false;
         animator.SetBool("Interact", false);
 
-        pm.enabled = true;
+        playerMovement.enabled = true;
     }
 
     public bool IsProgrammingAntenna()
