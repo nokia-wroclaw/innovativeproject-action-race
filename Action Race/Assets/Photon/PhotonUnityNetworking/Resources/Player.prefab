@@ -616,6 +616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f215bc9cab4249c46a118d70f8897c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  antennaProgrammingSound: {fileID: 8300000, guid: 1fb18d97286723540ac773235ce91427,
+    type: 3}
 --- !u!114 &4997979216421511712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 10
   jumpSpeed: 22
+  jumpSound: {fileID: 8300000, guid: 73521728e948e1643a308791784414fd, type: 3}
   playerCamera: {fileID: 6568489185380166790}
   nickNameTag: {fileID: 4647192227523570597}
 --- !u!114 &8491946737450811158
