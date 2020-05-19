@@ -16,8 +16,8 @@ public class QuickPlayController : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         connectionStatusPanel.ChangeMessage(ConnectionStatus.JoinFail);
-        StartCoroutine(connectionStatusPanel.MessageFadeOut());
 
-        mainMenuPanel.TryCreateRoom();
+        StartCoroutine(connectionStatusPanel.MessageFadeOut());
+        StartCoroutine(mainMenuPanel.TryCreateRoom());
     }
 }

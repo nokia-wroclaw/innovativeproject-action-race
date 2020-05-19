@@ -73,16 +73,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerBody.IsTouchingLadder)
         {
-            animator.SetBool("Ladder", true);
-            if (Mathf.Abs(verticalSpeed) > 0)
-                animator.speed = 1;
+            animator.SetBool("Climb", true);
+            if (Mathf.Abs(verticalSpeed) > Mathf.Epsilon)
+                animator.SetBool("Stay On Ladder", false);
             else
-                animator.speed = 0;
+                animator.SetBool("Stay On Ladder", true);
         }
         else
         {
-            animator.SetBool("Ladder", false);
-            animator.speed = 1;
+            animator.SetBool("Climb", false);
+            animator.SetBool("Stay On Ladder", false);
         }
 
         if (playerFeet.IsTouchingLadder)

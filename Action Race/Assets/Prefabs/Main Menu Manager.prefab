@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7164704192180846936
+--- !u!1 &234021814476178304
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,14 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7164704192180846940}
-  - component: {fileID: 7164704192180846941}
-  - component: {fileID: 7164704192180846939}
-  - component: {fileID: 457946856176608583}
-  - component: {fileID: 457946856176608581}
-  - component: {fileID: 457946856176608585}
+  - component: {fileID: 234021814476178308}
+  - component: {fileID: 1561396428}
+  - component: {fileID: 234021814476178309}
+  - component: {fileID: 234021814476178307}
+  - component: {fileID: 7353174382464952223}
+  - component: {fileID: 7353174382464952221}
+  - component: {fileID: 7353174382464952209}
+  - component: {fileID: 234021814476178306}
   m_Layer: 0
   m_Name: Main Menu Manager
   m_TagString: Untagged
@@ -21,13 +23,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7164704192180846940
+--- !u!4 &234021814476178308
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -35,13 +37,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7164704192180846941
+--- !u!114 &1561396428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4b837bf3eaaa64a82525ca06eb77f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  hoverClip: {fileID: 8300000, guid: 2ad767054b3ac7e46985710733e5b408, type: 3}
+  clickClip: {fileID: 8300000, guid: 34e69e1d5966ea54b909dde0aadc1dcc, type: 3}
+  checkVolumeClip: {fileID: 8300000, guid: 8bca64b19e3a3eb40b195ae26f59152e, type: 3}
+--- !u!114 &234021814476178309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234021814476178304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01bd56e704be583499a8459328ef2c1c, type: 3}
@@ -51,13 +69,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &7164704192180846939
+--- !u!114 &234021814476178307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9eed918ff86bb0e4cb42c3f439599618, type: 3}
@@ -65,13 +83,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createRoomPanel: {fileID: 0}
   nickNameIF: {fileID: 0}
---- !u!114 &457946856176608583
+--- !u!114 &7353174382464952223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 176f50f2d6f899c4bad05dc7f2f8d48c, type: 3}
@@ -79,13 +97,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuPanel: {fileID: 0}
   connectionStatusPanel: {fileID: 0}
---- !u!114 &457946856176608581
+--- !u!114 &7353174382464952221
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fc72c625cac23648bbcd501b690a48d, type: 3}
@@ -94,13 +112,13 @@ MonoBehaviour:
   roomSceneIndex: 1
   connectionStatusPanel: {fileID: 0}
   createRoomPanel: {fileID: 0}
---- !u!114 &457946856176608585
+--- !u!114 &7353174382464952209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7164704192180846936}
+  m_GameObject: {fileID: 234021814476178304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fd34a6d2c35296439260af39e9916d8, type: 3}
@@ -108,4 +126,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionStatusPanel: {fileID: 0}
   joinRoomPanel: {fileID: 0}
+  passwordPanel: {fileID: 0}
+--- !u!114 &234021814476178306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234021814476178304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee6ba4053c5dc044a36d51dd1a6736a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectionStatusPanel: {fileID: 0}
   passwordPanel: {fileID: 0}

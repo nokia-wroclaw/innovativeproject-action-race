@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5729554249616232283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5729554249616232277}
+  - component: {fileID: 5729554249616232282}
+  - component: {fileID: 5729554249616232279}
+  - component: {fileID: 5729554249616232278}
+  - component: {fileID: 5729554249616232273}
+  - component: {fileID: 2075197704}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5729554249616232277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5729554249616232282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514d197cc0803f94ba57ff209d01f8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameLobbyPanel: {fileID: 0}
+--- !u!114 &5729554249616232279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463417ce88ae42845af2fb4ec1d68c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameHUDPanel: {fileID: 0}
+  gameStateController: {fileID: 5729554249616232273}
+--- !u!114 &5729554249616232278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb2d52017ec88f47aa6b2b99fcce3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayNightSystem: {fileID: 2075197704}
+  gameHUDPanel: {fileID: 0}
+  gameStateController: {fileID: 5729554249616232273}
+--- !u!114 &5729554249616232273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f3a68161b508c469035ba0b0003dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameHUDPanel: {fileID: 0}
+  gameLobbyPanel: {fileID: 0}
+  antennasWaypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  blueTeamSpawns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  redTeamSpawns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  viewCamera: {fileID: 0}
+--- !u!114 &2075197704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729554249616232283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4933c86be2885f4a9dee962e87941ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayBackground: {fileID: 21300000, guid: 6413392940ceef3429fcb911e1058659, type: 3}
+  nightBackground: {fileID: 21300000, guid: 592a161ba2ab28d4d8a11fb8fd6b8b58, type: 3}
+  fadeImage: {fileID: 0}
+  background: {fileID: 0}
