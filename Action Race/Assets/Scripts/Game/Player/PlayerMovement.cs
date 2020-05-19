@@ -9,30 +9,31 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     [SerializeField] GameObject playerCamera;
-    [SerializeField] BoxCollider2D feet;
     [SerializeField] GameObject nickNameTag;
 
     Animator animator;
     PhotonView pv;
     Rigidbody2D rb;
-    public bool isClimbing;
 
-    void Start()
+    PlayerBody playerBody;
+    PlayerFeet playerFeet;
+
+    void Awake()
     {
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
-        isClimbing = false;
 
+        playerBody = GetComponentInChildren<PlayerBody>();
+        playerFeet = GetComponentInChildren<PlayerFeet>();
+    }
+
+    void Start()
+    {
         if (pv.IsMine)
-        {
             gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
-        }
         else
-        {
             playerCamera.SetActive(false);
-        }
-
     }
 
     void Update()
@@ -41,48 +42,56 @@ public class PlayerMovement : MonoBehaviour
 
         if (!pv.IsMine) return;
         Run();
-        Climb();
         Jump();
+        Climb();
         FlipSprite();
     }
 
     void Run()
     {
-        float axis = Input.GetAxis("Horizontal");
-        Vector2 playerVelocity = new Vector2(axis * runSpeed, rb.velocity.y);
+        float horizontalSpeed = Input.GetAxis("Horizontal") * runSpeed;
+        Vector2 playerVelocity = new Vector2(horizontalSpeed, rb.velocity.y);
         rb.velocity = playerVelocity;
 
-        bool playerHasHorizontalSpeed = Mathf.Abs(rb.velocity.x) > 0f;
+        bool playerHasHorizontalSpeed = Mathf.Abs(horizontalSpeed) > 0f;
         animator.SetBool("Run", playerHasHorizontalSpeed);
-    }
-
-    void Climb()
-    {
-        if (isClimbing)
-        {
-            rb.Sleep();
-            float axis = Input.GetAxis("Vertical");
-            Vector2 climbVelocity = new Vector2(0, axis * runSpeed);
-            rb.velocity = climbVelocity;
-
-            animator.SetBool("Ladder", true);
-        }
-        
-        if(!isClimbing)
-        {
-            rb.WakeUp();
-            animator.SetBool("Ladder", false);
-        }
     }
 
     void Jump()
     {
-        if (Input.GetButtonDown("Jump") && feet.IsTouchingLayers())
+        if (Input.GetButtonDown("Jump") && playerFeet.OnTheGround)
         {
             Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
             rb.velocity = jumpVelocity;
             animator.SetTrigger("Jump");
         }
+    }
+
+    void Climb()
+    {
+        float verticalSpeed = Input.GetAxis("Vertical") * runSpeed;
+
+        if (playerBody.IsTouchingLadder)
+        {
+            animator.SetBool("Climb", true);
+            if (Mathf.Abs(verticalSpeed) > Mathf.Epsilon)
+                animator.SetBool("Stay On Ladder", false);
+            else
+                animator.SetBool("Stay On Ladder", true);
+        }
+        else
+        {
+            animator.SetBool("Climb", false);
+            animator.SetBool("Stay On Ladder", false);
+        }
+
+        if (playerFeet.IsTouchingLadder)
+        {
+            rb.gravityScale = 0;
+            rb.velocity = new Vector2(rb.velocity.x, verticalSpeed);
+        }
+        else
+            rb.gravityScale = 5;
     }
 
     void FlipSprite()

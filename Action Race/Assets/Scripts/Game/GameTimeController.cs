@@ -3,51 +3,78 @@ using Photon.Pun;
 
 public class GameTimeController : MonoBehaviourPunCallbacks
 {
-    GameHUDPanel ghp;
-    GameStateController gsc;
+    [Header("Custom Scripts References")]
+    [SerializeField] DayNightSystem dayNightSystem;
+    [SerializeField] GameHUDPanel gameHUDPanel;
+    [SerializeField] GameStateController gameStateController;
+
     bool countdown;
 
     void Start()
     {
-        ghp = FindObjectOfType<GameHUDPanel>();
-        gsc = FindObjectOfType<GameStateController>();
-
-        Synchronize();
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        UpdateTimeLimit(customRoomProperties);
+        //UpdateTime(customRoomProperties);
+        UpdateCountDown(customRoomProperties);
     }
 
     void Update()
     {
         if (!countdown) return;
 
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        object value;
-        if (hash.TryGetValue(RoomProperty.StartTime, out value))
-        {
-            double time = PhotonNetwork.Time - (double)value;
-            time = (int)hash[RoomProperty.TimeLimit] - time;
-
-            if (time > 0)
-            {
-                UpdateTime(time);
-            }
-            else
-            {
-                countdown = false;
-                StartCoroutine(gsc.EndGame());
-            }
-        }
+        UpdateTime(PhotonNetwork.CurrentRoom.CustomProperties);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
+        UpdateTimeLimit(propertiesThatChanged);
+        UpdateCountDown(propertiesThatChanged);
+    }
+
+    void UpdateTimeLimit(ExitGames.Client.Photon.Hashtable properties)
+    {
         object value;
-
-        if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out value))
-            UpdateTime((int)value);
-
-        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
+        if (properties.TryGetValue(RoomProperty.TimeLimit, out value))
         {
-            ResetTime();
+            int time = (int)value;
+            Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
+            gameHUDPanel.UpdateTimeText(vTime);
+        }
+    }
+
+    void UpdateTime(ExitGames.Client.Photon.Hashtable properties)
+    {
+        object value, value1;
+        if (properties.TryGetValue(RoomProperty.StartTime, out value))
+        {
+            double time = PhotonNetwork.Time - (double)value;
+
+            if (properties.TryGetValue(RoomProperty.TimeLimit, out value1))
+            {
+                int timeLimit = (int)value1;
+                time = timeLimit - time;
+                if (time > 0)
+                {
+                    Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
+                    gameHUDPanel.UpdateTimeText(vTime);
+
+                    if (time <= timeLimit / 2 && !dayNightSystem.IsNight)
+                        StartCoroutine(dayNightSystem.ChangeTimeOfDay());
+                }
+                else
+                {
+                    countdown = false;
+                    StartCoroutine(gameStateController.EndGame());
+                }
+            }
+        }
+    }
+
+    void UpdateCountDown(ExitGames.Client.Photon.Hashtable properties)
+    {
+        object value;
+        if (properties.TryGetValue(RoomProperty.GameState, out value))
+        {
             switch ((State)value)
             {
                 case State.Play:
@@ -59,43 +86,5 @@ public class GameTimeController : MonoBehaviourPunCallbacks
                     break;
             }
         }
-    }
-
-    void Synchronize()
-    {
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        object value;
-
-        if (hash.TryGetValue(RoomProperty.TimeLimit, out value))
-            UpdateTime((int)value);
-
-        if (hash.TryGetValue(RoomProperty.GameState, out value))
-        {
-            switch ((State)value)
-            {
-                case State.Play:
-                    countdown = true;
-                    break;
-
-                default:
-                    countdown = false;
-                    break;
-            }
-        }
-    }
-
-    void UpdateTime(double time)
-    {
-        Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
-        ghp.UpdateTimeText(vTime);
-    }
-
-    public void ResetTime()
-    {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.StartTime, PhotonNetwork.Time);
-        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 }

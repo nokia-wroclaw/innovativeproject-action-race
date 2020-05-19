@@ -3,60 +3,47 @@ using Photon.Pun;
 
 public class GameScoreController : MonoBehaviourPunCallbacks
 {
-    GameHUDPanel ghp;
-    GameStateController gsc;
+    [Header("Custom Scripts References")]
+    [SerializeField] GameHUDPanel gameHUDPanel;
+    [SerializeField] GameStateController gameStateController;
 
     void Start()
     {
-        ghp = FindObjectOfType<GameHUDPanel>();
-        gsc = FindObjectOfType<GameStateController>();
-
-        Synchronize();
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        UpdateBlueScore(customRoomProperties);
+        UpdateRedScore(customRoomProperties);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
+        UpdateBlueScore(propertiesThatChanged);
+        UpdateRedScore(propertiesThatChanged);
+    }
+
+    void UpdateBlueScore(ExitGames.Client.Photon.Hashtable properties)
+    {
         object value;
-
-        if (propertiesThatChanged.TryGetValue(RoomProperty.BlueScore, out value))
+        if (properties.TryGetValue(RoomProperty.BlueScore, out value))
         {
             int score = (int)value;
-            ghp.UpdateScoreText(Team.Blue, score);
+            gameHUDPanel.UpdateScoreText(Team.Blue, score);
 
             if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gsc.EndGame());
-        }
-
-        if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out value))
-        {
-            int score = (int)value;
-            ghp.UpdateScoreText(Team.Red, score);
-
-            if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
-                StartCoroutine(gsc.EndGame());
-        }
-
-        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out value))
-        {
-            if((State)value == State.Play)
-                ResetScore();
+                StartCoroutine(gameStateController.EndGame());
         }
     }
 
-    void Synchronize()
+    void UpdateRedScore(ExitGames.Client.Photon.Hashtable properties)
     {
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         object value;
+        if (properties.TryGetValue(RoomProperty.RedScore, out value))
+        {
+            int score = (int)value;
+            gameHUDPanel.UpdateScoreText(Team.Red, (int)score);
 
-        if (hash.TryGetValue(RoomProperty.BlueScore, out value))
-            ghp.UpdateScoreText(Team.Blue, (int)value);
-        else
-            ghp.UpdateScoreText(Team.Blue, 0);
-
-        if (hash.TryGetValue(RoomProperty.RedScore, out value))
-            ghp.UpdateScoreText(Team.Red, (int)value);
-        else
-            ghp.UpdateScoreText(Team.Red, 0);
+            if (score >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
+                StartCoroutine(gameStateController.EndGame());
+        }
     }
 
     public void AddScore(Team team, int score)
@@ -80,16 +67,6 @@ public class GameScoreController : MonoBehaviourPunCallbacks
                 hash.Add(RoomProperty.RedScore, score);
                 break;
         }
-        PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-    }
-
-    void ResetScore()
-    {
-        if (PhotonNetwork.IsMasterClient) return;
-
-        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.BlueScore, 0);
-        hash.Add(RoomProperty.RedScore, 0);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 }

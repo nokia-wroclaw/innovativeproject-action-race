@@ -5,68 +5,53 @@ using System.Collections.Generic;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    PlayerTemplate pt;
+
+    RectTransform canvas;
     RectTransform currentParent;
 
-    bool IsPlaying()
+    void Awake()
     {
-        ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        object value;
+        pt = GetComponent<PlayerTemplate>();
 
-        if (hash.TryGetValue(RoomProperty.GameState, out value))
-        {
-            if ((State)value == State.NotStarted) 
-                return false;
-            else 
-                return true;
-        }
-        else
-            return false;
-    }
-
-    bool IsLocal()
-    {
-        return GetComponent<PlayerTemplate>().GetPlayer().IsLocal;
+        canvas = FindObjectOfType<Canvas>().transform as RectTransform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
-        {
-            currentParent = transform.parent as RectTransform;
-            transform.SetParent(FindObjectOfType<Canvas>().transform);
-        }
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
+
+        currentParent = transform.parent as RectTransform;
+        transform.SetParent(canvas);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
-        {
-            RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
-            RectTransform rt = GetComponent<RectTransform>();
-            Vector3 globalMousePos;
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
 
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane as RectTransform, eventData.position, eventData.pressEventCamera, out globalMousePos))
-                rt.position = globalMousePos;
-        }
+        RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
+        Vector3 globalMousePos;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, eventData.position, eventData.pressEventCamera, out globalMousePos))
+            transform.position = globalMousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!IsPlaying() && (IsLocal() || PhotonNetwork.IsMasterClient))
-        {
-            List<RaycastResult> raycastResults = new List<RaycastResult>();
-            FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);
+        if (!pt.IsLocal && !PhotonNetwork.IsMasterClient) return;
 
-            TeamPanel tp;
-            foreach (var r in raycastResults)
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        FindObjectOfType<EventSystem>().RaycastAll(eventData, raycastResults);
+
+        foreach (var rr in raycastResults)
+        {
+            TeamPanel tp = rr.gameObject.GetComponent<TeamPanel>();
+            if (tp)
             {
-                if (tp = r.gameObject.GetComponent<TeamPanel>())
-                {
-                    tp.AddToPanel(gameObject);
-                    return;
-                }
+                tp.ChangePanel(gameObject, pt.ActorNumber);
+                return;
             }
-            transform.SetParent(currentParent);
         }
+
+        transform.SetParent(currentParent);
     }
 }

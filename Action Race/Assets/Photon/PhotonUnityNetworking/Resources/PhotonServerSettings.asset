@@ -34,7 +34,6 @@ MonoBehaviour:
   - RefreshColor
   - StartProgram
   - StopProgram
-  - SynchronizeProgram
   - TakeKick
   DisableAutoOpenWizard: 1
   ShowSettings: 0

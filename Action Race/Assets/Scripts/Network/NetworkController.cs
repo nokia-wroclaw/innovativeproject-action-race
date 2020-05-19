@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 public class NetworkController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] List<Button> networkButtons;   
+    [SerializeField] List<Button> networkButtons;
+
+    string gameVersion = "2.2";
 
     private void Awake()
     {
@@ -15,10 +17,10 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(!PhotonNetwork.IsConnected)
-            PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+            Connect();
 
-        if(!PhotonNetwork.IsConnectedAndReady)
+        if (!PhotonNetwork.IsConnectedAndReady)
             foreach (Button button in networkButtons)
                 button.interactable = false;
     }
@@ -26,17 +28,26 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        foreach(Button button in networkButtons)
-            button.interactable = true;
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+    }
 
-        PhotonNetwork.JoinLobby();
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("OnJoinedLobby");
+        foreach (Button button in networkButtons)
+            button.interactable = true;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("OnDisconnected");
         foreach (Button button in networkButtons)
             if(button)
                 button.interactable = false;
+    }
+
+    void Connect()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = gameVersion;
     }
 }
