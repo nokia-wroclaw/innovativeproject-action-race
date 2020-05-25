@@ -74,6 +74,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
 
     public void FinishProgram()
     {
+        Debug.Log("XD");
         if (PhotonNetwork.IsMasterClient)
         {
             gsc.AddScore(newTeam, 1);

@@ -20,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
     PlayerBody playerBody;
     PlayerFeet playerFeet;
 
+    bool isRunning;
+    bool isJumping;
+    bool isClimbing, isStayingOnLadder;
+
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -45,57 +49,50 @@ public class PlayerMovement : MonoBehaviour
 
         if (!photonView.IsMine) return;
         Run();
-        Jump();
         Climb();
+        Jump();
         FlipSprite();
+        Animate();
     }
 
     void Run()
     {
-        float horizontalSpeed = Input.GetAxis("Horizontal") * runSpeed;
-        Vector2 playerVelocity = new Vector2(horizontalSpeed, rigidBody.velocity.y);
+        float horizontalSpeed = Input.GetAxis("Horizontal");
+        Vector2 playerVelocity = new Vector2(horizontalSpeed * runSpeed, rigidBody.velocity.y);
         rigidBody.velocity = playerVelocity;
 
         bool playerHasHorizontalSpeed = Mathf.Abs(horizontalSpeed) > 0f;
-        animator.SetBool("Run", playerHasHorizontalSpeed);
-    }
-
-    void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && playerFeet.OnTheGround)
-        {
-            Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
-            rigidBody.velocity = jumpVelocity;
-            animator.SetTrigger("Jump");
-            audioSource.PlayOneShot(jumpSound);
-        }
+        isRunning = playerHasHorizontalSpeed;
     }
 
     void Climb()
     {
-        float verticalSpeed = Input.GetAxis("Vertical") * runSpeed;
+        float verticalSpeed = Input.GetAxis("Vertical");
+        bool playerHasVerticalSpeed = Mathf.Abs(verticalSpeed) > 0f;
 
-        if (playerBody.IsTouchingLadder)
+        isClimbing = playerBody.IsTouchingLadder && playerHasVerticalSpeed;
+        isStayingOnLadder = playerBody.IsTouchingLadder && !playerHasVerticalSpeed;
+
+         if (isClimbing || isStayingOnLadder)
+         {
+             rigidBody.gravityScale = 0;
+             rigidBody.velocity = new Vector2(rigidBody.velocity.x, verticalSpeed * runSpeed);
+         }
+         else
+             rigidBody.gravityScale = 5;
+    }
+
+    void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && !isClimbing && !isStayingOnLadder && playerFeet.OnTheGround)
         {
-            animator.SetBool("Climb", true);
-            if (Mathf.Abs(verticalSpeed) > Mathf.Epsilon)
-                animator.SetBool("Stay On Ladder", false);
-            else
-                animator.SetBool("Stay On Ladder", true);
+            Vector2 jumpVelocity = new Vector2(0f, jumpSpeed);
+            rigidBody.velocity = jumpVelocity;
+            isJumping = true;
+            audioSource.PlayOneShot(jumpSound);
         }
         else
-        {
-            animator.SetBool("Climb", false);
-            animator.SetBool("Stay On Ladder", false);
-        }
-
-        if (playerFeet.IsTouchingLadder)
-        {
-            rigidBody.gravityScale = 0;
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, verticalSpeed);
-        }
-        else
-            rigidBody.gravityScale = 5;
+            isJumping = false;
     }
 
     void FlipSprite()
@@ -106,6 +103,17 @@ public class PlayerMovement : MonoBehaviour
             Vector3 flipScale = new Vector3(Mathf.Sign(rigidBody.velocity.x), 1f, 1f);
             transform.localScale = flipScale;
         }
+    }
+
+    void Animate()
+    {
+        animator.SetBool("Run", isRunning);
+
+        animator.SetBool("Climb", isClimbing);
+        animator.SetBool("Stay On Ladder", isStayingOnLadder);
+
+        if (isJumping)
+            animator.SetTrigger("Jump");
     }
 
     public void StopMovement()
