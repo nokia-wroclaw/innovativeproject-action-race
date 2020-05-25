@@ -6,6 +6,7 @@ using Photon.Realtime;
 public class GameStateController : MonoBehaviourPunCallbacks
 {
     [Header("Custom Scripts References")]
+    [SerializeField] EndGamePanel endgamePanel;
     [SerializeField] GameHUDPanel gameHUDPanel;
     [SerializeField] GameLobbyPanel gameLobbyPanel;
 
@@ -120,18 +121,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
     public IEnumerator EndGame()
     {
-        ExitGames.Client.Photon.Hashtable playerHash = PhotonNetwork.LocalPlayer.CustomProperties;
-        object value1;
-        Team team;
-
-        if (playerHash.TryGetValue(PlayerProperty.Team, out value1))
-            team = (Team)value1;
-        else
-            team = Team.None;
-
-        if (team == Team.None) yield break;
-
-
         ExitGames.Client.Photon.Hashtable roomHash = PhotonNetwork.CurrentRoom.CustomProperties;
         object value;
         int redScores, blueScores;
@@ -151,14 +140,9 @@ public class GameStateController : MonoBehaviourPunCallbacks
         else if (blueScores > redScores) winner = Team.Blue;
         else winner = Team.None;
 
-        if (winner == team) gameHUDPanel.ShowEndGamePanel(1);
-        else if (winner == Team.None) gameHUDPanel.ShowEndGamePanel(0); 
-        else gameHUDPanel.ShowEndGamePanel(-1);
-
+        yield return endgamePanel.ShowEndPanel(winner);
         yield return new WaitForSeconds(1f);
-
-        gameHUDPanel.HideEndGamePanel();
-
+        yield return endgamePanel.HideEndPanel();
         StopGame();
     }
 
