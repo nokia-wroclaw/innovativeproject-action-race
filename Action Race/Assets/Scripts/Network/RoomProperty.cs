@@ -11,6 +11,7 @@
 
     public const string StartTime = "StartTime";
     public const string GameState = "GameState";
+    public const string Night = "Night";
 
     static public string [] GetPublicProperties()
     {

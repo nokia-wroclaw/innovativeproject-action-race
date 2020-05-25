@@ -13,7 +13,13 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
     [SerializeField] Image fadeImage;
     [SerializeField] SpriteRenderer background;
 
-    public bool IsNight { get; private set; }
+    public bool IsNight { get; set; }
+
+    void Start()
+    {
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        UpdateNight(customRoomProperties);
+    }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
@@ -22,10 +28,25 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
         {
             if ((State)value == State.Play)
             {
-                background.sprite = dayBackground;
                 IsNight = false;
+                background.sprite = dayBackground;
             }
         }
+    }
+
+    void UpdateNight(ExitGames.Client.Photon.Hashtable properties)
+    {
+        object value;
+        if (properties.TryGetValue(RoomProperty.Night, out value))
+        {
+            IsNight = (bool)value;
+            if(IsNight)
+                background.sprite = nightBackground;
+            else
+                background.sprite = dayBackground;
+        }
+        else
+            background.sprite = dayBackground;
     }
 
     public IEnumerator ChangeTimeOfDay()

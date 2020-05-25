@@ -8,7 +8,6 @@ public class SequenceAnimator : MonoBehaviour
     public float waitBetween = 0.15F;
     public float waitEnd = 0.2F;
 
-    // Start is called before the first frame update
     void Start()
     {
         animators = new List<Animator>(GetComponentsInChildren<Animator>());

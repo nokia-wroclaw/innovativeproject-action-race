@@ -59,7 +59,16 @@ public class GameTimeController : MonoBehaviourPunCallbacks
                     gameHUDPanel.UpdateTimeText(vTime);
 
                     if (time <= timeLimit / 2 && !dayNightSystem.IsNight)
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+                            hash.Add(RoomProperty.Night, true);
+                            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+                        }
+                        dayNightSystem.IsNight = true;
                         StartCoroutine(dayNightSystem.ChangeTimeOfDay());
+                    }
                 }
                 else
                 {

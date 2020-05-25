@@ -168,6 +168,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.GameState, State.Play);
         hash.Add(RoomProperty.StartTime, PhotonNetwork.Time);
+        hash.Add(RoomProperty.Night, false);
         hash.Add(RoomProperty.BlueScore, 0);
         hash.Add(RoomProperty.RedScore, 0);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
