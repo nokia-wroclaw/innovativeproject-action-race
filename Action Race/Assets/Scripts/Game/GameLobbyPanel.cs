@@ -85,22 +85,6 @@ public class GameLobbyPanel : MonoBehaviour
         moveRedToSpec.SetActive(false);
     }
 
-    /*void ConfigurePanel()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-            object value;
-
-            if (hash.TryGetValue(RoomProperty.GameState, out value))
-                ConfigureMasterPanel((State)value);
-            else
-                ConfigureMasterPanel(State.NotStarted);
-        }
-        else
-            ConfigurePlayerPanel();
-    }*/
-
     public void ConfigureMasterClientPanel(State state)
     {
         switch (state)

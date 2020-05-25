@@ -11270,6 +11270,11 @@ PrefabInstance:
       propertyPath: connectionStatusPanel
       value: 
       objectReference: {fileID: 79858720}
+    - target: {fileID: 7353174382464952223, guid: 58ba6996ac7aab84f97047ca5bc6659c,
+        type: 3}
+      propertyPath: joinRoomController
+      value: 
+      objectReference: {fileID: 7292683209786646744}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58ba6996ac7aab84f97047ca5bc6659c, type: 3}
 --- !u!114 &7292683209786646740 stripped

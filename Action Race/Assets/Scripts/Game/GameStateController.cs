@@ -7,7 +7,7 @@ public class GameStateController : MonoBehaviourPunCallbacks
 {
     [Header("Custom Scripts References")]
     [SerializeField] EndGamePanel endgamePanel;
-    [SerializeField] GameHUDPanel gameHUDPanel;
+    [SerializeField] GameLobbyController gameLobbyController;
     [SerializeField] GameLobbyPanel gameLobbyPanel;
 
     [Header("References")]
@@ -84,6 +84,7 @@ public class GameStateController : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.DestroyAll();
 
+        gameLobbyController.StopGame();
         gameLobbyPanel.gameObject.SetActive(true);
     }
 
