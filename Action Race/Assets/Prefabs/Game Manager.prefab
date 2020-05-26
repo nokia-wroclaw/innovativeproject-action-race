@@ -89,7 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f3a68161b508c469035ba0b0003dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameHUDPanel: {fileID: 0}
+  endgamePanel: {fileID: 0}
+  gameLobbyController: {fileID: 5729554249616232282}
   gameLobbyPanel: {fileID: 0}
   antennasWaypoints:
   - {fileID: 0}
