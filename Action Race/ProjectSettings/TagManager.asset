@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Antenna
   - Team Panel
+  - Ladder
+  - Nokia
+  - ThrownNokia
   layers:
   - Default
   - TransparentFX

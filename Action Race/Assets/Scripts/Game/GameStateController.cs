@@ -11,6 +11,7 @@ public class GameStateController : MonoBehaviourPunCallbacks
 
     [Header("References")]
     [SerializeField] Transform[] antennasWaypoints;
+    [SerializeField] Transform[] nokiasWaypoints;
     [SerializeField] Transform[] blueTeamSpawns;
     [SerializeField] Transform[] redTeamSpawns;
     [SerializeField] GameObject viewCamera;
@@ -109,6 +110,11 @@ public class GameStateController : MonoBehaviourPunCallbacks
         foreach (Transform waypoint in antennasWaypoints)
         {
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);
+        }
+
+        foreach (Transform waypoint in nokiasWaypoints)
+        {
+            PhotonNetwork.InstantiateSceneObject("Nokia", waypoint.position, Quaternion.identity);
         }
     }
 
