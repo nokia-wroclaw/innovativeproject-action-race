@@ -55,6 +55,16 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         gameLobbyPanel.ChangePlayerIsMasterClient(newMasterClient.ActorNumber);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+            object value;
+            if(customRoomProperties.TryGetValue(RoomProperty.GameState, out value))
+                gameLobbyPanel.ConfigureMasterClientPanel((State)value);
+            else
+                gameLobbyPanel.ConfigureMasterClientPanel(State.Stop);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -168,6 +178,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         hash.Add(RoomProperty.GameState, State.Play);
         hash.Add(RoomProperty.StartTime, PhotonNetwork.Time);
+        hash.Add(RoomProperty.Night, false);
         hash.Add(RoomProperty.BlueScore, 0);
         hash.Add(RoomProperty.RedScore, 0);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);

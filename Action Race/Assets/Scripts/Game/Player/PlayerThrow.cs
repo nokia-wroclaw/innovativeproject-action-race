@@ -4,6 +4,7 @@ using Photon.Pun;
 public class PlayerThrow : MonoBehaviour
 {
     [SerializeField] float throwSpeed = 0.04f;
+
     bool raisedNokia;
     GameObject thrownNokia;
     Vector2 initialPosition;
@@ -22,9 +23,7 @@ public class PlayerThrow : MonoBehaviour
     void Update()
     {
         if (!pv.IsMine)
-        {
             return;
-        }
 
         ThrowNokia();
         UpdatePositionValue();
@@ -46,11 +45,6 @@ public class PlayerThrow : MonoBehaviour
 
     void ThrowNokia()
     {
-        if (!pv.IsMine)
-        {
-            return;
-        }
-
         if (Input.GetButtonDown("Throw") && raisedNokia)
         {
             initialPosition = pm.transform.position;
@@ -59,7 +53,6 @@ public class PlayerThrow : MonoBehaviour
             raisedNokia = false;
                         
             rb = thrownNokia.GetComponent<Rigidbody2D>();
-            
         }
     }
 

@@ -10,11 +10,11 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
     [SerializeField] JoinRoomPanel joinRoomPanel;
     [SerializeField] PasswordPanel passwordPanel;
 
-    List<RoomInfo> roomsList = new List<RoomInfo>();
+    public List<RoomInfo> RoomsList { get; private set; }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        roomsList = roomList;
+        RoomsList = roomList;
     }
 
     public void JoinRoom(RoomTemplate roomTemplate)
@@ -32,7 +32,7 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
     {
         joinRoomPanel.ClearRoomList();
 
-        foreach (RoomInfo roomInfo in roomsList)
+        foreach (RoomInfo roomInfo in RoomsList)
         {
             if (roomInfo.RemovedFromList) continue;
 
@@ -50,5 +50,25 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
 
             joinRoomPanel.AddRoom(password, roomName, owner, players, maxPlayers, JoinRoom);
         }
+    }
+
+    public string GetRandomRoomName()
+    {
+        List<RoomInfo> roomsListCopy = new List<RoomInfo>();
+        foreach (RoomInfo roomInfo in RoomsList)
+        {
+            string password = roomInfo.CustomProperties[RoomProperty.Password] as string;
+            int players = roomInfo.PlayerCount;
+            int maxPlayers = roomInfo.MaxPlayers;
+            if (roomInfo.RemovedFromList || !string.IsNullOrEmpty(password.Trim()) || players == maxPlayers) continue;
+
+            roomsListCopy.Add(roomInfo);
+        }
+
+        int count = roomsListCopy.Count;
+        if (count > 0)
+            return roomsListCopy[Random.Range(0, count)].Name;
+        else
+            return null;
     }
 }
