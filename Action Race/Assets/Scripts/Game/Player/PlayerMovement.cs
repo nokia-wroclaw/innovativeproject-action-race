@@ -73,13 +73,14 @@ public class PlayerMovement : MonoBehaviour
         isClimbing = playerBody.IsTouchingLadder && playerHasVerticalSpeed;
         isStayingOnLadder = playerBody.IsTouchingLadder && !playerHasVerticalSpeed;
 
-         if (isClimbing || isStayingOnLadder)
-         {
-             rigidBody.gravityScale = 0;
-             rigidBody.velocity = new Vector2(rigidBody.velocity.x, verticalSpeed * runSpeed);
-         }
-         else
-             rigidBody.gravityScale = 5;
+        bool isClimbingMovement = playerFeet.IsTouchingLadder && playerHasVerticalSpeed;
+        if (isClimbingMovement || isStayingOnLadder)
+        {
+            rigidBody.gravityScale = 0;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, verticalSpeed * runSpeed);
+        }
+        else
+            rigidBody.gravityScale = 5;
     }
 
     void Jump()
