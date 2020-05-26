@@ -84,7 +84,6 @@ public class GameStateController : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.DestroyAll();
 
-        gameLobbyController.StopGame();
         gameLobbyPanel.gameObject.SetActive(true);
     }
 
@@ -110,14 +109,10 @@ public class GameStateController : MonoBehaviourPunCallbacks
         }
 
         foreach (Transform waypoint in antennasWaypoints)
-        {
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", waypoint.position, Quaternion.identity);
-        }
 
         foreach (Transform waypoint in nokiasWaypoints)
-        {
             PhotonNetwork.InstantiateSceneObject("Nokia", waypoint.position, Quaternion.identity);
-        }
     }
 
     public IEnumerator EndGame()
@@ -144,6 +139,8 @@ public class GameStateController : MonoBehaviourPunCallbacks
         yield return endgamePanel.ShowEndPanel(winner);
         yield return new WaitForSeconds(1f);
         yield return endgamePanel.HideEndPanel();
+
+        gameLobbyController.StopGame();
         StopGame();
     }
 
