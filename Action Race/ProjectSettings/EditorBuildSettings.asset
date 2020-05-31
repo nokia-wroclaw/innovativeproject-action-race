@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Menu Scene.unity
     guid: 5d054bbfab299d34684ac89285ef9c68
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Big Map.unity
     guid: 3227befc25103014e9acf348f23a3217
+  - enabled: 1
+    path: Assets/Scenes/Big Map New.unity
+    guid: 632eb23005fe03a43b6a061a6c7c69d6
   m_configObjects: {}
