@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(SettingsPanel), typeof(CanvasGroup))]
 public class SettingsController : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField] float defaultVolume = 0.75f;
-
-    [Header("Custom Scripts References")]
-    [SerializeField] SettingsPanel settingsPanel;
+    [SerializeField] float defaultVolume = 0.5f;
 
     [Header("References")]
     [SerializeField] AudioSource audioSource;
+
+    SettingsPanel settingsPanel;
 
     public bool Mute
     {
@@ -47,19 +45,16 @@ public class SettingsController : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        settingsPanel = GetComponent<SettingsPanel>();
+    }
+
     void Start()
     {
         settingsPanel.Mute = Mute;
         settingsPanel.Volume = Volume;
-    }
 
-    public void MuteMusic(bool mute)
-    {
-        Mute = mute;
-    }
-
-    public void ChangeVolume(float volume)
-    {
-        Volume = volume;
+        settingsPanel.IsActive = false;
     }
 }

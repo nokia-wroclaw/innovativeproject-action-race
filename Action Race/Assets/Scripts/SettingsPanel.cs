@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class LobbyPanel : MonoBehaviour
+public class SettingsPanel : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] Text playersText;
-    [SerializeField] Text maxPlayersText;
-    [SerializeField] Text roomNameText;
+    [SerializeField] Toggle volumeToggle;
+    [SerializeField] Slider volumeSlider;
 
     CanvasGroup canvasGroup;
 
-    public int Players { set { playersText.text = value.ToString(); } }
-    public int MaxPlayers { set { maxPlayersText.text = value.ToString(); } }
-    public string RoomName { set { roomNameText.text = value; } }
+    public bool Mute
+    {
+        get { return volumeToggle.isOn; }
+        set { volumeToggle.isOn = value; }
+    }
+
+    public float Volume
+    {
+        get { return volumeSlider.value; }
+        set { volumeSlider.value = value; }
+    }
 
     public bool IsActive
     {

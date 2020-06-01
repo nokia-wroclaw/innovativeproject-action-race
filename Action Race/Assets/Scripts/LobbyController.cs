@@ -12,10 +12,15 @@ public class LobbyController : MonoBehaviourPunCallbacks
     void Awake()
     {
         lobbyPanel = GetComponent<LobbyPanel>();
+    }
 
+    void Start()
+    {
         lobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
         lobbyPanel.MaxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
         lobbyPanel.RoomName = PhotonNetwork.CurrentRoom.Name;
+
+        lobbyPanel.IsActive = true;
     }
 
     void Update()

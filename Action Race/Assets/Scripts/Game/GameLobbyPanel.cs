@@ -152,7 +152,7 @@ public class GameLobbyPanel : MonoBehaviour
                 break;
         }
 
-        PlayerTemplate pt = go.GetComponent<PlayerTemplate>();
+        PlayerTemplatePanel pt = go.GetComponent<PlayerTemplatePanel>();
         pt.ActorNumber = actorNumber;
         pt.NickName = nickName;
         pt.IsLocal = isLocal;
@@ -196,6 +196,6 @@ public class GameLobbyPanel : MonoBehaviour
     {
         GameObject go;
         if (playersTemplates.TryGetValue(actorNumber, out go))
-            go.GetComponent<PlayerTemplate>().IsMasterClient = true;
+            go.GetComponent<PlayerTemplatePanel>().IsMasterClient = true;
     }
 }

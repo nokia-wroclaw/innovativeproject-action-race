@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TeamPanel : MonoBehaviour
+public class TeamPanel_old : MonoBehaviour
 {
     [SerializeField] Team team;
     [SerializeField] RectTransform content;
