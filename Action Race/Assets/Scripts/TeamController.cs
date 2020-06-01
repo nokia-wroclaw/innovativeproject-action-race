@@ -26,7 +26,9 @@ public class TeamController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        teamPanel.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, Team.None);
+        object teamValue;
+        newPlayer.CustomProperties.TryGetValue(PlayerProperty.Team, out teamValue);
+        teamPanel.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, teamValue != null ? (Team)teamValue : Team.None);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

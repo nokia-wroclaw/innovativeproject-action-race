@@ -63,7 +63,8 @@ public class ScoreLimitController : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if (PhotonNetwork.LocalPlayer != newMasterClient) return;
+        if (PhotonNetwork.LocalPlayer != newMasterClient)
+            return;
 
         object gameStateValue;
         ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;

@@ -27,7 +27,6 @@ public class PlayerTemplateController : MonoBehaviour, IBeginDragHandler, IDragH
 
         currentParent = transform.parent as RectTransform;
         transform.SetParent(canvas);
-        Debug.Log("EH");
     }
 
     public void OnDrag(PointerEventData eventData)
