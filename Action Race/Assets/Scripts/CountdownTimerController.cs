@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-[RequireComponent(typeof(CountdownTimerPanel))]
+[RequireComponent(typeof(CountdownTimerPanel), typeof(TimeOfDayController))]
 public class CountdownTimerController : MonoBehaviourPunCallbacks
 {
     CountdownTimerPanel countdownTimerPanel;
+    TimeOfDayController timeOfDayController;
 
     bool countdown;
-    double time;
+    double time, countdownTimerLimit;
 
     void Awake()
     {
         countdownTimerPanel = GetComponent<CountdownTimerPanel>();
+        timeOfDayController = GetComponent<TimeOfDayController>();
     }
 
     void Start()
@@ -20,9 +22,10 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable roomCustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         if (roomCustomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
         {
-            object currentCountdownTimerObject;
-            if (!roomCustomProperties.TryGetValue(RoomProperty.CurrentCountdownTimer, out currentCountdownTimerObject))
-                return;
+            object currentCountdownTimerObject, countdownTimerLimitObject;
+            if (!roomCustomProperties.TryGetValue(RoomProperty.CurrentCountdownTimer, out currentCountdownTimerObject)) return;
+            if (!roomCustomProperties.TryGetValue(RoomProperty.CountdownTimerLimit, out countdownTimerLimitObject)) return;
+            countdownTimerLimit = (double)countdownTimerLimitObject * 60;
 
             switch ((State)gameStateValue)
             {
@@ -48,8 +51,22 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
     {
         if (!countdown) return;
 
-        time -= Time.deltaTime;
-        countdownTimerPanel.CountdownTimer = time;
+        if (time > 0)
+        {
+            time -= Time.deltaTime;
+            countdownTimerPanel.CountdownTimer = time;
+
+            if (time <= countdownTimerLimit / 2 && !timeOfDayController.IsNight)
+            {
+                ExitGames.Client.Photon.Hashtable nightProperty = new ExitGames.Client.Photon.Hashtable();
+                nightProperty.Add(RoomProperty.Night, true);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(nightProperty);
+            }
+        }
+        else
+        {
+
+        }
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -69,7 +86,8 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
                     if (!roomCustomProperties.TryGetValue(RoomProperty.StartTime, out startTimeValue)) return;
                     if (!roomCustomProperties.TryGetValue(RoomProperty.CountdownTimerLimit, out countdownTimerLimitObject)) return;
 
-                    time = (double)countdownTimerLimitObject * 60 - (PhotonNetwork.Time - (double)startTimeValue);
+                    countdownTimerLimit = (double)countdownTimerLimitObject * 60;
+                    time = countdownTimerLimit - (PhotonNetwork.Time - (double)startTimeValue);
                     countdownTimerPanel.CountdownTimer = time;
                     countdown = true;
                     break;

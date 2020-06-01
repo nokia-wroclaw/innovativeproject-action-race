@@ -8,6 +8,7 @@
 
     public const string CountdownTimerLimit = "CountdownTimerLimit";
     public const string ScoreLimit = "ScoreLimit";
+    public const string MapType = "MapType";
 
     public const string StartTime = "StartTime";
     public const string CurrentCountdownTimer = "CurrentCountdownTimer";
@@ -19,7 +20,7 @@
     {
         string[] properties =
         {
-            Owner, Password
+            Owner, Password, MapType
         };
 
         return properties;
