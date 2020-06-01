@@ -24,6 +24,7 @@ public class CreateRoomController : MonoBehaviourPunCallbacks
         roomOps.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         roomOps.CustomRoomProperties.Add(RoomProperty.Owner, PhotonNetwork.LocalPlayer.NickName);
         roomOps.CustomRoomProperties.Add(RoomProperty.Password, password);
+        roomOps.CustomRoomProperties.Add(RoomProperty.GameState, State.Stop);
         roomOps.CustomRoomPropertiesForLobby = RoomProperty.GetPublicProperties();
         PhotonNetwork.CreateRoom(roomName, roomOps);
     }

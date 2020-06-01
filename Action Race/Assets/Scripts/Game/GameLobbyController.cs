@@ -89,7 +89,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     void UpdateTimeLimit(ExitGames.Client.Photon.Hashtable properties)
     {
         object value;
-        if (properties.TryGetValue(RoomProperty.TimeLimit, out value))
+        if (properties.TryGetValue(RoomProperty.CountdownTimerLimit, out value))
             gameLobbyPanel.TimeLimit = (int)value / 60;
     }
 
@@ -113,7 +113,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.TimeLimit, gameLobbyPanel.DefaultTimeLimit * 60);
+        hash.Add(RoomProperty.CountdownTimerLimit, gameLobbyPanel.DefaultTimeLimit * 60);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 
@@ -143,7 +143,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
 
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
-        hash.Add(RoomProperty.TimeLimit, gameLobbyPanel.TimeLimit * 60);
+        hash.Add(RoomProperty.CountdownTimerLimit, gameLobbyPanel.TimeLimit * 60);
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
     }
 

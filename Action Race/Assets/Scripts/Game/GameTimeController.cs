@@ -34,7 +34,7 @@ public class GameTimeController : MonoBehaviourPunCallbacks
     void UpdateTimeLimit(ExitGames.Client.Photon.Hashtable properties)
     {
         object value;
-        if (properties.TryGetValue(RoomProperty.TimeLimit, out value))
+        if (properties.TryGetValue(RoomProperty.CountdownTimerLimit, out value))
         {
             int time = (int)value;
             Vector2Int vTime = new Vector2Int((int)time / 60, (int)time % 60);
@@ -49,7 +49,7 @@ public class GameTimeController : MonoBehaviourPunCallbacks
         {
             double time = PhotonNetwork.Time - (double)value;
 
-            if (properties.TryGetValue(RoomProperty.TimeLimit, out value1))
+            if (properties.TryGetValue(RoomProperty.CountdownTimerLimit, out value1))
             {
                 int timeLimit = (int)value1;
                 time = timeLimit - time;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 [RequireComponent(typeof(ScoreLimitPanel))]
 public class ScoreLimitController : MonoBehaviourPunCallbacks
@@ -32,7 +33,10 @@ public class ScoreLimitController : MonoBehaviourPunCallbacks
             scoreLimitPanel.AddDropdownValue((int)val);
 
         if (PhotonNetwork.IsMasterClient)
+        {
             scoreLimitPanel.Value = (int)defaultScoreLimit;
+            scoreLimitPanel.ConfigureAccess(true);
+        }
         else
         {
             object scoreLimitValue;
@@ -41,6 +45,8 @@ public class ScoreLimitController : MonoBehaviourPunCallbacks
                 scoreLimitPanel.Value = (int)scoreLimitValue;
             else
                 scoreLimitPanel.Value = (int)defaultScoreLimit;
+
+            scoreLimitPanel.ConfigureAccess(false);
         }
     }
 
@@ -49,12 +55,29 @@ public class ScoreLimitController : MonoBehaviourPunCallbacks
         object scoreLimitValue;
         if (propertiesThatChanged.TryGetValue(RoomProperty.ScoreLimit, out scoreLimitValue))
             scoreLimitPanel.Value = (int)scoreLimitValue;
+
+        object gameStateValue;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out gameStateValue))
+            scoreLimitPanel.ConfigureAccess(PhotonNetwork.IsMasterClient, (State)gameStateValue);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.LocalPlayer != newMasterClient) return;
+
+        object gameStateValue;
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        if (customRoomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
+            scoreLimitPanel.ConfigureAccess(true, (State)gameStateValue);
+        else
+            scoreLimitPanel.ConfigureAccess(true, State.Stop);
     }
 
     public void ChangeScoreLimit(int option)
     {
-        int scoreLimit = scoreLimitPanel.GetScoreLimit(option);
+        if (!PhotonNetwork.IsMasterClient) return;
 
+        int scoreLimit = scoreLimitPanel.GetScoreLimit(option);
         ExitGames.Client.Photon.Hashtable countdownTimerProperty = new ExitGames.Client.Photon.Hashtable();
         countdownTimerProperty.Add(RoomProperty.ScoreLimit, scoreLimit);
         PhotonNetwork.CurrentRoom.SetCustomProperties(countdownTimerProperty);

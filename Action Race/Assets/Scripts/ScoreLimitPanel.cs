@@ -35,4 +35,18 @@ public class ScoreLimitPanel : MonoBehaviour
     {
         return scoreLimits[option];
     }
+
+    public void ConfigureAccess(bool isMasterClient, State state = State.Stop)
+    {
+        if (isMasterClient && state == State.Stop)
+        {
+            scoreLimitDropdown.gameObject.SetActive(true);
+            scoreLimitText.gameObject.SetActive(false);
+        }
+        else
+        {
+            scoreLimitDropdown.gameObject.SetActive(false);
+            scoreLimitText.gameObject.SetActive(true);
+        }
+    }
 }

@@ -8,9 +8,9 @@ public class CountdownTimerLimitPanel : MonoBehaviour
     [SerializeField] Dropdown countdownTimerLimitDropdown;
     [SerializeField] Text countdownTimerLimitText;
 
-    List<int> countdownTimerLimits = new List<int>();
+    List<double> countdownTimerLimits = new List<double>();
 
-    public int Value
+    public double Value
     {
         set 
         {
@@ -31,8 +31,22 @@ public class CountdownTimerLimitPanel : MonoBehaviour
         countdownTimerLimits.Add(minutes);
     }
 
-    public int GetCountdownTimerLimit(int option)
+    public double GetCountdownTimerLimit(int option)
     {
         return countdownTimerLimits[option];
+    }
+
+    public void ConfigureAccess(bool isMasterClient, State state = State.Stop)
+    {
+        if(isMasterClient && state == State.Stop)
+        {
+            countdownTimerLimitDropdown.gameObject.SetActive(true);
+            countdownTimerLimitText.gameObject.SetActive(false);
+        }
+        else
+        {
+            countdownTimerLimitDropdown.gameObject.SetActive(false);
+            countdownTimerLimitText.gameObject.SetActive(true);
+        }
     }
 }

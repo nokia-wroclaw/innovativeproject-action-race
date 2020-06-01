@@ -16,17 +16,29 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        object startTimeValue, gameStateValue;
+        object gameStateValue;
         ExitGames.Client.Photon.Hashtable roomCustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-        if (roomCustomProperties.TryGetValue(RoomProperty.StartTime, out startTimeValue) &&
-            roomCustomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
+        if (roomCustomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
         {
-            switch((State)gameStateValue)
+            object currentCountdownTimerObject;
+            if (!roomCustomProperties.TryGetValue(RoomProperty.CurrentCountdownTimer, out currentCountdownTimerObject))
+                return;
+
+            switch ((State)gameStateValue)
             {
                 case State.Play:
-                    time = PhotonNetwork.Time - (double)startTimeValue;
+                    object startTimeValue;
+                    if (!roomCustomProperties.TryGetValue(RoomProperty.StartTime, out startTimeValue)) return;
+
+                    time = (double)currentCountdownTimerObject * 60 - (PhotonNetwork.Time - (double)startTimeValue);
                     countdownTimerPanel.CountdownTimer = time;
                     countdown = true;
+                    break;
+
+                default:
+                    time = (double)currentCountdownTimerObject * 60;
+                    countdownTimerPanel.CountdownTimer = time;
+                    countdown = false;
                     break;
             }
         }
@@ -43,7 +55,36 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         object timeLimitValue;
-        if (propertiesThatChanged.TryGetValue(RoomProperty.TimeLimit, out timeLimitValue))
-            countdownTimerPanel.CountdownTimer = (int)timeLimitValue * 60;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.CountdownTimerLimit, out timeLimitValue))
+            countdownTimerPanel.CountdownTimer = (double)timeLimitValue * 60;
+
+        object gameStateValue;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out gameStateValue))
+        {
+            switch ((State)gameStateValue)
+            {
+                case State.Play:
+                    object startTimeValue, countdownTimerLimitObject;
+                    ExitGames.Client.Photon.Hashtable roomCustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+                    if (!roomCustomProperties.TryGetValue(RoomProperty.StartTime, out startTimeValue)) return;
+                    if (!roomCustomProperties.TryGetValue(RoomProperty.CountdownTimerLimit, out countdownTimerLimitObject)) return;
+
+                    time = (double)countdownTimerLimitObject * 60 - (PhotonNetwork.Time - (double)startTimeValue);
+                    countdownTimerPanel.CountdownTimer = time;
+                    countdown = true;
+                    break;
+
+                default:
+                    countdown = false;
+                    break;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                ExitGames.Client.Photon.Hashtable currentCountdownTimerProperty = new ExitGames.Client.Photon.Hashtable();
+                currentCountdownTimerProperty.Add(RoomProperty.CurrentCountdownTimer, time / 60f);
+                PhotonNetwork.CurrentRoom.SetCustomProperties(currentCountdownTimerProperty);
+            }
+        }
     }
 }
