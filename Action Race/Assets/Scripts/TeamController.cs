@@ -42,4 +42,9 @@ public class TeamController : MonoBehaviourPunCallbacks
         if (changedProps.TryGetValue(PlayerProperty.Team, out teamValue))
             teamPanel.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)teamValue);
     }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        teamPanel.UpdateNewMasterClient(newMasterClient.ActorNumber);
+    }
 }

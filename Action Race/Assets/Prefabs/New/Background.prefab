@@ -95,7 +95,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 276929e1a21d4e34699bf0fb2a44ef2e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.143
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -193,3 +193,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayBackground: {fileID: 21300000, guid: 6413392940ceef3429fcb911e1058659, type: 3}
   nightBackground: {fileID: 21300000, guid: 592a161ba2ab28d4d8a11fb8fd6b8b58, type: 3}
+  dayMusic: {fileID: 8300000, guid: 276929e1a21d4e34699bf0fb2a44ef2e, type: 3}
+  nightMusic: {fileID: 8300000, guid: 610043faf59bde045877546d56a965f1, type: 3}

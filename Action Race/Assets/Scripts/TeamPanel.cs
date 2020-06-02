@@ -73,4 +73,14 @@ public class TeamPanel : MonoBehaviour
             }
         }
     }
+
+    public void UpdateNewMasterClient(int actorNumber)
+    {
+        GameObject go;
+        if (playersTemplates.TryGetValue(actorNumber, out go))
+        {
+            PlayerTemplatePanel playerTemplatePanel = go.GetComponent<PlayerTemplatePanel>();
+            playerTemplatePanel.IsMasterClient = true;
+        }
+    }
 }

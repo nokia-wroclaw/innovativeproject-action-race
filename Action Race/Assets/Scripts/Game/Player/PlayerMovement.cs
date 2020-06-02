@@ -37,6 +37,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        SettingsController settingsController = FindObjectOfType<SettingsController>();
+        if (settingsController)
+        {
+            audioSource.mute = settingsController.Mute;
+            audioSource.volume = settingsController.Volume;
+        }
+
         if (photonView.IsMine)
             gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
         else

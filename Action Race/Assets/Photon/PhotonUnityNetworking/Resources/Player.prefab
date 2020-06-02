@@ -631,6 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40942dfbec433fe4ea6d5d6f99f098f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
   kickCooldown: 1
   kickPower: {x: 20, y: 20}
 --- !u!114 &7113217025269451930

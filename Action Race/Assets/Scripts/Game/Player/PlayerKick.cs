@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class PlayerKick : MonoBehaviour
 {
     [Header("Properties")]
+    [SerializeField] AudioClip kickSound;
     [SerializeField] float kickCooldown = 1f;
     [SerializeField] Vector2 kickPower = new Vector2(20f, 20f);
 
     Animator animator;
     PhotonView pv;
     PlayerAntennaProgramming pap;
-    [SerializeField] AudioClip kickSound;
     AudioSource audioSource;
 
     PlayerKickFoot playerKickFoot;

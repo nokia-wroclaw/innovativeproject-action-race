@@ -25,9 +25,13 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
         {
             IsNight = (bool)nightValue;
             backgroundController.ChangeBackground(IsNight);
+            backgroundController.ChangeMusic(IsNight);
         }
         else
+        {
             backgroundController.ChangeBackground(false);
+            backgroundController.ChangeMusic(false);
+        }
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -41,7 +45,10 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
             if (IsNight)
                 StartCoroutine(SetNight());
             else
+            {
                 backgroundController.ChangeBackground(false);
+                backgroundController.ChangeMusic(false);
+            }
         }
     }
 
@@ -50,6 +57,7 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
         yield return FadeIn();
 
         backgroundController.ChangeBackground(true);
+        backgroundController.ChangeMusic(true);
 
         yield return new WaitForSeconds(0.1f);
         yield return FadeOut();
