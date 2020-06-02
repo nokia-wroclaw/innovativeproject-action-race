@@ -52,6 +52,34 @@ public class LobbyController : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (!targetPlayer.IsLocal) return;
+
+        object teamValue;
+        if (changedProps.TryGetValue(PlayerProperty.Team, out teamValue))
+        {
+            if ((Team)teamValue == Team.None)
+                return;
+
+            object gameStateValue;
+            ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+            if (customRoomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
+            {
+                switch((State)gameStateValue)
+                {
+                    case State.Play:
+                        lobbyPanel.IsActive = false;
+                        break;
+
+                    default:
+                        lobbyPanel.IsActive = true;
+                        break;
+                }
+            }
+        }
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         lobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;

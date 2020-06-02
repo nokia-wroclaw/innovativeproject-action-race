@@ -81,5 +81,8 @@ public class MapTypeController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable countdownTimerProperty = new ExitGames.Client.Photon.Hashtable();
         countdownTimerProperty.Add(RoomProperty.MapType, mapType);
         PhotonNetwork.CurrentRoom.SetCustomProperties(countdownTimerProperty);
+
+        int idScene = UnityEngine.SceneManagement.SceneUtility.GetBuildIndexByScenePath("Assets/Scenes/" + mapType + ".unity");
+        PhotonNetwork.LoadLevel(idScene);
     }
 }

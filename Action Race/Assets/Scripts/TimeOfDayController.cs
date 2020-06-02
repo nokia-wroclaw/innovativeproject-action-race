@@ -5,15 +5,17 @@ using System.Collections;
 
 public class TimeOfDayController : MonoBehaviourPunCallbacks
 {
-    [Header("Properties")]
-    [SerializeField] Sprite dayBackground;
-    [SerializeField] Sprite nightBackground;
-
     [Header("References")]
-    [SerializeField] SpriteRenderer background;
     [SerializeField] Image fadeImage;
 
+    BackgroundController backgroundController;
+
     public bool IsNight { get; set; }
+
+    void Awake()
+    {
+        backgroundController = FindObjectOfType<BackgroundController>();
+    }
 
     void Start()
     {
@@ -22,13 +24,10 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
         if (customRoomProperties.TryGetValue(RoomProperty.Night, out nightValue))
         {
             IsNight = (bool)nightValue;
-            if (IsNight)
-                background.sprite = nightBackground;
-            else
-                background.sprite = dayBackground;
+            backgroundController.ChangeBackground(IsNight);
         }
         else
-            background.sprite = dayBackground;
+            backgroundController.ChangeBackground(false);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -42,7 +41,7 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
             if (IsNight)
                 StartCoroutine(SetNight());
             else
-                background.sprite = dayBackground;
+                backgroundController.ChangeBackground(false);
         }
     }
 
@@ -50,7 +49,7 @@ public class TimeOfDayController : MonoBehaviourPunCallbacks
     {
         yield return FadeIn();
 
-        background.sprite = nightBackground;
+        backgroundController.ChangeBackground(true);
 
         yield return new WaitForSeconds(0.1f);
         yield return FadeOut();

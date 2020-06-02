@@ -9,7 +9,6 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
     [SerializeField] Transform[] redTeamSpawns;
     [SerializeField] Transform[] antennaSpawns;
     [SerializeField] Transform[] nokiaSpawns;
-    [SerializeField] GameObject viewCamera;
 
     void Start()
     {
@@ -70,10 +69,6 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
                     case Team.Red:
                         SpawnPlayer(redTeamSpawns);
                         break;
-
-                    default:
-                        viewCamera.SetActive(true);
-                        break;
                 }
             }
         }
@@ -83,8 +78,6 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.DestroyAll();
-
-        viewCamera.SetActive(true);
     }
 
     void StartGame()
@@ -118,7 +111,5 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
     {
         int idSpawn = Random.Range(0, spawns.Length);
         PhotonNetwork.Instantiate("Player", spawns[idSpawn].position, Quaternion.identity);
-
-        viewCamera.SetActive(false);
     }
 }
