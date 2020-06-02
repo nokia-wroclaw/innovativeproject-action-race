@@ -632,7 +632,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickCooldown: 1
-  kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
 --- !u!114 &7113217025269451930
 MonoBehaviour:
   m_ObjectHideFlags: 0

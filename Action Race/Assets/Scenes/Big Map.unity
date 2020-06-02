@@ -44811,14 +44811,6 @@ PrefabInstance:
       propertyPath: background
       value: 
       objectReference: {fileID: 362220382}
-    - target: {fileID: 2075197704, guid: e6301e4e1765bdd4eabc40e3ed3e6bfb, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 1968563598}
-    - target: {fileID: 2075197704, guid: e6301e4e1765bdd4eabc40e3ed3e6bfb, type: 3}
-      propertyPath: night
-      value: 
-      objectReference: {fileID: 8300000, guid: 610043faf59bde045877546d56a965f1, type: 3}
     - target: {fileID: 5729554249616232273, guid: e6301e4e1765bdd4eabc40e3ed3e6bfb,
         type: 3}
       propertyPath: antennasWaypoints.Array.size

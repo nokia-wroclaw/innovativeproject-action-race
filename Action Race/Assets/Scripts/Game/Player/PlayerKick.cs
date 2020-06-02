@@ -10,8 +10,6 @@ public class PlayerKick : MonoBehaviour
     Animator animator;
     PhotonView pv;
     PlayerAntennaProgramming pap;
-    [SerializeField] AudioClip kickSound;
-    AudioSource audioSource;
 
     PlayerKickFoot playerKickFoot;
 
@@ -19,7 +17,6 @@ public class PlayerKick : MonoBehaviour
 
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         pv = GetComponent<PhotonView>();
         pap = GetComponent<PlayerAntennaProgramming>();
@@ -43,7 +40,6 @@ public class PlayerKick : MonoBehaviour
             {
                 kickDelay = kickCooldown;
                 animator.SetTrigger("Kick");
-                audioSource.PlayOneShot(kickSound);
 
                 List<Collider2D> colliders = playerKickFoot.CollidingPlayersBodies;
                 foreach (Collider2D collider in colliders)
