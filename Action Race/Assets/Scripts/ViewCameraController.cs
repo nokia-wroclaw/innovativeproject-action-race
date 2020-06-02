@@ -59,4 +59,9 @@ public class ViewCameraController : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public override void OnLeftRoom()
+    {
+        camera.enabled = true;
+    }
 }

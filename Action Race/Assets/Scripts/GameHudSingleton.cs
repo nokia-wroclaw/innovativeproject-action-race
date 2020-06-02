@@ -11,7 +11,7 @@ public class GameHudSingleton : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            ObjectExtension.DontDestroyOnLoad(gameObject);
         }
     }
 }

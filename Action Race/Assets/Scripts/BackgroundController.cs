@@ -17,7 +17,7 @@ public class BackgroundController : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            ObjectExtension.DontDestroyOnLoad(gameObject);
 
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
