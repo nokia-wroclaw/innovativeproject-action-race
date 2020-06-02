@@ -1,32 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(SettingsPanel), typeof(CanvasGroup))]
 public class SettingsController : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField] float defaultVolume = 0.75f;
+    [SerializeField] bool defaultMute = false;
+    [SerializeField] float defaultVolume = 0.5f;
+    [SerializeField] KeyCode defaultJumpKey = KeyCode.Space;
+    [SerializeField] KeyCode defaultProgramAntennaKey = KeyCode.E;
+    [SerializeField] KeyCode defaultKickKey = KeyCode.R;
 
-    [Header("Custom Scripts References")]
-    [SerializeField] SettingsPanel settingsPanel;
-
-    [Header("References")]
-    [SerializeField] AudioSource audioSource;
+    SettingsPanel settingsPanel;
 
     public bool Mute
     {
         get
         {
-            if (PlayerPrefs.HasKey("MusicMute"))
-                return PlayerPrefs.GetInt("MusicMute") != 0;
+            if (PlayerPrefs.HasKey(SettingProperty.MusicMute))
+                return PlayerPrefs.GetInt(SettingProperty.MusicMute) != 0;
             else
-                return false;
+                return defaultMute;
         }
 
         set
         {
-            PlayerPrefs.SetInt("MusicMute", value ? 1 : 0);
-            audioSource.mute = value;
+            PlayerPrefs.SetInt(SettingProperty.MusicMute, value ? 1 : 0);
+            foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+                audioSource.mute = value;
         }
     }
 
@@ -34,32 +34,82 @@ public class SettingsController : MonoBehaviour
     {
         get
         {
-            if (PlayerPrefs.HasKey("MusicVolume"))
-                return PlayerPrefs.GetFloat("MusicVolume");
+            if (PlayerPrefs.HasKey(SettingProperty.MusicVolume))
+                return PlayerPrefs.GetFloat(SettingProperty.MusicVolume);
             else
                 return defaultVolume;
         }
 
         set
         {
-            PlayerPrefs.SetFloat("MusicVolume", value);
-            audioSource.volume = value;
+            PlayerPrefs.SetFloat(SettingProperty.MusicVolume, value);
+            foreach(AudioSource audioSource in FindObjectsOfType<AudioSource>())
+                audioSource.volume = value;
         }
+    }
+
+    public KeyCode JumpKey
+    {
+        get
+        {
+            if (PlayerPrefs.HasKey(SettingProperty.JumpKey))
+                return (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(SettingProperty.JumpKey));
+            else
+                return defaultJumpKey;
+        }
+
+        set
+        {
+            PlayerPrefs.SetString(SettingProperty.JumpKey, value.ToString());
+        }
+    }
+
+    public KeyCode ProgramAntennaKey
+    {
+        get
+        {
+            if (PlayerPrefs.HasKey(SettingProperty.ProgramAntennaKey))
+                return (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(SettingProperty.ProgramAntennaKey));
+            else
+                return defaultProgramAntennaKey;
+        }
+
+        set
+        {
+            PlayerPrefs.SetString(SettingProperty.ProgramAntennaKey, value.ToString());
+        }
+    }
+
+    public KeyCode KickKey
+    {
+        get
+        {
+            if (PlayerPrefs.HasKey(SettingProperty.KickKey))
+                return (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(SettingProperty.KickKey));
+            else
+                return defaultKickKey;
+        }
+
+        set
+        {
+            PlayerPrefs.SetString(SettingProperty.KickKey, value.ToString());
+        }
+    }
+
+    void Awake()
+    {
+        settingsPanel = GetComponent<SettingsPanel>();
     }
 
     void Start()
     {
         settingsPanel.Mute = Mute;
         settingsPanel.Volume = Volume;
-    }
 
-    public void MuteMusic(bool mute)
-    {
-        Mute = mute;
-    }
+        settingsPanel.JumpKey = JumpKey;
+        settingsPanel.ProgramAntennaKey = ProgramAntennaKey;
+        settingsPanel.KickKey = KickKey;
 
-    public void ChangeVolume(float volume)
-    {
-        Volume = volume;
+        settingsPanel.IsActive = false;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Photon.Realtime;
 
-public class PlayerTemplate : MonoBehaviour
+public class PlayerTemplatePanel : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Image image;
     [SerializeField] Text masterClientText;
     [SerializeField] Text nickNameText;

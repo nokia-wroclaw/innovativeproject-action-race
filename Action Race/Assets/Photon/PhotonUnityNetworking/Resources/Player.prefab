@@ -631,8 +631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40942dfbec433fe4ea6d5d6f99f098f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kickCooldown: 1
   kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
+  kickCooldown: 1
+  kickPower: {x: 20, y: 20}
 --- !u!114 &7113217025269451930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,7 +799,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6568489185380166778}
   - component: {fileID: 6568489185380166789}
-  - component: {fileID: 6568489185380166791}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -863,14 +863,6 @@ Camera:
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6568489185380166791
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6568489185380166790}
-  m_Enabled: 1
 --- !u!1 &7061427354588469919
 GameObject:
   m_ObjectHideFlags: 0

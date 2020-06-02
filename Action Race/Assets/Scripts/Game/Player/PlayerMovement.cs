@@ -37,6 +37,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        SettingsController settingsController = FindObjectOfType<SettingsController>();
+        if (settingsController)
+        {
+            audioSource.mute = settingsController.Mute;
+            audioSource.volume = settingsController.Volume;
+        }
+
         if (photonView.IsMine)
             gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
         else
@@ -58,10 +65,18 @@ public class PlayerMovement : MonoBehaviour
     void Run()
     {
         float horizontalSpeed = Input.GetAxis("Horizontal");
-        Vector2 playerVelocity = new Vector2(horizontalSpeed * runSpeed, rigidBody.velocity.y);
-        rigidBody.velocity = playerVelocity;
-
         bool playerHasHorizontalSpeed = Mathf.Abs(horizontalSpeed) > 0f;
+        if (playerHasHorizontalSpeed)
+        {
+            Vector2 playerVelocity = new Vector2(horizontalSpeed * runSpeed, rigidBody.velocity.y);
+            rigidBody.velocity = playerVelocity;
+        }
+        else if (playerFeet.OnTheGround || playerFeet.IsTouchingLadder)
+        {
+            Vector2 playerVelocity = new Vector2(0f, rigidBody.velocity.y);
+            rigidBody.velocity = playerVelocity;
+        }
+
         isRunning = playerHasHorizontalSpeed;
     }
 

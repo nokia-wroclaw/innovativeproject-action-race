@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    PlayerTemplate pt;
+    PlayerTemplatePanel pt;
 
     RectTransform canvas;
     RectTransform currentParent;
 
     void Awake()
     {
-        pt = GetComponent<PlayerTemplate>();
+        pt = GetComponent<PlayerTemplatePanel>();
 
         canvas = FindObjectOfType<Canvas>().transform as RectTransform;
     }
@@ -47,7 +47,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             TeamPanel tp = rr.gameObject.GetComponent<TeamPanel>();
             if (tp)
             {
-                tp.ChangePanel(gameObject, pt.ActorNumber);
+                //tp.ChangePanel(gameObject, pt.ActorNumber);
                 return;
             }
         }

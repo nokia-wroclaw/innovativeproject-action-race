@@ -1134,8 +1134,8 @@ RectTransform:
   - {fileID: 1700007692}
   - {fileID: 2089944177}
   - {fileID: 829879137}
-  - {fileID: 1527349405}
   - {fileID: 2009457365}
+  - {fileID: 1527349405}
   - {fileID: 79858716}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3615,7 +3615,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 688a275d82d830b4bab0f9c6d2cce383, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.096
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6561,7 +6561,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479397309}
+      - m_Target: {fileID: 0}
         m_MethodName: set_mute
         m_Mode: 0
         m_Arguments:
@@ -8506,7 +8506,7 @@ RectTransform:
   - {fileID: 696234929}
   - {fileID: 1562814883}
   m_Father: {fileID: 199084210}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8561,7 +8561,7 @@ GameObject:
   - component: {fileID: 1528653952}
   - component: {fileID: 1528653951}
   m_Layer: 5
-  m_Name: Map Text
+  m_Name: Map Type Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8617,7 +8617,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Map
+  m_Text: Map Type
 --- !u!222 &1528653952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8829,7 +8829,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479397309}
+      - m_Target: {fileID: 0}
         m_MethodName: set_volume
         m_Mode: 0
         m_Arguments:
@@ -10953,7 +10953,7 @@ RectTransform:
   - {fileID: 870187617}
   - {fileID: 959123304}
   m_Father: {fileID: 199084210}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

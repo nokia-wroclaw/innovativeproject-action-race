@@ -7,7 +7,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
     [SerializeField] float programmingTimeDuration = 5f;
 
     Animator animator;
-    GameScoreController gsc;
+    ScoreController scoreController;
     PhotonView pv;
 
     bool isProgrammed;
@@ -17,7 +17,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
     void Awake()
     {
         animator = GetComponent<Animator>();
-        gsc = FindObjectOfType<GameScoreController>();
+        scoreController = FindObjectOfType<ScoreController>();
         pv = GetComponent<PhotonView>();
 
         animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
@@ -39,7 +39,9 @@ public class AntennaController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void StartProgram(Team newTeam, float normalizedTime, int viewId)
     {
-        isProgrammed = true;
+        if(newTeam != Team.None)
+            isProgrammed = true;
+
         this.newTeam = newTeam;
 
         if (newTeam == Team.None) return;
@@ -76,8 +78,8 @@ public class AntennaController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            gsc.AddScore(newTeam, 1);
-            gsc.AddScore(currentTeam, -1);
+            scoreController.AddScore(newTeam, 1);
+            scoreController.AddScore(currentTeam, -1);
         }
 
         isProgrammed = false;
