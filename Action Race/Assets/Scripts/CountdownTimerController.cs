@@ -65,7 +65,8 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
         }
         else
         {
-
+            countdown = false;
+            EndGame();
         }
     }
 
@@ -104,5 +105,14 @@ public class CountdownTimerController : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetCustomProperties(currentCountdownTimerProperty);
             }
         }
+    }
+
+    void EndGame()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        ExitGames.Client.Photon.Hashtable gameStateProperty = new ExitGames.Client.Photon.Hashtable();
+        gameStateProperty.Add(RoomProperty.GameState, State.End);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(gameStateProperty);
     }
 }

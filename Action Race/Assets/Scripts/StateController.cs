@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 [RequireComponent(typeof(StatePanel))]
 public class StateController : MonoBehaviourPunCallbacks

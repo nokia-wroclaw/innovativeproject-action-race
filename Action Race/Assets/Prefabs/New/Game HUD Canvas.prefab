@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5335255977485684113}
   - component: {fileID: 6069660596225134999}
   - component: {fileID: 5477840832332218043}
-  - component: {fileID: 5477840832332218040}
+  - component: {fileID: 5477840831118960967}
+  - component: {fileID: 5477840831118960966}
   m_Layer: 5
   m_Name: End Game Panel
   m_TagString: Untagged
@@ -88,14 +89,14 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5477840832332218040
+--- !u!114 &5477840831118960967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 652749871727170153}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21fd91d86c515d147aee55f5fa3ba3ae, type: 3}
   m_Name: 
@@ -104,6 +105,18 @@ MonoBehaviour:
   redTeamText: {fileID: 5477840832380568859}
   wonText: {fileID: 5477840832193205794}
   drawText: {fileID: 5477840831020484582}
+--- !u!114 &5477840831118960966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652749871727170153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d53e90327ac41a4e87d16fb54401725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1532421406324619525
 GameObject:
   m_ObjectHideFlags: 0
@@ -9167,8 +9180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7669b25b606303d40a74e9c5b189d162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayBackground: {fileID: 21300000, guid: 6413392940ceef3429fcb911e1058659, type: 3}
-  nightBackground: {fileID: 21300000, guid: 592a161ba2ab28d4d8a11fb8fd6b8b58, type: 3}
   fadeImage: {fileID: 1755216152576592283}
 --- !u!114 &4376208395446529407
 MonoBehaviour:

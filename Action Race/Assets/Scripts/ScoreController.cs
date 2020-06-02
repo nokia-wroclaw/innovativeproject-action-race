@@ -31,10 +31,31 @@ public class ScoreController : MonoBehaviourPunCallbacks
         object blueScoreValue, redScoreValue;
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.BlueScore, out blueScoreValue))
-            scorePanel.BlueScore = (int)blueScoreValue;
+        {
+            int blueScore = (int)blueScoreValue;
+            scorePanel.BlueScore = blueScore;
+
+            if (blueScore >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
+                EndGame();
+        }
 
         if (propertiesThatChanged.TryGetValue(RoomProperty.RedScore, out redScoreValue))
+        {
+            int redScore = (int)redScoreValue;
             scorePanel.RedScore = (int)redScoreValue;
+
+            if (redScore >= (int)PhotonNetwork.CurrentRoom.CustomProperties[RoomProperty.ScoreLimit])
+                EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        ExitGames.Client.Photon.Hashtable gameStateProperty = new ExitGames.Client.Photon.Hashtable();
+        gameStateProperty.Add(RoomProperty.GameState, State.End);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(gameStateProperty);
     }
 
     public void AddScore(Team team, int score)
