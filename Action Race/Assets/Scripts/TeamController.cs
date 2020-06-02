@@ -46,5 +46,9 @@ public class TeamController : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         teamPanel.UpdateNewMasterClient(newMasterClient.ActorNumber);
+
+        ExitGames.Client.Photon.Hashtable ownerProperty = new ExitGames.Client.Photon.Hashtable();
+        ownerProperty.Add(RoomProperty.Owner, newMasterClient.NickName);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(ownerProperty);
     }
 }

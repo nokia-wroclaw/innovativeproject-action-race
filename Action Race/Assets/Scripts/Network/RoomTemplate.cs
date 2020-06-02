@@ -7,7 +7,7 @@ public class RoomTemplate : MonoBehaviour
     [SerializeField] Image passwordImage;
     [SerializeField] Text roomNameText;
     [SerializeField] Text ownerText;
-    [SerializeField] Text mapText;
+    [SerializeField] Text mapTypeText;
     [SerializeField] Text playersText;
     [SerializeField] Text maxPlayersText;
 
@@ -34,9 +34,9 @@ public class RoomTemplate : MonoBehaviour
         set { ownerText.text = value; }
     }
 
-    public string Map
+    public string MapType
     {
-        set { mapText.text = value; }
+        set { mapTypeText.text = value; }
     }
 
     public int Players

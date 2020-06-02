@@ -44,13 +44,14 @@ public class JoinRoomPanel : MonoBehaviour
             Destroy(room.gameObject);
     }
 
-    public void AddRoom(string password, string roomName, string owner, int players, int maxPlayers, Action<RoomTemplate> clickMethod)
+    public void AddRoom(string password, string roomName, string owner, string mapType, int players, int maxPlayers, Action<RoomTemplate> clickMethod)
     {
         GameObject roomTemplate = Instantiate(roomTemplateGO, roomsList);
         RoomTemplate rt = roomTemplate.GetComponent<RoomTemplate>();
         rt.Password = password.Trim();
         rt.RoomName = roomName;
         rt.Owner = owner;
+        rt.MapType = mapType;
         rt.Players = players;
         rt.MaxPlayers = maxPlayers;
 

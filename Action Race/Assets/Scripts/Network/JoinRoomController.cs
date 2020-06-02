@@ -41,14 +41,16 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
 
             string roomName = roomInfo.Name;
             string owner = roomInfo.CustomProperties[RoomProperty.Owner] as string;
+            string mapType = roomInfo.CustomProperties[RoomProperty.MapType] as string;
             string textFilter = joinRoomPanel.Filter.Trim();
-            if (!roomName.ToLower().Contains(textFilter.ToLower()) && !owner.ToLower().Contains(textFilter.ToLower())) continue;
+            if (!roomName.ToLower().Contains(textFilter.ToLower()) && !owner.ToLower().Contains(textFilter.ToLower()) && 
+                !mapType.ToLower().Contains(textFilter.ToLower())) continue;
 
             int players = roomInfo.PlayerCount;
             int maxPlayers = roomInfo.MaxPlayers;
             if (!joinRoomPanel.ShowFull && players == maxPlayers) continue;
 
-            joinRoomPanel.AddRoom(password, roomName, owner, players, maxPlayers, JoinRoom);
+            joinRoomPanel.AddRoom(password, roomName, owner, mapType, players, maxPlayers, JoinRoom);
         }
     }
 
