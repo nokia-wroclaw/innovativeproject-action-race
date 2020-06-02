@@ -12,6 +12,8 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
     [Header("References")]
     [SerializeField] Image fadeImage;
     [SerializeField] SpriteRenderer background;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip night;
 
     public bool IsNight { get; set; }
 
@@ -51,10 +53,13 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
 
     public IEnumerator ChangeTimeOfDay()
     {
+        audioSource.Stop();
         yield return FadeIn();
 
         background.sprite = nightBackground;
         IsNight = true;
+        audioSource.clip = night;
+        audioSource.Play();
 
         yield return new WaitForSeconds(0.1f);
         yield return FadeOut();
