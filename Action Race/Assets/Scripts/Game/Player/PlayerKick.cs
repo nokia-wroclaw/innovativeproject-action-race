@@ -6,6 +6,7 @@ public class PlayerKick : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] float kickCooldown = 1f;
+    [SerializeField] Vector2 kickPower = new Vector2(20f, 20f);
 
     Animator animator;
     PhotonView pv;
@@ -49,16 +50,17 @@ public class PlayerKick : MonoBehaviour
                 foreach (Collider2D collider in colliders)
                 {
                     PhotonView pvOther = collider.GetComponentInParent<PhotonView>();
-                    if (pvOther) pvOther.RPC("TakeKick", RpcTarget.AllViaServer);
+                    if (pvOther) pvOther.RPC("TakeKick", RpcTarget.AllViaServer, transform.localScale.x);
                 }
             }
         }
     }
 
     [PunRPC]
-    void TakeKick()
+    void TakeKick(float xDir)
     {
-        GetComponent<Rigidbody2D>().velocity = new Vector2(20f, 20f);
+        kickPower.x *= xDir;
+        GetComponent<Rigidbody2D>().velocity = kickPower;
 
         if (pap.IsProgrammingAntenna())
         {
