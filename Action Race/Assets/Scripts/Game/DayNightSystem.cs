@@ -15,6 +15,9 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip night;
 
+    [SerializeField] GameObject nightlight;
+    [SerializeField] GameObject daylight;
+
     public bool IsNight { get; set; }
 
     void Start()
@@ -58,6 +61,8 @@ public class DayNightSystem : MonoBehaviourPunCallbacks
 
         background.sprite = nightBackground;
         IsNight = true;
+        daylight.SetActive(false);
+        nightlight.SetActive(true);
         audioSource.clip = night;
         audioSource.Play();
 

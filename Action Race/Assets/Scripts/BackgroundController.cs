@@ -9,12 +9,20 @@ public class BackgroundController : MonoBehaviour
     [SerializeField] AudioClip dayMusic;
     [SerializeField] AudioClip nightMusic;
 
+    [SerializeField] GameObject nightlight1;
+    [SerializeField] GameObject nightlight2;
+    [SerializeField] GameObject daylight;
+
     static BackgroundController _instance;
     AudioSource audioSource;
     SpriteRenderer spriteRenderer;
 
     void Awake()
     {
+        daylight.SetActive(true);
+        nightlight1.SetActive(false);
+        nightlight2.SetActive(false);
+
         if (_instance != null && _instance != this)
             DestroyImmediate(gameObject);
         else
@@ -40,9 +48,19 @@ public class BackgroundController : MonoBehaviour
     public void ChangeBackground(bool night)
     {
         if (night)
+        {
+            daylight.SetActive(false);
+            nightlight1.SetActive(true);
+            nightlight2.SetActive(true);
             spriteRenderer.sprite = nightBackground;
+        }
         else
+        {
+            daylight.SetActive(true);
+            nightlight1.SetActive(false);
+            nightlight2.SetActive(false);
             spriteRenderer.sprite = dayBackground;
+        }
     }
     public void ChangeMusic(bool night)
     {
