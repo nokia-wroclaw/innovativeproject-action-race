@@ -87215,6 +87215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game HUD Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4376208393886556665, guid: 415454436c345bb4b8f147f55a46b443,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4376208395431606127, guid: 415454436c345bb4b8f147f55a46b443,
         type: 3}
       propertyPath: m_AnchorMin.y
