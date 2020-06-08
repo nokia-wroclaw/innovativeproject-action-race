@@ -36,8 +36,9 @@ public class PlayerThrow : MonoBehaviour
         if (collision.tag == "Nokia" && !raisedNokia)
         {
             Debug.Log("Podniosłeś Nokię");
-            collision.gameObject.SetActive(false);
-            
+            //collision.gameObject.SetActive(false);
+            PhotonNetwork.Destroy(collision.gameObject);
+
             raisedNokia = true;
         }
 
@@ -49,9 +50,9 @@ public class PlayerThrow : MonoBehaviour
         {
             initialPosition = pm.transform.position;
             initialPosition.x += 0.7f; //zeby uniknac wlasnego collidera
-            thrownNokia = PhotonNetwork.InstantiateSceneObject("ThrownNokia", initialPosition, Quaternion.identity);
+            thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", initialPosition, Quaternion.identity);
             raisedNokia = false;
-                        
+
             rb = thrownNokia.GetComponent<Rigidbody2D>();
         }
     }
@@ -65,11 +66,11 @@ public class PlayerThrow : MonoBehaviour
     }
 
     void UpdateNokiasPosition()
-    {  
+    {
         if (thrownNokia)
         {
             rb.MovePosition(initialPosition);
-            
+
         }
     }
 
@@ -77,14 +78,15 @@ public class PlayerThrow : MonoBehaviour
     {
         if (thrownNokia)
         {
-            ThrownNokiaController tnc = thrownNokia.GetComponent<ThrownNokiaController>();          
+            ThrownNokiaController tnc = thrownNokia.GetComponent<ThrownNokiaController>();
 
             if (tnc.collided)
             {
-                thrownNokia.SetActive(false);
+                //thrownNokia.SetActive(false);
+                PhotonNetwork.Destroy(thrownNokia);
                 thrownNokia = null;
             }
         }
-        
+
     }
 }

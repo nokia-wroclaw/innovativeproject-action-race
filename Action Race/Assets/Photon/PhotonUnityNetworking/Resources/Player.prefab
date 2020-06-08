@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3332558649834730075}
   m_Layer: 8
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: PlayerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddab5fcdc1843d146ba77641169a5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GetNokiaShot: 0
+  Timer: 0
 --- !u!1 &4059232041775265024
 GameObject:
   m_ObjectHideFlags: 0
