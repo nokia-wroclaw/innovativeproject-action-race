@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 358fd8d81518fda45a769f232caacdfe
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Stoney Billy
+  fontNames:
+  - Stoney Billy
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 744723e17a43cfb4e9b06ef5160241f7, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
