@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         FlipSprite();
         Animate();
+        FreezeMovement();
     }
 
     void Run()
@@ -135,5 +136,14 @@ public class PlayerMovement : MonoBehaviour
     public void StopMovement()
     {
         rigidBody.velocity = Vector2.zero;
+    }
+
+    public void FreezeMovement()
+    {
+        if (playerBody.GetNokiaShot)
+        {
+            StopMovement();
+            //animator.Play("Idle", 0);
+        }
     }
 }
