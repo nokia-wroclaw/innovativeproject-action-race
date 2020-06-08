@@ -6,12 +6,12 @@ public class ButtonSoundsController : MonoBehaviour
 {
     public AudioSource audioSource;
 
-    public AudioClip hoverClip;
+    //public AudioClip hoverClip;
     public AudioClip clickClip;
 
     public AudioClip checkVolumeClip;
 
-    public void HoverSound(BaseEventData baseEventData)
+/*    public void HoverSound(BaseEventData baseEventData)
     {
         GameObject buttonGO;
         if (buttonGO = baseEventData.selectedObject)
@@ -24,7 +24,7 @@ public class ButtonSoundsController : MonoBehaviour
             return;
 
         audioSource.PlayOneShot(hoverClip);
-    }
+    }*/
 
     public void ClickSound(BaseEventData baseEventData)
     {
