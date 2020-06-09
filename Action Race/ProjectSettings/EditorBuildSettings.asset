@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Big.unity
     guid: 632eb23005fe03a43b6a061a6c7c69d6
   - enabled: 1
-    path: Assets/Scenes/Small.unity
+    path: Assets/Scenes/Small v2.unity
     guid: 16685883fdf1ab94fae211e421eb5dc3
   m_configObjects: {}
