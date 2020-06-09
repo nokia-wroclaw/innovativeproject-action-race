@@ -10,14 +10,14 @@ public class PlayerThrow : MonoBehaviour
     Vector2 initialPosition;
 
     PhotonView pv;
-    PlayerMovement pm;
+    //PlayerMovement pm;
     Rigidbody2D rb;
 
     void Start()
     {
         raisedNokia = false;
         pv = GetComponent<PhotonView>();
-        pm = GetComponent<PlayerMovement>();
+       // pm = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -48,7 +48,7 @@ public class PlayerThrow : MonoBehaviour
     {
         if (Input.GetButtonDown("Throw") && raisedNokia)
         {
-            initialPosition = pm.transform.position;
+            initialPosition = transform.position;
             initialPosition.x += 0.7f; //zeby uniknac wlasnego collidera
             thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", initialPosition, Quaternion.identity);
             raisedNokia = false;

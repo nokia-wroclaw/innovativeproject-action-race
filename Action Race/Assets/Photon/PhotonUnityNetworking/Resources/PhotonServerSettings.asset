@@ -31,11 +31,11 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - GetKick
   - RefreshColor
   - StartProgram
   - StopProgram
   - TakeKick
-  - GetKick
-  - Program
+  - RaiseNokia
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IPunObservable
 
         if (!_photonView.IsMine)
         {
-            Destroy(GetComponentInChildren<Canvas>());
+            Destroy(GetComponentInChildren<Canvas>().gameObject);
             Destroy(playerCamera);
             Destroy(_playerController);
         }

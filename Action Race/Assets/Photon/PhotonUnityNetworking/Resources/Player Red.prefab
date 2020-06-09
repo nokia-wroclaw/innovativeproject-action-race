@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddab5fcdc1843d146ba77641169a5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GetNokiaShot: 0
+  Timer: 0
 --- !u!1 &3486442437007940272
 GameObject:
   m_ObjectHideFlags: 0
