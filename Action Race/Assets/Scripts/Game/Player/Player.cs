@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IPunObservable
 
     [Header("References")]
     [SerializeField] GameObject playerCamera;
+    [SerializeField] GameObject miniMapCamera;
     [SerializeField] TextMesh nickNameTag;
     [SerializeField] PlayerFeet playerFeet;
 
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour, IPunObservable
         if (!_photonView.IsMine)
         {
             Destroy(GetComponentInChildren<Canvas>().gameObject);
+            Destroy(miniMapCamera);
             Destroy(playerCamera);
             Destroy(_playerController);
         }

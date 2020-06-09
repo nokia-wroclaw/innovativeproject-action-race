@@ -17,6 +17,14 @@ public class JoinRoomController : MonoBehaviourPunCallbacks
         RoomsList = roomList;
     }
 
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        connectionStatusPanel.ChangeMessage(ConnectionStatus.JoinFail);
+        StartCoroutine(connectionStatusPanel.MessageFadeOut());
+
+        Refresh();
+    }
+
     public void JoinRoom(RoomTemplate roomTemplate)
     {
         if (string.IsNullOrEmpty(roomTemplate.Password))

@@ -1,45 +1,36 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(PhotonView))]
 public class PlayerThrow : MonoBehaviour
 {
-    [SerializeField] float throwSpeed = 0.04f;
+    PhotonView _photonView;
 
     bool raisedNokia;
-    GameObject thrownNokia;
-    Vector2 initialPosition;
-
-    PhotonView pv;
-    //PlayerMovement pm;
-    Rigidbody2D rb;
 
     void Start()
     {
-        raisedNokia = false;
-        pv = GetComponent<PhotonView>();
-       // pm = GetComponent<PlayerMovement>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     void Update()
     {
-        if (!pv.IsMine)
+        if (!_photonView.IsMine)
             return;
 
         ThrowNokia();
-        UpdatePositionValue();
-        UpdateNokiasPosition();
-        CheckCollisions();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Nokia" && !raisedNokia)
         {
-            Debug.Log("Podniosłeś Nokię");
-            //collision.gameObject.SetActive(false);
-            PhotonNetwork.Destroy(collision.gameObject);
+            if (!_photonView.IsMine) return;
 
+            Debug.Log("Podniosłeś Nokię");
             raisedNokia = true;
+
+            _photonView.RPC("DestroyNokia", PhotonNetwork.MasterClient, collision.GetComponent<PhotonView>().ViewID);
         }
 
     }
@@ -48,45 +39,16 @@ public class PlayerThrow : MonoBehaviour
     {
         if (Input.GetButtonDown("Throw") && raisedNokia)
         {
-            initialPosition = transform.position;
-            initialPosition.x += 0.7f; //zeby uniknac wlasnego collidera
-            thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", initialPosition, Quaternion.identity);
+            Vector3 nokiaPosition = transform.position;
+            nokiaPosition.x += 0.7f; //zeby uniknac wlasnego collidera
+            GameObject thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", nokiaPosition, Quaternion.identity);
             raisedNokia = false;
-
-            rb = thrownNokia.GetComponent<Rigidbody2D>();
         }
     }
 
-    void UpdatePositionValue()
+    [PunRPC]
+    public void DestroyNokia(int viewID)
     {
-        if (thrownNokia)
-        {
-            initialPosition.x += throwSpeed;
-        }
-    }
-
-    void UpdateNokiasPosition()
-    {
-        if (thrownNokia)
-        {
-            rb.MovePosition(initialPosition);
-
-        }
-    }
-
-    void CheckCollisions()
-    {
-        if (thrownNokia)
-        {
-            ThrownNokiaController tnc = thrownNokia.GetComponent<ThrownNokiaController>();
-
-            if (tnc.collided)
-            {
-                //thrownNokia.SetActive(false);
-                PhotonNetwork.Destroy(thrownNokia);
-                thrownNokia = null;
-            }
-        }
-
+        PhotonNetwork.Destroy(PhotonNetwork.GetPhotonView(viewID));
     }
 }

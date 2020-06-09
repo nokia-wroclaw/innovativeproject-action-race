@@ -5,7 +5,7 @@ public class SettingsController : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] bool defaultMute = false;
-    [SerializeField] float defaultVolume = 0.5f;
+    [SerializeField] float defaultVolume = 0.25f;
     [SerializeField] KeyCode defaultJumpKey = KeyCode.Space;
     [SerializeField] KeyCode defaultProgramAntennaKey = KeyCode.E;
     [SerializeField] KeyCode defaultKickKey = KeyCode.R;

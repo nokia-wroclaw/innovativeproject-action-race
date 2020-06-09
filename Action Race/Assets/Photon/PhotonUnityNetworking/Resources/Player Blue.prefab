@@ -843,6 +843,7 @@ MonoBehaviour:
   jumpSound: {fileID: 8300000, guid: 73521728e948e1643a308791784414fd, type: 3}
   kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
   playerCamera: {fileID: 6568489185380166790}
+  miniMapCamera: {fileID: 4122767014914526896}
   nickNameTag: {fileID: 110107212465801999}
   playerFeet: {fileID: 2218030003341646184}
 --- !u!114 &-6292347635716339909
@@ -965,7 +966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f04fb36743ea924f8b0c6c2ad753825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwSpeed: 0.04
 --- !u!1 &6568489185380166790
 GameObject:
   m_ObjectHideFlags: 0

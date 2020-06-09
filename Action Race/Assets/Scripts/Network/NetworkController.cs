@@ -8,9 +8,9 @@ public class NetworkController : MonoBehaviourPunCallbacks
 {
     [SerializeField] List<Button> networkButtons;
 
-    string gameVersion = "2.3";
+    string gameVersion = "2.4";
 
-    private void Awake()
+    void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         ObjectExtension.DestroyAll();

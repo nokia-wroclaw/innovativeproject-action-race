@@ -37,5 +37,6 @@ MonoBehaviour:
   - StopProgram
   - TakeKick
   - RaiseNokia
+  - DestroyNokia
   DisableAutoOpenWizard: 1
   ShowSettings: 0

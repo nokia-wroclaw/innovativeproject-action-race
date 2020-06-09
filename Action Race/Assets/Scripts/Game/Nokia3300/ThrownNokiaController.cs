@@ -1,16 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Photon.Pun;
 
 public class ThrownNokiaController : MonoBehaviour
 {
-    public bool collided;
+    [SerializeField] float throwSpeed = 5f;
+    [SerializeField] float rotationSpeed = 5f;
 
+    PhotonView _photonView;
+    Rigidbody2D _rigidbody;
+
+    void Awake()
+    {
+        _photonView = GetComponent<PhotonView>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
+        _rigidbody.velocity = new Vector3(throwSpeed, 0, 0);
+    }
+
+    void Update()
+    {
+        transform.Rotate(Vector3.back, rotationSpeed);
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {   
-         collided = true;
-         Debug.Log("Wykryto kolizję");
-              
+        Debug.Log("Wykryto kolizję");
+        //_photonView.RPC("DestroyNokia", PhotonNetwork.MasterClient, _photonView.ViewID);
+
+        if(_photonView.IsMine)
+            PhotonNetwork.Destroy(gameObject);
     }
 }
