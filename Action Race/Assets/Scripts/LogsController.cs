@@ -12,12 +12,12 @@ public class LogsController : MonoBehaviourPunCallbacks
         logsPanel = GetComponent<LogsPanel>();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         logsPanel.LogPlayerEnter(newPlayer.NickName);
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         logsPanel.LogPlayerLeave(otherPlayer.NickName);
     }

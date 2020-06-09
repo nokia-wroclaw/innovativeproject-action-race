@@ -2,7 +2,7 @@
 using Photon.Pun;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Animator), typeof(Movement), typeof(PhotonView))]
+[RequireComponent(typeof(Animator), typeof(Player), typeof(PhotonView))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Properties")]
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerKickFoot playerKickFoot;
 
     Animator _animator;
-    Movement _movement;
+    Player _movement;
     PhotonView _photonView;
 
     float kickDelay;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _movement = GetComponent<Movement>();
+        _movement = GetComponent<Player>();
         _photonView = GetComponent<PhotonView>();
     }
 

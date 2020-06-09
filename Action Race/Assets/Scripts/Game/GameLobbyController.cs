@@ -45,14 +45,14 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         UpdatePanelLayout(propertiesThatChanged);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         object value;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))
             gameLobbyPanel.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)value);
     }
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
+    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
         gameLobbyPanel.ChangePlayerIsMasterClient(newMasterClient.ActorNumber);
 
@@ -67,13 +67,13 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         gameLobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
         gameLobbyPanel.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, Team.None);
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         gameLobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
         gameLobbyPanel.RemovePlayer(otherPlayer.ActorNumber);
@@ -130,7 +130,7 @@ public class GameLobbyController : MonoBehaviourPunCallbacks
     {
         foreach (var p in PhotonNetwork.CurrentRoom.Players)
         {
-            Player player = p.Value;
+            Photon.Realtime.Player player = p.Value;
 
             object value;
             player.CustomProperties.TryGetValue(PlayerProperty.Team, out value);

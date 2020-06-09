@@ -23,7 +23,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
         _animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 

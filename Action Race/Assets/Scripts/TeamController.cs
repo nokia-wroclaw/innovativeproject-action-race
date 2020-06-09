@@ -16,7 +16,7 @@ public class TeamController : MonoBehaviourPunCallbacks
     {
         foreach (var p in PhotonNetwork.CurrentRoom.Players)
         {
-            Player player = p.Value;
+            Photon.Realtime.Player player = p.Value;
 
             object teamValue;
             player.CustomProperties.TryGetValue(PlayerProperty.Team, out teamValue);
@@ -24,26 +24,26 @@ public class TeamController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         object teamValue;
         newPlayer.CustomProperties.TryGetValue(PlayerProperty.Team, out teamValue);
         teamPanel.AddPlayer(newPlayer.ActorNumber, newPlayer.NickName, newPlayer.IsLocal, newPlayer.IsMasterClient, teamValue != null ? (Team)teamValue : Team.None);
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         teamPanel.RemovePlayer(otherPlayer.ActorNumber);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         object teamValue;
         if (changedProps.TryGetValue(PlayerProperty.Team, out teamValue))
             teamPanel.ChangePlayerTeam(targetPlayer.ActorNumber, (Team)teamValue);
     }
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
+    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
         teamPanel.UpdateNewMasterClient(newMasterClient.ActorNumber);
 

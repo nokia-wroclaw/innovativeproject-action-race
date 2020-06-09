@@ -64,7 +64,7 @@ public class CountdownTimerLimitController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
+    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
         if (PhotonNetwork.LocalPlayer != newMasterClient) return;
 

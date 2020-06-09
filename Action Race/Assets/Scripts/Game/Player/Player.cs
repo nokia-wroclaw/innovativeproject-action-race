@@ -3,7 +3,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(AudioSource), typeof(PhotonView), typeof(Rigidbody2D))]
-public class Movement : MonoBehaviour, IPunObservable
+public class Player : MonoBehaviour, IPunObservable
 {
     [Header("Properties")]
     [SerializeField] float runSpeed = 10f;
@@ -39,6 +39,7 @@ public class Movement : MonoBehaviour, IPunObservable
 
         if (!_photonView.IsMine)
         {
+            Destroy(GetComponentInChildren<Canvas>());
             Destroy(playerCamera);
             Destroy(_playerController);
         }
@@ -46,6 +47,13 @@ public class Movement : MonoBehaviour, IPunObservable
 
     void Start()
     {
+        SettingsController settingsController = FindObjectOfType<SettingsController>();
+        if (settingsController)
+        {
+            _audioSource.mute = settingsController.Mute;
+            _audioSource.volume = settingsController.Volume;
+        }
+
         nickNameTag.GetComponent<MeshRenderer>().sortingLayerName = "Me";
         nickNameTag.text = _photonView.Owner.NickName;
     }
