@@ -52,7 +52,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (!targetPlayer.IsLocal) return;
 
@@ -80,12 +80,12 @@ public class LobbyController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         lobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         lobbyPanel.Players = PhotonNetwork.CurrentRoom.PlayerCount;
     }

@@ -6,28 +6,28 @@ public class AntennaController : MonoBehaviourPunCallbacks
 {
     [SerializeField] float programmingTimeDuration = 5f;
 
-    Animator animator;
+    Animator _animator;
     ScoreController scoreController;
     PhotonView pv;
 
     bool isProgrammed;
     Team currentTeam, newTeam;
-    int programmerViewID;
+    PhotonView playerPhotonView;
 
     void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         scoreController = FindObjectOfType<ScoreController>();
         pv = GetComponent<PhotonView>();
 
-        animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
+        _animator.SetFloat("ProgramSpeedMultiplier", 1.0f / programmingTimeDuration);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        pv.RPC("StartProgram", newPlayer, newTeam, animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0);
+        pv.RPC("StartProgram", newPlayer, newTeam, _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, playerPhotonView.ViewID);
     }
 
     public bool CanProgram(Team newTeam)
@@ -37,18 +37,20 @@ public class AntennaController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void StartProgram(Team newTeam, float normalizedTime, int viewId)
+    public void StartProgram(Team newTeam, float normalizedTime, int viewID)
     {
         if(newTeam != Team.None)
             isProgrammed = true;
 
         this.newTeam = newTeam;
 
-        if (newTeam == Team.None) return;
+        if (newTeam != Team.None)
+        {
+            playerPhotonView = PhotonNetwork.GetPhotonView(viewID);
 
-        programmerViewID = viewId;
-        string stateName = newTeam == Team.Blue ? "ProgramBlue" : "ProgramRed";
-        animator.Play(stateName, 0, normalizedTime);
+            string stateName = newTeam == Team.Blue ? "ProgramBlue" : "ProgramRed";
+            _animator.Play(stateName, 0, normalizedTime);
+        }
     }
 
     [PunRPC]
@@ -71,7 +73,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
                 stateName = "Neutral";
                 break;
         }
-        animator.Play(stateName, 0, 1f);
+        _animator.Play(stateName, 0, 1f);
     }
 
     public void FinishProgram()
@@ -85,7 +87,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
         isProgrammed = false;
         currentTeam = newTeam;
 
-        if (!PhotonNetwork.IsMasterClient) return;
-        PhotonNetwork.GetPhotonView(programmerViewID).GetComponent<PlayerAntennaProgramming>().StopProgram();
+        if (playerPhotonView.IsMine)
+            playerPhotonView.GetComponent<PlayerController>().StopProgram(true);
     }
 }

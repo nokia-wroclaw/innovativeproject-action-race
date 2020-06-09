@@ -28,7 +28,7 @@ public class GameStateController : MonoBehaviourPunCallbacks
         UpdateGameState(propertiesThatChanged);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         object value, value1;
         if (changedProps.TryGetValue(PlayerProperty.Team, out value))

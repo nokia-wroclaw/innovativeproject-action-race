@@ -5,7 +5,7 @@ public class LogsPanel : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] string enterLog = "entered the room!";
-    [SerializeField] string leaveLog = "leaved the room!";
+    [SerializeField] string leaveLog = "left the room!";
 
     [Header("References")]
     [SerializeField] RectTransform logsPanel;

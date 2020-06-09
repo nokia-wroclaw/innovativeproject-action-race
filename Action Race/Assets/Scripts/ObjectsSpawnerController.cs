@@ -47,7 +47,7 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (!targetPlayer.IsLocal) return;
 
@@ -60,16 +60,7 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
                 if ((State)gameStateValue != State.Play) return;
 
                 PhotonNetwork.DestroyPlayerObjects(targetPlayer.ActorNumber, false);
-                switch ((Team)teamValue)
-                {
-                    case Team.Blue:
-                        SpawnPlayer(blueTeamSpawns);
-                        break;
-
-                    case Team.Red:
-                        SpawnPlayer(redTeamSpawns);
-                        break;
-                }
+                SpawnPlayer((Team)teamValue);
             }
         }
     }
@@ -87,18 +78,7 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
         object teamValue;
         ExitGames.Client.Photon.Hashtable customPlayerProperties = PhotonNetwork.LocalPlayer.CustomProperties;
         if (customPlayerProperties.TryGetValue(PlayerProperty.Team, out teamValue))
-        {
-            switch ((Team)teamValue)
-            {
-                case Team.Blue:
-                    SpawnPlayer(blueTeamSpawns);
-                    break;
-
-                case Team.Red:
-                    SpawnPlayer(redTeamSpawns);
-                    break;
-            }
-        }
+            SpawnPlayer((Team)teamValue);
 
         foreach (Transform spawn in antennaSpawns)
             PhotonNetwork.InstantiateSceneObject("BasicAntenna", spawn.position, Quaternion.identity);
@@ -107,9 +87,19 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
             PhotonNetwork.InstantiateSceneObject("Nokia", spawn.position, Quaternion.identity);
     }
 
-    void SpawnPlayer(Transform[] spawns)
+    void SpawnPlayer(Team team)
     {
-        int idSpawn = Random.Range(0, spawns.Length);
-        PhotonNetwork.Instantiate("Player", spawns[idSpawn].position, Quaternion.identity);
+        switch(team)
+        {
+            case Team.Blue:
+                int idBlueSpawn = Random.Range(0, blueTeamSpawns.Length);
+                PhotonNetwork.Instantiate("Player Blue", blueTeamSpawns[idBlueSpawn].position, Quaternion.identity);
+                break;
+
+            case Team.Red:
+                int idRedSpawn = Random.Range(0, redTeamSpawns.Length);
+                PhotonNetwork.Instantiate("Player Red", redTeamSpawns[idRedSpawn].position, Quaternion.identity);
+                break;
+        }
     }
 }

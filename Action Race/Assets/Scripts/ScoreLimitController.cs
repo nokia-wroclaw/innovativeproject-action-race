@@ -61,7 +61,7 @@ public class ScoreLimitController : MonoBehaviourPunCallbacks
             scoreLimitPanel.ConfigureAccess(PhotonNetwork.IsMasterClient, (State)gameStateValue);
     }
 
-    public override void OnMasterClientSwitched(Player newMasterClient)
+    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
     {
         if (PhotonNetwork.LocalPlayer != newMasterClient)
             return;

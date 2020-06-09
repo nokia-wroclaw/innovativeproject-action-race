@@ -31,9 +31,12 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - GetKick
   - RefreshColor
   - StartProgram
   - StopProgram
   - TakeKick
+  - RaiseNokia
+  - DestroyNokia
   DisableAutoOpenWizard: 1
   ShowSettings: 0
