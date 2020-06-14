@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         Climb();
         Kick();
         ProgramAntenna();
+        FreezeMovement();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -141,6 +142,17 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.E))
             StopProgram();
+    }
+
+    void FreezeMovement()
+    {
+        if (playerBody.GetNokiaShot)
+        {
+            _movement.input.hasHorizontalSpeed = false;
+            _movement.input.verticalSpeed = 0f;
+            _movement.input.horizontalSpeed = 0f;
+            _movement.input.isJumping = false;
+        }
     }
 
     public void StopProgram(bool finished = false)

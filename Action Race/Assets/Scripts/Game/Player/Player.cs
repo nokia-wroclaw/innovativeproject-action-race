@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(AudioSource), typeof(PhotonView), typeof(Rigidbody2D))]
 public class Player : MonoBehaviour, IPunObservable
