@@ -93,12 +93,14 @@ public class ObjectsSpawnerController : MonoBehaviourPunCallbacks
         {
             case Team.Blue:
                 int idBlueSpawn = Random.Range(0, blueTeamSpawns.Length);
-                PhotonNetwork.Instantiate("Player Blue", blueTeamSpawns[idBlueSpawn].position, Quaternion.identity);
+                int genderBlue = Random.Range(0, 2);
+                PhotonNetwork.Instantiate(genderBlue == 0 ? "Player Blue Female" : "Player Blue Male", blueTeamSpawns[idBlueSpawn].position, Quaternion.identity);
                 break;
 
             case Team.Red:
                 int idRedSpawn = Random.Range(0, redTeamSpawns.Length);
-                PhotonNetwork.Instantiate("Player Red", redTeamSpawns[idRedSpawn].position, Quaternion.identity);
+                int genderRed = Random.Range(0, 2);
+                PhotonNetwork.Instantiate(genderRed == 0 ? "Player Red Female" : "Player Red Male", redTeamSpawns[idRedSpawn].position, Quaternion.identity);
                 break;
         }
     }

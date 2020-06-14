@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 6228144956662682330}
   - component: {fileID: 7356211745701499829}
   m_Layer: 8
-  m_Name: Player Blue
+  m_Name: Player Blue Female
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,8 +678,8 @@ SpriteRenderer:
   m_SortingLayerID: -891990441
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad483e52e0398bf4cb3947fba2b49be9, type: 3}
-  m_Color: {r: 0, g: 0.49803922, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 60fac44cd2643464a9a0769d93e5ecab, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -720,7 +720,7 @@ Animator:
   m_GameObject: {fileID: 6568489183840287007}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a245c44dd68e4764aa85789418ee0c66, type: 2}
+  m_Controller: {fileID: 9100000, guid: 655217fd0fde91a429876c71122dc906, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

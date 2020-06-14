@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 
 [RequireComponent(typeof(TeamPanel))]
 public class TeamController : MonoBehaviourPunCallbacks
@@ -22,6 +21,15 @@ public class TeamController : MonoBehaviourPunCallbacks
             player.CustomProperties.TryGetValue(PlayerProperty.Team, out teamValue);
             teamPanel.AddPlayer(player.ActorNumber, player.NickName, player.IsLocal, player.IsMasterClient, teamValue != null ? (Team)teamValue : Team.None);
         }
+
+        teamPanel.ConfigureAccess(PhotonNetwork.IsMasterClient);
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        object gameStateValue;
+        if (propertiesThatChanged.TryGetValue(RoomProperty.GameState, out gameStateValue))
+            teamPanel.ConfigureAccess(PhotonNetwork.IsMasterClient, (State)gameStateValue);
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -50,5 +58,41 @@ public class TeamController : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable ownerProperty = new ExitGames.Client.Photon.Hashtable();
         ownerProperty.Add(RoomProperty.Owner, newMasterClient.NickName);
         PhotonNetwork.CurrentRoom.SetCustomProperties(ownerProperty);
+
+
+        if (PhotonNetwork.LocalPlayer != newMasterClient)
+            return;
+
+        object gameStateValue;
+        ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        if (customRoomProperties.TryGetValue(RoomProperty.GameState, out gameStateValue))
+            teamPanel.ConfigureAccess(true, (State)gameStateValue);
+        else
+            teamPanel.ConfigureAccess(true, State.Stop);
+    }
+
+    public void MoveTeamToSpect(int team)
+    {
+        switch ((Team)team)
+        {
+            case Team.Blue:
+                foreach (RectTransform child in teamPanel.BlueTeamPanel)
+                    child.GetComponent<PlayerTemplateController>().ChangePlayerTeam(Team.None);
+                break;
+
+            case Team.Red:
+                foreach (RectTransform child in teamPanel.RedTeamPanel)
+                    child.GetComponent<PlayerTemplateController>().ChangePlayerTeam(Team.None);
+                break;
+        }
+    }
+
+    public void SwapTeams()
+    {
+        foreach (RectTransform child in teamPanel.BlueTeamPanel)
+            child.GetComponent<PlayerTemplateController>().ChangePlayerTeam(Team.Red);
+
+        foreach (RectTransform child in teamPanel.RedTeamPanel)
+            child.GetComponent<PlayerTemplateController>().ChangePlayerTeam(Team.Blue);
     }
 }

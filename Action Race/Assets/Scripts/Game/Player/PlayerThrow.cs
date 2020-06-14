@@ -39,9 +39,11 @@ public class PlayerThrow : MonoBehaviour
     {
         if (Input.GetButtonDown("Throw") && raisedNokia)
         {
+            float dir = transform.localScale.x;
             Vector3 nokiaPosition = transform.position;
-            nokiaPosition.x += 0.7f; //zeby uniknac wlasnego collidera
+            nokiaPosition.x += dir * 0.7f; //zeby uniknac wlasnego collidera
             GameObject thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", nokiaPosition, Quaternion.identity);
+            thrownNokia.GetComponent<PhotonView>().RPC("Throw", RpcTarget.All, transform.localScale.x);
             raisedNokia = false;
         }
     }

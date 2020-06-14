@@ -9,6 +9,9 @@ public class TeamPanel : MonoBehaviour
     [SerializeField] RectTransform specTeamPanel;
     [SerializeField] RectTransform redTeamPanel;
     [SerializeField] GameObject playerTemplateGO;
+    [SerializeField] GameObject moveBlueTeamToSpectGO;
+    [SerializeField] GameObject moveRedTeamToSpectGO;
+    [SerializeField] GameObject swapTeamsGO;
 
     Dictionary<int, GameObject> playersTemplates = new Dictionary<int, GameObject>();
 
@@ -81,6 +84,22 @@ public class TeamPanel : MonoBehaviour
         {
             PlayerTemplatePanel playerTemplatePanel = go.GetComponent<PlayerTemplatePanel>();
             playerTemplatePanel.IsMasterClient = true;
+        }
+    }
+
+    public void ConfigureAccess(bool isMasterClient, State state = State.Stop)
+    {
+        if (isMasterClient && state == State.Stop)
+        {
+            moveBlueTeamToSpectGO.SetActive(true);
+            moveRedTeamToSpectGO.SetActive(true);
+            swapTeamsGO.SetActive(true);
+        }
+        else
+        {
+            moveBlueTeamToSpectGO.SetActive(false);
+            moveRedTeamToSpectGO.SetActive(false);
+            swapTeamsGO.SetActive(false);
         }
     }
 }

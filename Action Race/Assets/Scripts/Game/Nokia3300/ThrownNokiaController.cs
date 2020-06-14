@@ -15,9 +15,10 @@ public class ThrownNokiaController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    [PunRPC]
+    void Throw(float dir)
     {
-        _rigidbody.velocity = new Vector3(throwSpeed, 0, 0);
+        _rigidbody.velocity = new Vector3(dir * throwSpeed, 0, 0);
     }
 
     void Update()
