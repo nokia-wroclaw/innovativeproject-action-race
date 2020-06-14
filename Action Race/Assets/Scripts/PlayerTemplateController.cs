@@ -22,7 +22,7 @@ public class PlayerTemplateController : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.GetPlayer(playerTemplatePanel.ActorNumber) != PhotonNetwork.LocalPlayer)
             return;
 
         currentParent = transform.parent as RectTransform;
@@ -31,7 +31,7 @@ public class PlayerTemplateController : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.GetPlayer(playerTemplatePanel.ActorNumber) != PhotonNetwork.LocalPlayer)
             return;
 
         RectTransform draggingPlane = eventData.pointerEnter.transform as RectTransform;
@@ -42,7 +42,7 @@ public class PlayerTemplateController : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.GetPlayer(playerTemplatePanel.ActorNumber) != PhotonNetwork.LocalPlayer)
             return;
 
         List<RaycastResult> raycastResults = new List<RaycastResult>();
