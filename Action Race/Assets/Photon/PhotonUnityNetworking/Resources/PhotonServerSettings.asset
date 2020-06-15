@@ -30,14 +30,12 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - ClickRpc
+  - DestroyNokia
   - DestroyRpc
   - GetKick
-  - RefreshColor
+  - RaiseNokia
   - StartProgram
   - StopProgram
-  - TakeKick
-  - RaiseNokia
-  - DestroyNokia
   - Throw
   DisableAutoOpenWizard: 1
   ShowSettings: 0
