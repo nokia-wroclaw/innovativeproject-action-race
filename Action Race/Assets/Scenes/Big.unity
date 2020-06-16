@@ -94797,7 +94797,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6079565911992687626}
   m_HandleRect: {fileID: 6079565911992687627}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -95254,7 +95254,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6079565911263391047}
   m_HandleRect: {fileID: 6079565911263391040}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -100570,7 +100570,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6079565910358017090}
   m_HandleRect: {fileID: 6079565910358017091}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -100787,8 +100787,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2559556875668153483}
   m_HandleRect: {fileID: 6863884520250447512}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999953
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -102360,10 +102360,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 44c02c7a5d200d0468967ab5f799905b,
+    m_HighlightedSprite: {fileID: 21300000, guid: eae43023d9c515542b3c2853b43734da,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 44c02c7a5d200d0468967ab5f799905b, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 44c02c7a5d200d0468967ab5f799905b, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: eae43023d9c515542b3c2853b43734da, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: eae43023d9c515542b3c2853b43734da, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: a24b7a7b2e35f294d9baa85ceaf7074c, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
