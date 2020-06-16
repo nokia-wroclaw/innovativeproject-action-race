@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4350754606968718276}
   - component: {fileID: 8056682375659931460}
   - component: {fileID: 6439021547991168273}
+  - component: {fileID: 5684598314041938305}
   - component: {fileID: -7483676669877954989}
   m_Layer: 0
   m_Name: ThrownNokia
@@ -135,6 +136,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 5684598314041938305}
   - {fileID: -7483676669877954989}
   viewIdField: 0
   InstantiationId: 0
@@ -174,6 +176,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5684598314041938305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2926857470845927881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!114 &-7483676669877954989
 MonoBehaviour:
   m_ObjectHideFlags: 0

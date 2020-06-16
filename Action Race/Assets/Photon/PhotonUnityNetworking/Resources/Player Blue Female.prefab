@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3332558649834730075}
   m_Layer: 8
   m_Name: Player Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,8 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddab5fcdc1843d146ba77641169a5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GetNokiaShot: 0
-  Timer: 0
 --- !u!1 &3486442437007940272
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +264,7 @@ GameObject:
   - component: {fileID: 2218030003341646184}
   m_Layer: 8
   m_Name: Player Feet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -608,7 +606,6 @@ GameObject:
   - component: {fileID: -7127339222607189266}
   - component: {fileID: 8644405612396586877}
   - component: {fileID: 6228144956662682330}
-  - component: {fileID: 7356211745701499829}
   m_Layer: 8
   m_Name: Player Blue Female
   m_TagString: Player
@@ -840,8 +837,6 @@ MonoBehaviour:
   runSpeed: 10
   jumpSpeed: 22
   kickPower: {x: 20, y: 20}
-  jumpSound: {fileID: 8300000, guid: 73521728e948e1643a308791784414fd, type: 3}
-  kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
   playerCamera: {fileID: 6568489185380166790}
   miniMapCamera: {fileID: 4122767014914526896}
   nickNameTag: {fileID: 110107212465801999}
@@ -859,9 +854,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickCooldown: 1
+  stunDuration: 5
   playerBody: {fileID: 3332558649834730075}
   playerFeet: {fileID: 2218030003341646184}
   playerKickFoot: {fileID: 1682409268302967979}
+  jumpSound: {fileID: 8300000, guid: 73521728e948e1643a308791784414fd, type: 3}
+  kickSound: {fileID: 8300000, guid: f8f96b2b80853ac4b8498998e14db0da, type: 3}
 --- !u!114 &5934693261548169851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,18 +952,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &7356211745701499829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6568489183840287007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f04fb36743ea924f8b0c6c2ad753825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6568489185380166790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,7 +1039,7 @@ GameObject:
   - component: {fileID: 1682409268302967979}
   m_Layer: 8
   m_Name: Player Kick Foot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

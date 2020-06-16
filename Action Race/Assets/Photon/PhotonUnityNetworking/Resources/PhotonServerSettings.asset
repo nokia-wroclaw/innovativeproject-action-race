@@ -37,5 +37,8 @@ MonoBehaviour:
   - StartProgram
   - StopProgram
   - Throw
+  - GetPicked
+  - DestroyObject
+  - Freeze
   DisableAutoOpenWizard: 1
   ShowSettings: 0

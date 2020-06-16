@@ -27,7 +27,7 @@ public class AntennaController : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        pv.RPC("StartProgram", newPlayer, newTeam, _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, playerPhotonView.ViewID);
+        pv.RPC("StartProgram", newPlayer, newTeam, _animator.GetCurrentAnimatorStateInfo(0).normalizedTime, playerPhotonView ? playerPhotonView.ViewID : -1);
     }
 
     public bool CanProgram(Team newTeam)
@@ -46,7 +46,8 @@ public class AntennaController : MonoBehaviourPunCallbacks
 
         if (newTeam != Team.None)
         {
-            playerPhotonView = PhotonNetwork.GetPhotonView(viewID);
+            if(viewID != -1)
+                playerPhotonView = PhotonNetwork.GetPhotonView(viewID);
 
             string stateName = newTeam == Team.Blue ? "ProgramBlue" : "ProgramRed";
             _animator.Play(stateName, 0, normalizedTime);

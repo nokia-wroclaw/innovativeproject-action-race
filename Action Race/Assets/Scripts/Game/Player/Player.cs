@@ -8,8 +8,6 @@ public class Player : MonoBehaviour, IPunObservable
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 22f;
     [SerializeField] Vector2 kickPower = new Vector2(20f, 20f);
-    [SerializeField] AudioClip jumpSound;
-    [SerializeField] AudioClip kickSound;
 
     [Header("References")]
     [SerializeField] GameObject playerCamera;
@@ -27,6 +25,7 @@ public class Player : MonoBehaviour, IPunObservable
         public float horizontalSpeed, verticalSpeed;
         public bool hasHorizontalSpeed, isJumping;
         public float gravityScale;
+        public bool isFreezed;
     };
     public InputStr input;
 
@@ -135,5 +134,18 @@ public class Player : MonoBehaviour, IPunObservable
 
         if (_playerController)
             _playerController.StopProgram();
+    }
+
+    [PunRPC]
+    public void DestroyObject(int viewID)
+    {
+        PhotonNetwork.Destroy(PhotonNetwork.GetPhotonView(viewID).gameObject);
+    }
+
+    [PunRPC]
+    public void Freeze()
+    {
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " freezed");
+        input.isFreezed = true;
     }
 }

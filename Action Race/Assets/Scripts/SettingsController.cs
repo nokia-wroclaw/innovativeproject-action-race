@@ -99,6 +99,8 @@ public class SettingsController : MonoBehaviour
     void Awake()
     {
         settingsPanel = GetComponent<SettingsPanel>();
+
+        Application.runInBackground = true;
     }
 
     void Start()
