@@ -50,15 +50,15 @@ public class BackgroundController : MonoBehaviour
         if (night)
         {
             daylight.SetActive(false);
-            nightlight1.SetActive(true);
-            nightlight2.SetActive(true);
+            //nightlight1.SetActive(true);
+            //nightlight2.SetActive(true);
             spriteRenderer.sprite = nightBackground;
         }
         else
         {
             daylight.SetActive(true);
-            nightlight1.SetActive(false);
-            nightlight2.SetActive(false);
+            //nightlight1.SetActive(false);
+            //nightlight2.SetActive(false);
             spriteRenderer.sprite = dayBackground;
         }
     }

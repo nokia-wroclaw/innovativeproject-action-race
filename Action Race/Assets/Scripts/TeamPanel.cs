@@ -12,6 +12,7 @@ public class TeamPanel : MonoBehaviour
     [SerializeField] GameObject moveBlueTeamToSpectGO;
     [SerializeField] GameObject moveRedTeamToSpectGO;
     [SerializeField] GameObject swapTeamsGO;
+    [SerializeField] GameObject randTeamsGO;
 
     Dictionary<int, GameObject> playersTemplates = new Dictionary<int, GameObject>();
 
@@ -94,12 +95,19 @@ public class TeamPanel : MonoBehaviour
             moveBlueTeamToSpectGO.SetActive(true);
             moveRedTeamToSpectGO.SetActive(true);
             swapTeamsGO.SetActive(true);
+            randTeamsGO.SetActive(true);
         }
         else
         {
             moveBlueTeamToSpectGO.SetActive(false);
             moveRedTeamToSpectGO.SetActive(false);
             swapTeamsGO.SetActive(false);
+            randTeamsGO.SetActive(false);
         }
+    }
+
+    public Dictionary<int, GameObject> GetPlayersTemplates()
+    {
+        return playersTemplates;
     }
 }

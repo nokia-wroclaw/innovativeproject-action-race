@@ -7,23 +7,30 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField] float kickCooldown = 1f;
+    [SerializeField] float stunDuration = 5f;
 
     [Header("References")]
     [SerializeField] PlayerBody playerBody;
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] PlayerKickFoot playerKickFoot;
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip kickSound;
 
     Animator _animator;
+    AudioSource _audioSource;
     Player _movement;
     PhotonView _photonView;
 
     float kickDelay;
     bool isTouchingAntenna, isProgramming;
     AntennaController antennaController;
+    bool hasNokia;
+    float stun;
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         _movement = GetComponent<Player>();
         _photonView = GetComponent<PhotonView>();
     }
@@ -33,16 +40,38 @@ public class PlayerController : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Me";
 
         _movement.input.gravityScale = 5;
+
+        stun = stunDuration;
     }
 
     void Update()
     {
-        Run();
-        Jump();
-        Climb();
-        Kick();
-        ProgramAntenna();
-        FreezeMovement();
+        if (_movement.input.isFreezed)
+        {
+            stun -= Time.deltaTime;
+
+            _movement.input.hasHorizontalSpeed = false;
+            _movement.input.verticalSpeed = 0f;
+            _movement.input.horizontalSpeed = 0f;
+            _movement.input.isJumping = false;
+
+            _animator.SetBool("Run", false);
+
+            if(stun <= 0)
+            {
+                _movement.input.isFreezed = false;
+                stun = stunDuration;
+            }
+        }
+        else
+        {
+            Run();
+            Jump();
+            Climb();
+            Kick();
+            ProgramAntenna();
+            ThrowNokia();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -51,6 +80,12 @@ public class PlayerController : MonoBehaviour
         {
             antennaController = collision.GetComponent<AntennaController>();
             isTouchingAntenna = true;
+        }
+        
+        if (collision.tag == "Nokia" && !hasNokia)
+        {
+            _photonView.RPC("DestroyObject", PhotonNetwork.MasterClient, collision.GetComponent<PhotonView>().ViewID);
+            hasNokia = true;
         }
     }
 
@@ -79,8 +114,11 @@ public class PlayerController : MonoBehaviour
 
         _movement.input.isJumping = isJumping;
 
-        if(isJumping)
+        if (isJumping)
+        {
             _animator.SetTrigger("Jump");
+            _audioSource.PlayOneShot(jumpSound);
+        }
     }
 
     void Climb()
@@ -109,6 +147,7 @@ public class PlayerController : MonoBehaviour
             {
                 kickDelay = kickCooldown;
                 _animator.SetTrigger("Kick");
+                _audioSource.PlayOneShot(kickSound);
 
                 List<Collider2D> colliders = playerKickFoot.CollidingPlayersBodies;
                 foreach (Collider2D collider in colliders)
@@ -144,14 +183,16 @@ public class PlayerController : MonoBehaviour
             StopProgram();
     }
 
-    void FreezeMovement()
+    void ThrowNokia()
     {
-        if (playerBody.GetNokiaShot)
+        if (Input.GetButtonDown("Throw") && hasNokia)
         {
-            _movement.input.hasHorizontalSpeed = false;
-            _movement.input.verticalSpeed = 0f;
-            _movement.input.horizontalSpeed = 0f;
-            _movement.input.isJumping = false;
+            float dir = transform.localScale.x;
+            Vector3 nokiaPosition = transform.position;
+            nokiaPosition.x += dir * 0.7f; //zeby uniknac wlasnego collidera
+            GameObject thrownNokia = PhotonNetwork.Instantiate("ThrownNokia", nokiaPosition, Quaternion.identity);
+            thrownNokia.GetComponent<ThrownNokiaController>().Throw(dir);
+            hasNokia = false;
         }
     }
 

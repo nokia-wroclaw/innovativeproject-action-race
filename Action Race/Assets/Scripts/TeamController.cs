@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(TeamPanel))]
 public class TeamController : MonoBehaviourPunCallbacks
@@ -94,5 +95,48 @@ public class TeamController : MonoBehaviourPunCallbacks
 
         foreach (RectTransform child in teamPanel.RedTeamPanel)
             child.GetComponent<PlayerTemplateController>().ChangePlayerTeam(Team.Blue);
+    }
+
+    public void RandTeams()
+    {
+        Dictionary<int, GameObject> playersTemplates = teamPanel.GetPlayersTemplates();
+        int blueCount = playersTemplates.Count / 2, redCount = playersTemplates.Count - blueCount;
+        foreach(var playerTemplate in playersTemplates)
+        {
+            Team team;
+            if(blueCount > 0)
+            {
+                if (redCount > 0)
+                {
+                    int r = Random.Range(0, 2);
+                    if(r == 0)
+                    {
+                        team = Team.Blue;
+                        blueCount--;
+                    }
+                    else
+                    {
+                        team = Team.Red;
+                        redCount--;
+                    }
+                }
+                else
+                {
+                    team = Team.Blue;
+                    blueCount--;
+                }
+            }
+            else
+            {
+                if (redCount > 0)
+                {
+                    team = Team.Red;
+                    redCount--;
+                }
+                else
+                    return;
+            }
+            playerTemplate.Value.GetComponent<PlayerTemplateController>().ChangePlayerTeam(team);
+        }
     }
 }
